@@ -1,0 +1,47 @@
+﻿<Window x:Class="StartNAV.Dialog.AddServer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StartNAV"
+        mc:Ignorable="d"
+        Title="Füge Server hinzu" 
+        WindowStyle="ToolWindow" 
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="Servername" Margin="5"/>
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Text="Serveradresse" Margin="5"/>
+        <TextBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Name="_servername" Width="150" Margin="5"
+            />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Name="_serveradress" Width="150" Margin="5"
+            />
+        <Button
+            Grid.Column="1"
+            Grid.Row="2"
+            Name="addServer"
+            Content="Add" Margin="5"
+            Click="AddServer_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+    </Grid>
+</Window>
