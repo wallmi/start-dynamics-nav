@@ -20,15 +20,15 @@ namespace StartNAV.Dialog
     public partial class AddServer : Window
     {
         readonly IniHandler ini;
-        public AddServer(string file)
+        public AddServer(string file, string file2)
         {
             InitializeComponent();
-            ini = new IniHandler(file,"");
+            ini = new IniHandler(file,file2);
         }
 
         private void AddServer_Click(object sender, RoutedEventArgs e)
         {
-            ini.AddServer(_servername.Text, _serveradress.Text);
+            ini.AddServer(_servername.Text, _serveradress.Text + ":" + _port.Text + "/" + _instanz.Text);
             Close();
         }
     }
