@@ -22,14 +22,14 @@ namespace StartNAV.Dialog
     /// </summary>
     public partial class GetObject : Window
     {
-        public NavObjects.NavObject retGet= new NavObjects.NavObject();
-        public List<NavObjects.NavObject> retList = new List<NavObjects.NavObject>();
+        public NavObject retGet= new NavObject();
+        public List<NavObject> retList = new List<NavObject>();
 
         public GetObject(ObjectHandler handler)
         {
             InitializeComponent();
 
-            List<NavObjects.NavObject> names= handler.GetObjectNames();
+            List<NavObject> names= handler.GetObjectNames();
 
             lv_items.ItemsSource = names;
 
@@ -42,7 +42,7 @@ namespace StartNAV.Dialog
             if (String.IsNullOrEmpty(tb_search.Text))
                 return true;
             else
-                return ((item as NavObjects.NavObject).Name.IndexOf(tb_search.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                return ((item as NavObject).Name.IndexOf(tb_search.Text, StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
         private void Tb_search_TextChanged(object sender, TextChangedEventArgs e)
@@ -62,16 +62,16 @@ namespace StartNAV.Dialog
 
         private void B_get_Click(object sender, RoutedEventArgs e)
         {
-            retGet.ID = (lv_items.SelectedItems[0] as NavObjects.NavObject).ID;
-            retGet.Name = (lv_items.SelectedItems[0] as NavObjects.NavObject).Name;
-            retGet.Typ = (lv_items.SelectedItems[0] as NavObjects.NavObject).Typ;
+            retGet.ID = (lv_items.SelectedItems[0] as NavObject).ID;
+            retGet.Name = (lv_items.SelectedItems[0] as NavObject).Name;
+            retGet.Typ = (lv_items.SelectedItems[0] as NavObject).Typ;
             Close();
         }
 
         private void B_add2Fav_Click(object sender, RoutedEventArgs e)
         {
-            foreach (NavObjects.NavObject temp in lv_items.SelectedItems)
-                retList.Add((NavObjects.NavObject)temp.Clone());
+            foreach (NavObject temp in lv_items.SelectedItems)
+                retList.Add((NavObject)temp.Clone());
 
             Close();
         }

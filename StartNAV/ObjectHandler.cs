@@ -114,15 +114,15 @@ namespace StartNAV
             return ret;
         }
 
-        public List<NavObjects.NavObject> GetObjectNames()
+        public List<NavObject> GetObjectNames()
         {
-            List<NavObjects.NavObject> ret = new List<NavObjects.NavObject>();
+            List<NavObject> ret = new List<NavObject>();
 
             foreach(KeyValuePair<string, string> temp in data) {
                 string[] t = temp.Key.Split('_');
                 try { 
                 int id = Int32.Parse(t[1]);
-                ret.Add(new NavObjects.NavObject() { Typ = NavObjects.GetName(t[0]), ID = id, Name = temp.Value });
+                ret.Add(new NavObject() { Typ = NavObjects.GetName(t[0]), ID = id, Name = temp.Value });
 
                 }
                 catch

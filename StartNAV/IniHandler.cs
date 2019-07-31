@@ -226,9 +226,9 @@ namespace StartNAV
             return type + "_" + id.ToString();
         }
 
-        public List<NavObjects.NavObject> GetFav()
+        public List<NavObject> GetFav()
         {
-            List<NavObjects.NavObject> ret = new List<NavObjects.NavObject>();
+            List<NavObject> ret = new List<NavObject>();
             if (data.Sections["Fav"] is null)
                 return ret;
             foreach (KeyData key in data.Sections["Fav"])
@@ -237,7 +237,7 @@ namespace StartNAV
                 if (keyVal.Length == 2)
                 {
                     int id = Int32.Parse(keyVal[1]);
-                    ret.Add(new NavObjects.NavObject
+                    ret.Add(new NavObject
                     {
                         Typ = keyVal[0],
                         ID = id,

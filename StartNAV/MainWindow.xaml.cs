@@ -20,18 +20,6 @@ using System.Diagnostics;
 
 namespace StartNAV
 {
-    /* 
-     * TODOLIST
-     * 
-     * TODO: Doppelte Favoriten vermeiden
-     * TODO: Port und Instanz angegben
-     * 
-     * V1.3
-     * 
-     * 
-     * 
-     */
-
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
@@ -71,7 +59,7 @@ namespace StartNAV
 
         void LoadFav()
         {
-            List<NavObjects.NavObject> favs = ini.GetFav();
+            List<NavObject> favs = ini.GetFav();
 
             //Favouriten laden
             //TODO: Umbau Binding
@@ -79,7 +67,7 @@ namespace StartNAV
             if (lv_fav.Items.Count > 0)
                 lv_fav.Items.Clear();
 
-            foreach (NavObjects.NavObject temp in favs)
+            foreach (NavObject temp in favs)
                 lv_fav.Items.Add(temp.Clone());
         }
 
@@ -131,7 +119,6 @@ namespace StartNAV
             if (cbo_debug.IsChecked.Value)
                 StartNav += Debug;
 
-            //MessageBox.Show(StartNav);
             Process.Start(StartNav);
         }
 
@@ -196,14 +183,14 @@ namespace StartNAV
         private void B_add_fav_Click(object sender, RoutedEventArgs e)
         {
             int id = Int32.Parse(tx_objId.Text);
-            lv_fav.Items.Add(new NavObjects.NavObject { Typ = cb_objektTyp.Text, ID = id, Name = tb_ObjektName.Text });
+            lv_fav.Items.Add(new NavObject { Typ = cb_objektTyp.Text, ID = id, Name = tb_ObjektName.Text });
             ini.AddFav(cb_objektTyp.Text,id);            
         }
 
 
         private void B_del_fav_Click(object sender, RoutedEventArgs e)
         {
-            foreach (NavObjects.NavObject temp in lv_fav.SelectedItems)
+            foreach (NavObject temp in lv_fav.SelectedItems)
                 ini.DeleteFav(temp.Typ, temp.ID);
 
             LoadFav();
@@ -213,7 +200,7 @@ namespace StartNAV
         {
             if (lv_fav.SelectedItems.Count == 1)
             {
-                NavObjects.NavObject temp = (NavObjects.NavObject)lv_fav.SelectedItems[0];
+                NavObject temp = (NavObject)lv_fav.SelectedItems[0];
                 tx_objId.Text = temp.ID.ToString();
                 cb_objektTyp.Text = temp.Typ;
             }
@@ -311,7 +298,7 @@ namespace StartNAV
             w.ShowDialog();
             if(w.retList.Count > 0)
             {
-                foreach(NavObjects.NavObject temp in w.retList)
+                foreach(NavObject temp in w.retList)
                 {
                     lv_fav.Items.Add(temp.Clone());
                     ini.AddFav(temp.Typ, temp.ID);
