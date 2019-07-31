@@ -209,6 +209,16 @@ namespace StartNAV
             WriteFile();
         }
 
+        public void AddFav(ObjectTypes type, int id)
+        {
+            AddFav(NavObjects.GetName(type), id);
+        }
+
+        public bool DeleteFav(ObjectTypes type, int id)
+        {
+            return DeleteFav(NavObjects.GetName(type), id);
+        }
+
         public bool DeleteFav(string type,int id)
         {
             if (!(data["Fav"].ContainsKey(FavName(type, id))))
@@ -237,12 +247,8 @@ namespace StartNAV
                 if (keyVal.Length == 2)
                 {
                     int id = Int32.Parse(keyVal[1]);
-                    ret.Add(new NavObject
-                    {
-                        Typ = keyVal[0],
-                        ID = id,
-                        Name = handler.GetObjName(id, NavObjects.GetObj(keyVal[0]))
-                    }
+                    ret.Add(new NavObject (keyVal[0], id,  handler.GetObjName(id, NavObjects.GetObj(keyVal[0]))
+                    )
                     );
                 }
             }

@@ -122,7 +122,7 @@ namespace StartNAV
                 string[] t = temp.Key.Split('_');
                 try { 
                 int id = Int32.Parse(t[1]);
-                ret.Add(new NavObject() { Typ = NavObjects.GetName(t[0]), ID = id, Name = temp.Value });
+                ret.Add(new NavObject(t[0], id, temp.Value ));
 
                 }
                 catch

@@ -183,7 +183,7 @@ namespace StartNAV
         private void B_add_fav_Click(object sender, RoutedEventArgs e)
         {
             int id = Int32.Parse(tx_objId.Text);
-            lv_fav.Items.Add(new NavObject { Typ = cb_objektTyp.Text, ID = id, Name = tb_ObjektName.Text });
+            lv_fav.Items.Add(new NavObject(cb_objektTyp.Text, id, tb_ObjektName.Text));
             ini.AddFav(cb_objektTyp.Text,id);            
         }
 
@@ -202,7 +202,7 @@ namespace StartNAV
             {
                 NavObject temp = (NavObject)lv_fav.SelectedItems[0];
                 tx_objId.Text = temp.ID.ToString();
-                cb_objektTyp.Text = temp.Typ;
+                cb_objektTyp.Text = NavObjects.GetName(temp.Typ);
             }
         }
 
@@ -301,13 +301,13 @@ namespace StartNAV
                 foreach(NavObject temp in w.retList)
                 {
                     lv_fav.Items.Add(temp.Clone());
-                    ini.AddFav(temp.Typ, temp.ID);
+                    ini.AddFav( temp.Typ, temp.ID);
                 }
             }
 
-            if(!(w.retGet.Typ is null)) { 
+            if(!(w.retGet.Typ == ObjectTypes.None)) { 
                 tx_objId.Text = w.retGet.ID.ToString();
-                cb_objektTyp.Text = w.retGet.Typ;
+                cb_objektTyp.Text = w.retGet.Typ.ToString();
             }
         }
     }
