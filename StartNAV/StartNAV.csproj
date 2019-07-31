@@ -193,5 +193,11 @@
   <ItemGroup>
     <None Include="Resources\favicon.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ini-parser\src\IniFileParser\IniFileParser.csproj">
+      <Project>{2623f8dd-be5c-4856-a017-5c60c7fa0acf}</Project>
+      <Name>IniFileParser</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

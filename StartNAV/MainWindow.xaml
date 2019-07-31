@@ -159,8 +159,7 @@
             <StatusBarItem>
                 <TextBlock
                     Width="Auto"
-                    x:Name="tb_status"
-                    Text="asd"/>
+                    x:Name="tb_status"/>
             </StatusBarItem>
         </StatusBar>
         <Grid.RowDefinitions>

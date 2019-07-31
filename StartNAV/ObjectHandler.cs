@@ -60,7 +60,7 @@ namespace StartNAV
                 }
                 catch { }
                 if (id == -1) continue;
-                    if (Line.Length == 3 && Enum.IsDefined(typeof(NavObjects.NavObject), id)) //TODO dont work
+                    if (Line.Length == 3) //TODO dont work
                         data.Add(Line[0] + "_" + Line[1], Line[2]);
             }
             loaded = true;
