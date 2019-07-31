@@ -97,8 +97,6 @@ namespace StartNAV
         {
             string Navbase = "dynamicsnav://";
             string ServerAdress = ini.GetServerAdress(cb_server.Text);
-            string Port = ":7046";
-            string Service = "/DynamicsNAV100";
             string Mandant = "/"+cb_mandant.Text;
             ObjectTypes ob = NavObjects.GetObj(cb_objektTyp.Text);
             string Config = " -configure";
@@ -113,7 +111,7 @@ namespace StartNAV
                 case ObjectTypes.Report: ObjectStart += "runreport?report=" + tx_objId.Text; break;
             }
 
-            string StartNav = Navbase + ServerAdress + Port + Service + Mandant + ObjectStart;
+            string StartNav = Navbase + ServerAdress + Mandant + ObjectStart;
             if (cbo_config.IsChecked.Value)
                 StartNav += Config;
             if (cbo_debug.IsChecked.Value)
@@ -124,7 +122,7 @@ namespace StartNAV
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            AddServer w = new AddServer(INIFILE);
+            AddServer w = new AddServer(INIFILE, OBJECTFILE);
             w.ShowDialog();
             Load_Server();
         }
@@ -273,7 +271,7 @@ namespace StartNAV
         
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
-            AddMandant w = new AddMandant(INIFILE);
+            AddMandant w = new AddMandant(INIFILE,OBJECTFILE);
             w.SetServer(ini.GetServer(), cb_server.Text);
             w.ShowDialog();
             Load_mandanten();

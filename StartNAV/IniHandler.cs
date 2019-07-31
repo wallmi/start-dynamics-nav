@@ -74,8 +74,9 @@ namespace StartNAV
         {
             data = ini.ReadFile(FILENAME);
 
-            data["Server"]["TEST"] = "wynvt02wn.bene.cc";
-            data["Server"]["TEST-2"] = "wynvt03wn.bene.cc";
+            data["Server"]["TEST"] = "wynvt02wn.bene.cc:7046/DynamicsNAV100";
+            data["Server"]["TEST-2"] = "wynvt03wn.bene.cc:7046/DynamicsNAV100";
+            data["Server"]["TEST (IMP)"] = "wynvt02wn.bene.cc:7046/DynamicsNAV100_IMP";
 
             data["Mandanten-TEST"]["BAT_Zielsystem"] = "1";
             data["Mandanten-TEST"]["BAT_Test"] = "1";

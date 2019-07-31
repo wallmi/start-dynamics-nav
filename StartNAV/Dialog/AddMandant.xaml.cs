@@ -20,10 +20,10 @@ namespace StartNAV.Dialog
     public partial class AddMandant : Window
     {
         readonly IniHandler ini;
-        public AddMandant(string file)
+        public AddMandant(string file, string file2)
         {
             InitializeComponent();
-            ini = new IniHandler(file,"");
+            ini = new IniHandler(file, file2);
         }
 
         public void SetServer(List<String> server, string defaultServer){

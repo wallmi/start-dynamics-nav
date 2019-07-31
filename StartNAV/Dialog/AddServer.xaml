@@ -17,7 +17,12 @@
         <TextBlock
             Grid.Row="1"
             Grid.Column="0"
-            Text="Serveradresse" Margin="5"/>
+            Text="Serveradresse:Port" Margin="5"/>
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="5"
+            Text="Instanz"/>
         <TextBox
             Grid.Row="0"
             Grid.Column="1"
@@ -26,18 +31,32 @@
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
-            Name="_serveradress" Width="150" Margin="5"
+            Name="_serveradress" Width="90" Margin="5,5,0,5" HorizontalAlignment="Left"
+            />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Text="7046"
+            Name="_port" Width="50" Margin="0,5,5,5" HorizontalAlignment="Right"
+            />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Text="DynamicsNAV100"
+            Name="_instanz" Width="150" Margin="5"
             />
         <Button
             Grid.Column="1"
-            Grid.Row="2"
+            Grid.Row="3"
             Name="addServer"
-            Content="Add" Margin="5"
+            Content="Hinzufügen" Margin="5"
             Click="AddServer_Click"/>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
