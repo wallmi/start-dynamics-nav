@@ -92,6 +92,15 @@ namespace StartNAV
         private void Cb_objektTyp_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             GetObjectName();
+            if(cb_objektTyp.SelectedItem.ToString() == "None") { 
+                tx_objId.IsEnabled = false;
+                b_add_fav.IsEnabled = false;
+            } else
+            {
+                tx_objId.IsEnabled = true;
+                b_add_fav.IsEnabled = true;
+            }
+            
         }
         private void B_StartNav_Click(object sender, RoutedEventArgs e)
         {
