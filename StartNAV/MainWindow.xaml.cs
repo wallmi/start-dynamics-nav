@@ -30,6 +30,7 @@ namespace StartNAV
         readonly IniHandler ini;
         readonly ObjectHandler handler;
         readonly List<object> toSave = new List<object>();
+        enum StartTyp {Nav,Session }
       
         public MainWindow()
         {
@@ -108,7 +109,7 @@ namespace StartNAV
         }
         private void B_StartNav_Click(object sender, RoutedEventArgs e)
         {
-            string param = GetStartParameter();
+            string param = GetStartParameter(StartTyp.Nav);
             if (cbo_schow_startstring.IsChecked == true)
             {
                 MessageBox.Show(param,"Start String",MessageBoxButton.OK,MessageBoxImage.Information);
@@ -117,7 +118,17 @@ namespace StartNAV
             Process.Start(param);
         }
 
-        string GetStartParameter()
+        private void B_start_session_list_Click(object sender, RoutedEventArgs e)
+        {
+            string param = GetStartParameter(StartTyp.Session);
+            if (cbo_schow_startstring.IsChecked == true)
+            {
+                MessageBox.Show(param, "Start String", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            Process.Start(param);
+        }
+
+        string GetStartParameter(StartTyp st)
         {
             string Navbase = "dynamicsnav://";
             string ServerAdress = ini.GetServerAdress(cb_server.Text);
@@ -126,26 +137,37 @@ namespace StartNAV
             string Config = " -configure";
             string Debug = " -debug";
             string Profile = " -profile:";
+            string sessionlist = " -protocollhandler";
 
             string ObjectStart = "/";
 
-            switch (ob)
+            string startstring = Navbase + ServerAdress;
+
+            if (st == StartTyp.Nav)
             {
-                case ObjectTypes.Page: ObjectStart += "runpage?page=" + tx_objId.Text; break;
-                case ObjectTypes.Table: ObjectStart += "runtable?table=" + tx_objId.Text; break;
-                case ObjectTypes.Report: ObjectStart += "runreport?report=" + tx_objId.Text; break;
+                switch (ob)
+                {
+                    case ObjectTypes.Page: ObjectStart += "runpage?page=" + tx_objId.Text; break;
+                    case ObjectTypes.Table: ObjectStart += "runtable?table=" + tx_objId.Text; break;
+                    case ObjectTypes.Report: ObjectStart += "runreport?report=" + tx_objId.Text; break;
+                }
+
+               startstring += Mandant + ObjectStart;
+                if (cb_profil.Text != "<kein Profile>")
+                    startstring += Profile + cb_profil.Text;
+                if (cbo_config.IsChecked.Value)
+                    startstring += Config;
+                if (cbo_debug.IsChecked.Value)
+                    startstring += Debug;
             }
-
-            string startstring = Navbase + ServerAdress + Mandant + ObjectStart;
-            if (cbo_config.IsChecked.Value)
-                startstring += Config;
-            if (cbo_debug.IsChecked.Value)
-                startstring += Debug;
-            if (cb_profil.Text != "<kein Profile>")
-                startstring += Profile + cb_profil.Text;
-
+            else if (st == StartTyp.Session)
+            {
+                startstring += sessionlist;
+            }
             return startstring;
         }
+
+
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -354,5 +376,7 @@ namespace StartNAV
             ini.DelProfile(cb_profil.Text);
             Load_Profil();
         }
+
+
     }
 }
