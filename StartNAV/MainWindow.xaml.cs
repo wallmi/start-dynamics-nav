@@ -104,9 +104,19 @@ namespace StartNAV
         }
         private void B_StartNav_Click(object sender, RoutedEventArgs e)
         {
+            if (cbo_schow_startstring.IsChecked == true)
+            {
+                MessageBox.Show(GetStartParameter());
+            }
+
+            Process.Start(GetStartParameter());
+        }
+
+        string GetStartParameter()
+        {
             string Navbase = "dynamicsnav://";
             string ServerAdress = ini.GetServerAdress(cb_server.Text);
-            string Mandant = "/"+cb_mandant.Text;
+            string Mandant = "/" + cb_mandant.Text;
             ObjectTypes ob = NavObjects.GetObj(cb_objektTyp.Text);
             string Config = " -configure";
             string Debug = " -debug";
@@ -120,13 +130,13 @@ namespace StartNAV
                 case ObjectTypes.Report: ObjectStart += "runreport?report=" + tx_objId.Text; break;
             }
 
-            string StartNav = Navbase + ServerAdress + Mandant + ObjectStart;
+            string startstring = Navbase + ServerAdress + Mandant + ObjectStart;
             if (cbo_config.IsChecked.Value)
-                StartNav += Config;
+                startstring += Config;
             if (cbo_debug.IsChecked.Value)
-                StartNav += Debug;
+                startstring += Debug;
 
-            Process.Start(StartNav);
+            return startstring;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)

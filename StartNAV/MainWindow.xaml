@@ -75,6 +75,7 @@
             <ComboBox
                 Name="cb_objektTyp"
                 SelectionChanged="Cb_objektTyp_SelectionChanged"/>
+
             <TextBlock
                 Text="ObjectId" FontWeight="Bold" Margin="0,5,0,0"/>
                 <Grid>
@@ -97,12 +98,17 @@
                 Name="tb_ObjektName"/>
             <TextBlock
                 Text="Startoptionen" Margin="0,15,0,0" FontWeight="Bold" FontSize="16"/>
+
             <CheckBox
                 Name="cbo_config"
                 Content="Konfigurationsmodus"/>
             <CheckBox
                 Name="cbo_debug"
                 Content="Debug"/>
+            <CheckBox
+                Name="cbo_schow_startstring"
+                Content="Zeige Startoptionen"/>
+
         </StackPanel>
         <Grid
             Grid.Row="2"
@@ -137,7 +143,8 @@
             Grid.Column="1"
             Grid.Row="1"
             MouseDoubleClick="Lv_fav_MouseDoubleClick" 
-            Margin="5,0"
+            Margin="5,0" 
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
             >
             <ListView.View>
                 <GridView>
