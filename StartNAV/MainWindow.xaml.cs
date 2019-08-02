@@ -348,17 +348,19 @@ namespace StartNAV
         private void B_getId_Click(object sender, RoutedEventArgs e)
         {
             GetObject w = new GetObject(handler);
-            w.ShowDialog();
-            if(w.retList.Count > 0)
+
+            if (((Button)sender).Name == b_get_favs.Name)
             {
-                foreach(NavObject temp in w.retList)
+                w.ShowDialog3();
+                foreach (NavObject temp in w.retList)
                 {
                     lv_fav.Items.Add(temp.Clone());
-                    ini.AddFav( temp.Typ, temp.ID);
+                    ini.AddFav(temp.Typ, temp.ID);
                 }
             }
-
-            if(!(w.retGet.Typ == ObjectTypes.None)) { 
+            else
+            {
+                w.ShowDialog2();
                 tx_objId.Text = w.retGet.ID.ToString();
                 cb_objektTyp.Text = w.retGet.Typ.ToString();
             }
