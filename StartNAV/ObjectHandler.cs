@@ -104,7 +104,6 @@ namespace StartNAV
             return id.ToString() + "_" + objID.ToString();
         }
         
-
         public List<String> GetObjs()
         {
             List<string> ret = new List<string>();

@@ -40,12 +40,15 @@ namespace StartNAV
             foreach (String temp in NavObjects.GetObjectNames())
                 cb_objektTyp.Items.Add(temp);
 
+            //TODO: Geht sicher auch schöner :)
             toSave.Add(cb_server);
             toSave.Add(cb_mandant);
             toSave.Add(cb_objektTyp);
             toSave.Add(tx_objId);
             toSave.Add(cbo_config);
             toSave.Add(cbo_debug);
+            toSave.Add(cbo_schow_startstring);
+            toSave.Add(cb_profil);
             Load();
         }
 
@@ -53,6 +56,7 @@ namespace StartNAV
         {
             ini.Reload();
             Load_Server();
+            Load_Profil();
             LoadFav();
             LoadSettings();
         }
@@ -104,12 +108,13 @@ namespace StartNAV
         }
         private void B_StartNav_Click(object sender, RoutedEventArgs e)
         {
+            string param = GetStartParameter();
             if (cbo_schow_startstring.IsChecked == true)
             {
-                MessageBox.Show(GetStartParameter());
+                MessageBox.Show(param,"Start String",MessageBoxButton.OK,MessageBoxImage.Information);
             }
 
-            Process.Start(GetStartParameter());
+            Process.Start(param);
         }
 
         string GetStartParameter()
@@ -120,6 +125,7 @@ namespace StartNAV
             ObjectTypes ob = NavObjects.GetObj(cb_objektTyp.Text);
             string Config = " -configure";
             string Debug = " -debug";
+            string Profile = " -profile:";
 
             string ObjectStart = "/";
 
@@ -135,6 +141,8 @@ namespace StartNAV
                 startstring += Config;
             if (cbo_debug.IsChecked.Value)
                 startstring += Debug;
+            if (cb_profil.Text != "<kein Profile>")
+                startstring += Profile + cb_profil.Text;
 
             return startstring;
         }
@@ -162,6 +170,11 @@ namespace StartNAV
         void Load_Server()
         {
             cb_server.ItemsSource = ini.GetServer();
+        }
+
+        void Load_Profil()
+        {
+            cb_profil.ItemsSource = ini.GetProfile();
         }
 
         void Load_mandanten()
@@ -268,7 +281,8 @@ namespace StartNAV
                 else if (temp.GetType() == typeof(CheckBox))
                 {
                     CheckBox cb = (CheckBox)temp;
-                    cb.IsChecked = Boolean.Parse(ini.data["Settings"][cb.Name]);
+                    if(ini.data["Settings"].ContainsKey(cb.Name))
+                        cb.IsChecked = Boolean.Parse(ini.data["Settings"][cb.Name]);
                 }
             }
 
@@ -326,6 +340,19 @@ namespace StartNAV
                 tx_objId.Text = w.retGet.ID.ToString();
                 cb_objektTyp.Text = w.retGet.Typ.ToString();
             }
+        }
+
+        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        {
+            AddProfile w = new AddProfile(INIFILE, OBJECTFILE);
+            w.ShowDialog();
+            Load_Profil();
+        }
+
+        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
+        {
+            ini.DelProfile(cb_profil.Text);
+            Load_Profil();
         }
     }
 }

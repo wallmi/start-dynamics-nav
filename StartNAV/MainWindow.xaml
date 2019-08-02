@@ -52,6 +52,15 @@
                     Header="_Lösche akt. Mandant"
                     Click="MenuItem_Click_2"/>
             </MenuItem>
+            <MenuItem Header="Profile">
+                <MenuItem
+                    Header="_Add"
+                    Click="MenuItem_Click_4">
+                </MenuItem>
+                <MenuItem
+                    Header="_Lösche akt. Profil"
+                    Click="MenuItem_Click_5"/>
+            </MenuItem>
         </Menu>
         <StackPanel
             Grid.Row="1"
@@ -75,7 +84,10 @@
             <ComboBox
                 Name="cb_objektTyp"
                 SelectionChanged="Cb_objektTyp_SelectionChanged"/>
-
+            <TextBlock
+                Text="Profil" FontWeight="Bold" Margin="0,5,0,0"/>
+            <ComboBox
+                Name="cb_profil" />
             <TextBlock
                 Text="ObjectId" FontWeight="Bold" Margin="0,5,0,0"/>
                 <Grid>
