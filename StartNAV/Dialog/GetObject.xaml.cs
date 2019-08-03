@@ -28,13 +28,8 @@ namespace StartNAV.Dialog
         public GetObject(ObjectHandler handler)
         {
             InitializeComponent();
+            lv_items.SetItems(handler.GetObjectNames());
 
-            List<NavObject> names= handler.GetObjectNames();
-
-            lv_items.ItemsSource = names;
-
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lv_items.ItemsSource);
-            view.Filter = UserFilter;
         }
         /// <summary>
         /// Show Dialog für Selektion eines Objekts
@@ -43,7 +38,8 @@ namespace StartNAV.Dialog
         public bool? ShowDialog2()
         {
             b_add2Fav.Visibility = Visibility.Hidden;
-            lv_items.SelectionMode = SelectionMode.Single;
+            lv_items.SetSelectionmode(SelectionMode.Single);
+            
             return this.ShowDialog();
         }
         /// <summary>
@@ -54,44 +50,23 @@ namespace StartNAV.Dialog
         {
             b_get.Visibility = Visibility.Hidden;
             Grid.SetColumn(b_add2Fav, 0);
-            lv_items.SelectionMode = SelectionMode.Extended;
+            lv_items.SetSelectionmode(SelectionMode.Extended);
             return this.ShowDialog();
-        }
-
-        private bool UserFilter(object item)
-        {
-            if (String.IsNullOrEmpty(tb_search.Text))
-                return true;
-            else
-                return ((item as NavObject).Name.IndexOf(tb_search.Text, StringComparison.OrdinalIgnoreCase) >= 0);
-        }
-
-        private void Tb_search_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CollectionViewSource.GetDefaultView(lv_items.ItemsSource).Refresh();
-
-        }
-
-        private void Lv_items_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //if (lv_items.SelectedItems.Count == 1)
-            //    b_get.IsEnabled = true;
-            //else
-            //    b_get.IsEnabled = false;
-
         }
 
         private void B_get_Click(object sender, RoutedEventArgs e)
         {
-            retGet.ID = (lv_items.SelectedItems[0] as NavObject).ID;
-            retGet.Name = (lv_items.SelectedItems[0] as NavObject).Name;
-            retGet.Typ = (lv_items.SelectedItems[0] as NavObject).Typ;
+            List<NavObject> items = lv_items.GetSelectItems(); 
+
+            retGet.ID = items[0].ID;
+            retGet.Name = items[0].Name;
+            retGet.Typ = items[0].Typ;
             Close();
         }
 
         private void B_add2Fav_Click(object sender, RoutedEventArgs e)
         {
-            foreach (NavObject temp in lv_items.SelectedItems)
+            foreach (NavObject temp in lv_items.GetSelectItems())
                 retList.Add((NavObject)temp.Clone());
 
             Close();
