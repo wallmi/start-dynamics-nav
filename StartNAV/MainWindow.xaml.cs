@@ -138,6 +138,13 @@ namespace StartNAV
             string Debug = " -debug";
             string Profile = " -profile:";
             string sessionlist = " -protocollhandler";
+            string checkedServer = handler.CheckServerString(ServerAdress);
+
+            if (checkedServer != ServerAdress)
+            {
+                ini.AddServer(cb_server.Text, checkedServer);
+                ServerAdress = ini.GetServerAdress(cb_server.Text);
+            }
 
             string ObjectStart = "/";
 
@@ -378,7 +385,6 @@ namespace StartNAV
             ini.DelProfile(cb_profil.Text);
             Load_Profil();
         }
-
 
     }
 }
