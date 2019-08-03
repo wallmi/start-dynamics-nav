@@ -80,14 +80,14 @@
                 Name="cb_mandant"
                  />
             <TextBlock
+                Text="Profil" FontWeight="Bold" Margin="0,5,0,0"/>
+            <ComboBox
+                Name="cb_profil" />
+            <TextBlock
                 Text="ObjektTyp" FontWeight="Bold" Margin="0,5,0,0"/>
             <ComboBox
                 Name="cb_objektTyp"
                 SelectionChanged="Cb_objektTyp_SelectionChanged"/>
-            <TextBlock
-                Text="Profil" FontWeight="Bold" Margin="0,5,0,0"/>
-            <ComboBox
-                Name="cb_profil" />
             <TextBlock
                 Text="ObjectId" FontWeight="Bold" Margin="0,5,0,0"/>
                 <Grid>
