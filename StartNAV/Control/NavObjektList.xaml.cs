@@ -35,10 +35,6 @@ namespace StartNAV.Control
         public void SetItems(List<NavObject> items)
         {
             lv_items.ItemsSource = items;
-
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lv_items.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription("Typ", ListSortDirection.Ascending));
-            view.SortDescriptions.Add(new SortDescription("ID", ListSortDirection.Ascending));
             SetFilter();
         }
 
