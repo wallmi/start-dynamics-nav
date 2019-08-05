@@ -398,5 +398,19 @@ namespace StartNAV
             ini.DelProfile(cb_profil.Text);
             Load_Profil();
         }
+
+        private void Mi_set_exe_path_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Client (Microsoft.Dynamics.Nav.Client.exe)|Microsoft.Dynamics.Nav.Client.exe";
+            //dialog.InitialDirectory = @"C:\Program Files (x86)";
+            dialog.InitialDirectory = @"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\";
+            if (dialog.ShowDialog() == true)
+            {
+                ini.SetExePath(dialog.FileName);
+                MessageBox.Show("Pfad zur exe wurde geändert. Bitte Anwendung neu starten!",
+                    "Neustart erforderlich",MessageBoxButton.OK,MessageBoxImage.Information);
+            }
+        }
     }
 }
