@@ -54,6 +54,7 @@ namespace StartNAV.Dialog
             return this.ShowDialog();
         }
 
+        #region Actions
         private void B_get_Click(object sender, RoutedEventArgs e)
         {
             List<NavObject> items = lv_items.GetSelectItems(); 
@@ -71,5 +72,6 @@ namespace StartNAV.Dialog
 
             Close();
         }
+        #endregion
     }
 }

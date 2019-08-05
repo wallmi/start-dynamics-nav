@@ -116,13 +116,20 @@ namespace StartNAV
         public List<NavObject> GetObjectNames()
         {
             List<NavObject> ret = new List<NavObject>();
+            List<ObjectTypes> types = new List<ObjectTypes>
+            {
+                ObjectTypes.Page,
+                ObjectTypes.Report,
+                ObjectTypes.Table
+            };
 
-            foreach(KeyValuePair<string, string> temp in data) {
+            foreach (KeyValuePair<string, string> temp in data) {
                 string[] t = temp.Key.Split('_');
                 try { 
                 int id = Int32.Parse(t[1]);
-                ret.Add(new NavObject(t[0], id, temp.Value ));
-
+                ObjectTypes Typ = NavObjects.GetObj(t[0]);
+                    if (types.Contains(Typ))
+                        ret.Add(new NavObject(t[0], id, temp.Value ));
                 }
                 catch
                 {
