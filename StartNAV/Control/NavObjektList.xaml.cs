@@ -30,6 +30,13 @@ namespace StartNAV.Control
         public NavObjektList()
         {
             InitializeComponent();
+            cb_type.Items.Add("* (ALL)");
+            cb_type.SelectedItem = "* (ALL)";
+            foreach (String temp in NavObjects.GetObjectNames())
+                cb_type.Items.Add(temp);
+
+            cb_type.Items.Remove(ObjectTypes.None.ToString());
+            
         }
 
         public void SetItems(List<NavObject> items)
@@ -86,10 +93,17 @@ namespace StartNAV.Control
 
         private bool UserFilter(object item)
         {
-            if (String.IsNullOrEmpty(tb_search.Text))
+            // 1) Wenn der Typ nicht zusammenstimmt --> FALSE
+            // 2) Wenn kein Text eingegeben wurd --> TRUE
+            // 3) Wenn der Suchtext in dem Text enthalten ist --> TRUE
+
+            if (cb_type.SelectedItem.ToString() != (item as NavObject).Typ.ToString() && cb_type.SelectedItem.ToString() != "* (ALL)")
+                return false;
+            else if (String.IsNullOrEmpty(tb_search.Text))
                 return true;
             else
                 return ((item as NavObject).Name.IndexOf(tb_search.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+
         }
 
         private void Tb_search_TextChanged(object sender, TextChangedEventArgs e)
@@ -116,6 +130,14 @@ namespace StartNAV.Control
             AdornerLayer.GetAdornerLayer(listViewSortCol).Add(listViewSortAdorner);
             lv_items.Items.SortDescriptions.Add(new SortDescription(sortBy, newDir));
 
+        }
+
+        private void Cb_type_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lv_items.ItemsSource == null)
+                return;
+
+            CollectionViewSource.GetDefaultView(lv_items.ItemsSource).Refresh();
         }
     }
 
