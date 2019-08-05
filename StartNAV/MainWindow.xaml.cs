@@ -38,6 +38,7 @@ namespace StartNAV
             InitializeComponent();
             handler = new ObjectHandler(OBJECTFILE);
             ini = new IniHandler(INIFILE, OBJECTFILE);
+            
 
             foreach (String temp in NavObjects.GetObjectNames())
                 cb_objektTyp.Items.Add(temp);
@@ -84,15 +85,7 @@ namespace StartNAV
         void LoadFav()
         {
             List<NavObject> favs = ini.GetFav();
-
-            //Favouriten laden
-            //TODO: Umbau Binding
-            //TODO: Unschön noch
-            if (lv_fav.Items.Count > 0)
-                lv_fav.Items.Clear();
-
-            foreach (NavObject temp in favs)
-                lv_fav.Items.Add(temp.Clone());
+            lv_fav.SetItems(favs);
         }
 
         #region Actions
@@ -195,8 +188,6 @@ namespace StartNAV
             return startstring;
         }
 
-
-
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             AddServer w = new AddServer(INIFILE, OBJECTFILE);
@@ -263,14 +254,15 @@ namespace StartNAV
         private void B_add_fav_Click(object sender, RoutedEventArgs e)
         {
             int id = Int32.Parse(tx_objId.Text);
-            lv_fav.Items.Add(new NavObject(cb_objektTyp.Text, id, tb_ObjektName.Text));
-            ini.AddFav(cb_objektTyp.Text,id);            
+            //lv_fav.Add(new NavObject(cb_objektTyp.Text, id, tb_ObjektName.Text));
+            ini.AddFav(cb_objektTyp.Text,id);
+            LoadFav();
         }
 
 
         private void B_del_fav_Click(object sender, RoutedEventArgs e)
         {
-            foreach (NavObject temp in lv_fav.SelectedItems)
+            foreach (NavObject temp in lv_fav.GetSelectItems())
                 ini.DeleteFav(temp.Typ, temp.ID);
 
             LoadFav();
@@ -278,9 +270,9 @@ namespace StartNAV
 
         private void Lv_fav_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (lv_fav.SelectedItems.Count == 1)
+            if (lv_fav.GetSelectItems().Count == 1)
             {
-                NavObject temp = (NavObject)lv_fav.SelectedItems[0];
+                NavObject temp = (NavObject)lv_fav.GetSelectItems()[0];
                 tx_objId.Text = temp.ID.ToString();
                 cb_objektTyp.Text = NavObjects.GetName(temp.Typ);
             }
@@ -382,9 +374,9 @@ namespace StartNAV
                 w.ShowDialog3();
                 foreach (NavObject temp in w.retList)
                 {
-                    lv_fav.Items.Add(temp.Clone());
                     ini.AddFav(temp.Typ, temp.ID);
                 }
+                LoadFav();
             }
             else
             {
@@ -405,18 +397,6 @@ namespace StartNAV
         {
             ini.DelProfile(cb_profil.Text);
             Load_Profil();
-        }
-
-        private void Mi_set_exe_path_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "Client (Microsoft.Dynamics.Nav.Client.exe)|Microsoft.Dynamics.Nav.Client.exe";
-            //dialog.InitialDirectory = @"C:\Program Files (x86)";
-            dialog.InitialDirectory = @"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\";
-            if (dialog.ShowDialog() == true) { 
-                ini.SetExePath(dialog.FileName);
-                MessageBox.Show("Pfad zur exe wurde geändert. Bitte Anwendung neu starten!");
-            }
         }
     }
 }

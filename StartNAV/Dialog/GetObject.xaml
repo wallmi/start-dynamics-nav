@@ -4,40 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StartNAV.Dialog"
+        xmlns:c="clr-namespace:StartNAV.Control"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
         WindowStyle="ToolWindow"
         Title="GetObject">
     <Grid>
-        <TextBox
-            Grid.ColumnSpan="2"
-            Name="tb_search"
-            TextChanged="Tb_search_TextChanged"
-            
-            />
-        <ListView
-            Name="lv_items"
+        <c:NavObjektList
+            x:Name="lv_items"
             Grid.Row="1"
             Grid.ColumnSpan="2"
-            SelectionChanged="Lv_items_SelectionChanged"
-            Height="300">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn 
-                       Width="50"
-                        Header="Object"
-                        DisplayMemberBinding="{Binding Typ}"/>
-                    <GridViewColumn
-                        Width="50"
-                        Header="ID"
-                        DisplayMemberBinding="{Binding ID}"/>
-                    <GridViewColumn
-                        Width="300"
-                        Header="Name"
-                        DisplayMemberBinding="{Binding Name}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+            Height="300"/>
         <Button
             Name="b_get"
             Grid.Row="2"
