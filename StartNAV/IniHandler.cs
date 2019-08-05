@@ -128,7 +128,7 @@ namespace StartNAV
         {
             LoadFile();
             List<String> ret = SectionStringList("Profile", KeyType.key);
-            ret.Add("<kein Profile>");
+            ret.Add("<kein Profil>");
             return ret;
         }
 
@@ -281,10 +281,26 @@ namespace StartNAV
             return ret;
         }
 
+        public void SetExePath(string path)
+        {
+            SaveSetting("ExePath", path);
+        }
+
         public void SaveSetting(string key, string value)
         {
             data["Settings"][key] = value;
             WriteFile();
+        }
+
+        public bool CheckExe()
+        {
+            if (!(data["Settings"].ContainsKey("ExePath")))
+                return false;
+
+            if (File.Exists(data["Settings"]["ExePath"]))
+                return true;
+
+            return false;
         }
         
 

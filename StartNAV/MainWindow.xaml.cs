@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using StartNAV.Model;
 using StartNAV.Dialog;
 using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace StartNAV
 {
@@ -51,6 +52,24 @@ namespace StartNAV
             toSave.Add(cbo_schow_startstring);
             toSave.Add(cb_profil);
             Load();
+
+            if (!ini.CheckExe())
+            {
+                string tooltip = "Für diese Option muss zuerst die Anwendung ausgewählt werden";
+                cbo_config.IsEnabled = false;
+                cbo_debug.IsEnabled = false;
+                b_start_session_list.IsEnabled = false;
+                cb_profil.IsEnabled = false;
+
+                cb_profil.SelectedItem = "<kein Profil>";
+                cbo_config.IsChecked = false;
+                cbo_debug.IsChecked = false;
+
+                cbo_config.ToolTip = tooltip;
+                cbo_debug.ToolTip = tooltip;
+                cb_profil.ToolTip = tooltip;
+                b_start_session_list.ToolTip = tooltip;
+            }
         }
 
         void Load()
@@ -109,37 +128,40 @@ namespace StartNAV
         }
         private void B_StartNav_Click(object sender, RoutedEventArgs e)
         {
-            string param = GetStartParameter(StartTyp.Nav);
+            string exe = "";
+            string param;
+            
+            if (((Button)sender).Name == "b_start_session_list")
+                param = GetStartParameter(StartTyp.Session);
+            else
+                param = GetStartParameter(StartTyp.Nav);
+
+            if (ini.CheckExe())
+                exe = ini.data["Settings"]["ExePath"] + " ";
+            
+            
             if (cbo_schow_startstring.IsChecked == true)
             {
-                MessageBox.Show(param,"Start String",MessageBoxButton.OK,MessageBoxImage.Information);
+                MessageBox.Show(exe + " " +param,"Start String",MessageBoxButton.OK,MessageBoxImage.Information);
             }
 
-            Process.Start(param);
-        }
-
-        private void B_start_session_list_Click(object sender, RoutedEventArgs e)
-        {
-            string param = GetStartParameter(StartTyp.Session);
-            if (cbo_schow_startstring.IsChecked == true)
-            {
-                MessageBox.Show(param, "Start String", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            Process.Start(param);
+            Process.Start(exe,param);
         }
 
         string GetStartParameter(StartTyp st)
         {
-            string Navbase = "dynamicsnav://";
+            string Navbase = "\"dynamicsnav://";
             string ServerAdress = ini.GetServerAdress(cb_server.Text);
             string Mandant = "/" + cb_mandant.Text;
             ObjectTypes ob = NavObjects.GetObj(cb_objektTyp.Text);
             string Config = " -configure";
             string Debug = " -debug";
             string Profile = " -profile:";
-            string sessionlist = " -protocollhandler";
+            string sessionlist = " -protocolhandler";
             string checkedServer = handler.CheckServerString(ServerAdress);
+             string startstring = "";
 
+            //Serveradresse aktualisieren
             if (checkedServer != ServerAdress)
             {
                 ini.AddServer(cb_server.Text, checkedServer);
@@ -147,8 +169,7 @@ namespace StartNAV
             }
 
             string ObjectStart = "/";
-
-            string startstring = Navbase + ServerAdress;
+            startstring += Navbase + ServerAdress;
 
             if (st == StartTyp.Nav)
             {
@@ -159,8 +180,8 @@ namespace StartNAV
                     case ObjectTypes.Report: ObjectStart += "runreport?report=" + tx_objId.Text; break;
                 }
 
-               startstring += Mandant + ObjectStart;
-                if (cb_profil.Text != "<kein Profile>")
+               startstring += Mandant + ObjectStart + "\"";
+                if (cb_profil.Text != "<kein Profil>")
                     startstring += Profile + cb_profil.Text;
                 if (cbo_config.IsChecked.Value)
                     startstring += Config;
@@ -169,7 +190,7 @@ namespace StartNAV
             }
             else if (st == StartTyp.Session)
             {
-                startstring += sessionlist;
+                startstring += "//debug\"" + sessionlist;
             }
             return startstring;
         }
@@ -386,5 +407,16 @@ namespace StartNAV
             Load_Profil();
         }
 
+        private void Mi_set_exe_path_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Client (Microsoft.Dynamics.Nav.Client.exe)|Microsoft.Dynamics.Nav.Client.exe";
+            //dialog.InitialDirectory = @"C:\Program Files (x86)";
+            dialog.InitialDirectory = @"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\";
+            if (dialog.ShowDialog() == true) { 
+                ini.SetExePath(dialog.FileName);
+                MessageBox.Show("Pfad zur exe wurde geändert. Bitte Anwendung neu starten!");
+            }
+        }
     }
 }

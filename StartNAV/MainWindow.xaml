@@ -21,6 +21,11 @@
             Grid.ColumnSpan="2">
             <MenuItem Header="_Datei">
                 <MenuItem
+                    Name="mi_set_exe_path"
+                    Click="Mi_set_exe_path_Click"
+                    Header="Setzte Pfad zu exe"/>
+                <Separator/>
+                <MenuItem
                     Name="mi_save"
                     Header="_Save Settings"
                     Click="Mi_save_Click"
@@ -28,7 +33,7 @@
                 <MenuItem 
                     Header="_Reset SettingsFile"
                     Click="B_delfile_Click" />
-                <Separator></Separator>
+                <Separator/>
                 <MenuItem
                     Name="mi_close"
                     Header="_Beenden"
@@ -82,6 +87,7 @@
             <TextBlock
                 Text="Profil" FontWeight="Bold" Margin="0,5,0,0"/>
             <ComboBox
+                ToolTipService.ShowOnDisabled="True"
                 Name="cb_profil" />
             <TextBlock
                 Text="ObjektTyp" FontWeight="Bold" Margin="0,5,0,0"/>
@@ -113,9 +119,11 @@
 
             <CheckBox
                 Name="cbo_config"
+                ToolTipService.ShowOnDisabled="True"
                 Content="Konfigurationsmodus"/>
             <CheckBox
                 Name="cbo_debug"
+                ToolTipService.ShowOnDisabled="True"
                 Content="Debug"/>
             <CheckBox
                 Name="cbo_schow_startstring"
@@ -155,9 +163,10 @@
                 <Button
                     Name="b_start_session_list"
                     Content="Session List" 
-                    Click="B_start_session_list_Click" 
+                    Click="B_StartNav_Click" 
                     Margin="0,5,0,0" 
                     Padding="5" 
+                    ToolTipService.ShowOnDisabled="True"
                     IsDefault="True"/>
             </StackPanel>
         </Grid>
