@@ -17,16 +17,37 @@
                 <GridView>
                     <GridViewColumn 
                        Width="50"
-                        Header="Object"
-                        DisplayMemberBinding="{Binding Typ}"/>
+                        DisplayMemberBinding="{Binding Typ}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader 
+                                Tag="Typ"
+                                Click="LV_items_Click_Header">
+                                Typ
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                            </GridViewColumn>
                     <GridViewColumn
                         Width="50"
-                        Header="ID"
-                        DisplayMemberBinding="{Binding ID}"/>
+                        DisplayMemberBinding="{Binding ID}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader 
+                                Tag="ID"
+                                Click="LV_items_Click_Header">
+                                ID
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
                     <GridViewColumn
                         Width="300"
-                        Header="Name"
-                        DisplayMemberBinding="{Binding Name}"/>
+                        DisplayMemberBinding="{Binding Name}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader 
+                                Tag="Name"
+                                Click="LV_items_Click_Header">
+                                Name
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
