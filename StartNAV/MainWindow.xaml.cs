@@ -38,8 +38,10 @@ namespace StartNAV
             InitializeComponent();
             handler = new ObjectHandler(OBJECTFILE);
             ini = new IniHandler(INIFILE, OBJECTFILE);
-            
 
+            ListView lv = lv_fav.lv_items;
+            lv.MouseDoubleClick += new MouseButtonEventHandler(Lv_fav_MouseDoubleClick);
+            
             foreach (String temp in NavObjects.GetObjectNames())
                 cb_objektTyp.Items.Add(temp);
 
