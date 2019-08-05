@@ -44,14 +44,11 @@ namespace StartNAV
                 cb_objektTyp.Items.Add(temp);
 
             //TODO: Geht sicher auch schöner :)
-            toSave.Add(cb_server);
-            toSave.Add(cb_mandant);
-            toSave.Add(cb_objektTyp);
-            toSave.Add(tx_objId);
-            toSave.Add(cbo_config);
-            toSave.Add(cbo_debug);
-            toSave.Add(cbo_schow_startstring);
-            toSave.Add(cb_profil);
+            toSave.Add(cb_server);              toSave.Add(cb_mandant);
+            toSave.Add(cb_objektTyp);           toSave.Add(tx_objId);
+            toSave.Add(cbo_config);             toSave.Add(cbo_debug);
+            toSave.Add(cbo_schow_startstring);  toSave.Add(cb_profil);
+
             Load();
 
             if (!ini.CheckExe())
@@ -401,10 +398,12 @@ namespace StartNAV
 
         private void Mi_set_exe_path_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "Client (Microsoft.Dynamics.Nav.Client.exe)|Microsoft.Dynamics.Nav.Client.exe";
-            //dialog.InitialDirectory = @"C:\Program Files (x86)";
-            dialog.InitialDirectory = @"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\";
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Filter = "Client (Microsoft.Dynamics.Nav.Client.exe)|Microsoft.Dynamics.Nav.Client.exe",
+                  InitialDirectory = @"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\"
+            };
+
             if (dialog.ShowDialog() == true)
             {
                 ini.SetExePath(dialog.FileName);

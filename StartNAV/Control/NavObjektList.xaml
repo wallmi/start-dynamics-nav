@@ -5,16 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StartNAV.Control"
              mc:Ignorable="d">
-        <StackPanel>
+    <Grid>
         <TextBox
-            Grid.ColumnSpan="2"
             Name="tb_search"
             TextChanged="Tb_search_TextChanged"/>
         <ListView
             Name="lv_items"
             Grid.Row="1"
-            Grid.ColumnSpan="2"
-            Height="300">
+            MinHeight="50">
             <ListView.View>
                 <GridView>
                     <GridViewColumn 
@@ -32,5 +30,9 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+    </Grid>
 </UserControl>

@@ -8,8 +8,10 @@
         mc:Ignorable="d"
         Title="Start DynamicsNAV" 
         SizeToContent="WidthAndHeight" 
-        ResizeMode="CanMinimize"
+        ResizeMode="CanResize"
         Icon="favicon.ico"
+        MinHeight="350"
+        MinWidth="500"
         Closing="Window_Closing">
     <Window.Resources>
         <ResourceDictionary>
@@ -181,37 +183,12 @@
             Grid.Row="1"
             Margin="5,0" 
             />
-        <!--
-        <ListView 
-            Name="lv_fav"
-            Width="Auto"
-            Grid.Column="1"
-            Grid.Row="1"
-            MouseDoubleClick="Lv_fav_MouseDoubleClick" 
-            Margin="5,0" 
-            ScrollViewer.VerticalScrollBarVisibility="Visible"
-            >
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Typ"
-                                    Width="50"
-                                    DisplayMemberBinding="{Binding Typ}"/>
-                    <GridViewColumn Header="ID"
-                                    Width="50"
-                                    DisplayMemberBinding="{Binding ID}"/>
-                    <GridViewColumn Header="Name"
-                                    Width="250"
-                                    DisplayMemberBinding="{Binding Name}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        -->
         <StatusBar
             Grid.Row="3"
-            Grid.ColumnSpan="2">
+            Grid.ColumnSpan="2"
+            Width="Auto">
             <StatusBarItem>
                 <TextBlock
-                    Width="Auto"
                     x:Name="tb_status"/>
             </StatusBarItem>
         </StatusBar>
@@ -219,10 +196,10 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="180"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
     </Grid>
