@@ -24,7 +24,7 @@ namespace StartNAV.Dialog
     {
         public NavObject retGet= new NavObject();
         public List<NavObject> retList = new List<NavObject>();
-
+  
         public GetObject(ObjectHandler handler)
         {
             InitializeComponent();
@@ -35,6 +35,27 @@ namespace StartNAV.Dialog
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lv_items.ItemsSource);
             view.Filter = UserFilter;
+        }
+        /// <summary>
+        /// Show Dialog für Selektion eines Objekts
+        /// </summary>
+        /// <returns></returns>
+        public bool? ShowDialog2()
+        {
+            b_add2Fav.Visibility = Visibility.Hidden;
+            lv_items.SelectionMode = SelectionMode.Single;
+            return this.ShowDialog();
+        }
+        /// <summary>
+        /// Show Dialog für Multi Selektion
+        /// </summary>
+        /// <returns></returns>
+        public bool? ShowDialog3()
+        {
+            b_get.Visibility = Visibility.Hidden;
+            Grid.SetColumn(b_add2Fav, 0);
+            lv_items.SelectionMode = SelectionMode.Extended;
+            return this.ShowDialog();
         }
 
         private bool UserFilter(object item)
@@ -53,10 +74,10 @@ namespace StartNAV.Dialog
 
         private void Lv_items_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (lv_items.SelectedItems.Count == 1)
-                b_get.IsEnabled = true;
-            else
-                b_get.IsEnabled = false;
+            //if (lv_items.SelectedItems.Count == 1)
+            //    b_get.IsEnabled = true;
+            //else
+            //    b_get.IsEnabled = false;
 
         }
 

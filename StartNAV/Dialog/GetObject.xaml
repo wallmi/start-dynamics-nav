@@ -43,13 +43,19 @@
             Grid.Row="2"
             Grid.Column="0"
             Click="B_get_Click"
-            Content="Übernehmen" FontWeight="Bold" FontSize="14" Margin="5"/>
+            Content="Übernehmen" 
+            FontWeight="Bold" 
+            FontSize="14" 
+            Margin="5" />
         <Button
             Name="b_add2Fav"
             Grid.Row="2"
             Grid.Column="1"
             Click="B_add2Fav_Click"
-            Content="Füge zu Favoriten" FontWeight="Bold" FontSize="14" Margin="5"/>
+            Content="Füge zu Favoriten" 
+            FontWeight="Bold" 
+            FontSize="14" 
+            Margin="5" />
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>

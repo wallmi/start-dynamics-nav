@@ -104,7 +104,6 @@ namespace StartNAV
             return id.ToString() + "_" + objID.ToString();
         }
         
-
         public List<String> GetObjs()
         {
             List<string> ret = new List<string>();
@@ -132,5 +131,20 @@ namespace StartNAV
             }
             return ret;
         }
+        /// <summary>
+        /// Wenn der Server keine Port Angabe enthält dann wird der Default port + Instanz übergeben
+        /// </summary>
+        /// <param name="servername"></param>
+        /// <returns></returns>
+        public String CheckServerString(String servername)
+        {
+            if (!servername.Contains(":"))
+                return servername + ":7046/DynamicsNAV100_IMP";
+
+            return servername;
+
+
+        }
+    
     }
 }

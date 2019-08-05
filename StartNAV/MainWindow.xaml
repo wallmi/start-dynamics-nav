@@ -21,6 +21,11 @@
             Grid.ColumnSpan="2">
             <MenuItem Header="_Datei">
                 <MenuItem
+                    Name="mi_set_exe_path"
+                    Click="Mi_set_exe_path_Click"
+                    Header="Setzte Pfad zu exe"/>
+                <Separator/>
+                <MenuItem
                     Name="mi_save"
                     Header="_Save Settings"
                     Click="Mi_save_Click"
@@ -28,7 +33,7 @@
                 <MenuItem 
                     Header="_Reset SettingsFile"
                     Click="B_delfile_Click" />
-                <Separator></Separator>
+                <Separator/>
                 <MenuItem
                     Name="mi_close"
                     Header="_Beenden"
@@ -52,6 +57,15 @@
                     Header="_Lösche akt. Mandant"
                     Click="MenuItem_Click_2"/>
             </MenuItem>
+            <MenuItem Header="Profile">
+                <MenuItem
+                    Header="_Add"
+                    Click="MenuItem_Click_4">
+                </MenuItem>
+                <MenuItem
+                    Header="_Lösche akt. Profil"
+                    Click="MenuItem_Click_5"/>
+            </MenuItem>
         </Menu>
         <StackPanel
             Grid.Row="1"
@@ -71,11 +85,15 @@
                 Name="cb_mandant"
                  />
             <TextBlock
+                Text="Profil" FontWeight="Bold" Margin="0,5,0,0"/>
+            <ComboBox
+                ToolTipService.ShowOnDisabled="True"
+                Name="cb_profil" />
+            <TextBlock
                 Text="ObjektTyp" FontWeight="Bold" Margin="0,5,0,0"/>
             <ComboBox
                 Name="cb_objektTyp"
                 SelectionChanged="Cb_objektTyp_SelectionChanged"/>
-
             <TextBlock
                 Text="ObjectId" FontWeight="Bold" Margin="0,5,0,0"/>
                 <Grid>
@@ -101,9 +119,11 @@
 
             <CheckBox
                 Name="cbo_config"
+                ToolTipService.ShowOnDisabled="True"
                 Content="Konfigurationsmodus"/>
             <CheckBox
                 Name="cbo_debug"
+                ToolTipService.ShowOnDisabled="True"
                 Content="Debug"/>
             <CheckBox
                 Name="cbo_schow_startstring"
@@ -114,15 +134,24 @@
             Grid.Row="2"
             Grid.Column="1">
             <StackPanel Margin="5,0,5,5">
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">
                     <Button
-                    Name="b_add_fav"
-                    Content="Füge zu Favouriten hinzu"
-                    Click="B_add_fav_Click" Margin="0,5,5,0" Padding="5" Width="138"/>
+                        Name="b_add_fav"
+                        Content="Füge zu Favouriten hinzu"
+                        Click="B_add_fav_Click" 
+                        Margin="0,5,5,0" 
+                        Padding="5" Width="138"/>
                     <Button
-                    Name="b_del_fav"
-                    Content="Löschen Favoriten"
-                    Click="B_del_fav_Click" Margin="5,5,0,0"/>
+                        Name="b_get_favs"
+                        Click="B_getId_Click"
+                        Content="Aus Liste hinzufügen" 
+                        Margin="0,5,0,0" 
+                        />
+                    <Button
+                        Name="b_del_fav"
+                        Content="Löschen Favoriten"
+                        Click="B_del_fav_Click" 
+                        Margin="5,5,0,0"/>
                 </StackPanel>
                 <Button
                     Name="b_start_nav"
@@ -130,6 +159,14 @@
                     Click="B_StartNav_Click" 
                     Margin="0,5,0,0" 
                     Padding="5" 
+                    IsDefault="True"/>
+                <Button
+                    Name="b_start_session_list"
+                    Content="Session List" 
+                    Click="B_StartNav_Click" 
+                    Margin="0,5,0,0" 
+                    Padding="5" 
+                    ToolTipService.ShowOnDisabled="True"
                     IsDefault="True"/>
             </StackPanel>
         </Grid>

@@ -124,12 +124,25 @@ namespace StartNAV
             return SectionStringList("Server",KeyType.key);
         }
 
+        public List<String> GetProfile()
+        {
+            LoadFile();
+            List<String> ret = SectionStringList("Profile", KeyType.key);
+            ret.Add("<kein Profil>");
+            return ret;
+        }
+
         public List<String> GetMandanten(string server)
         {
             LoadFile();
             return SectionStringList("Mandanten-" + server, KeyType.key);
         }
-
+        /// <summary>
+        /// Inhalt einer Section als Liste
+        /// </summary>
+        /// <param name="sectionName">Name der Section</param>
+        /// <param name="t">(KeyType) key or value</param>
+        /// <returns></returns>
         List<String> SectionStringList(string sectionName, KeyType t)
         {
             return SectionStringList(sectionName, t, "");
@@ -186,9 +199,21 @@ namespace StartNAV
             WriteFile();
         }
 
+        public void AddProfile(string name)
+        {
+            data["Profile"][name] = "1";
+            WriteFile();
+        }
+
         public void DelServer(string name)
         {
             data["Server"].RemoveKey(name);
+            WriteFile();
+        }
+
+        public void DelProfile(string name)
+        {
+            data["Profile"].RemoveKey(name);
             WriteFile();
         }
 
@@ -256,10 +281,26 @@ namespace StartNAV
             return ret;
         }
 
+        public void SetExePath(string path)
+        {
+            SaveSetting("ExePath", path);
+        }
+
         public void SaveSetting(string key, string value)
         {
             data["Settings"][key] = value;
             WriteFile();
+        }
+
+        public bool CheckExe()
+        {
+            if (!(data["Settings"].ContainsKey("ExePath")))
+                return false;
+
+            if (File.Exists(data["Settings"]["ExePath"]))
+                return true;
+
+            return false;
         }
         
 

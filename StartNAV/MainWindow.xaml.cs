@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using StartNAV.Model;
 using StartNAV.Dialog;
 using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace StartNAV
 {
@@ -30,6 +31,7 @@ namespace StartNAV
         readonly IniHandler ini;
         readonly ObjectHandler handler;
         readonly List<object> toSave = new List<object>();
+        enum StartTyp {Nav,Session }
       
         public MainWindow()
         {
@@ -40,19 +42,41 @@ namespace StartNAV
             foreach (String temp in NavObjects.GetObjectNames())
                 cb_objektTyp.Items.Add(temp);
 
+            //TODO: Geht sicher auch schöner :)
             toSave.Add(cb_server);
             toSave.Add(cb_mandant);
             toSave.Add(cb_objektTyp);
             toSave.Add(tx_objId);
             toSave.Add(cbo_config);
             toSave.Add(cbo_debug);
+            toSave.Add(cbo_schow_startstring);
+            toSave.Add(cb_profil);
             Load();
+
+            if (!ini.CheckExe())
+            {
+                string tooltip = "Für diese Option muss zuerst die Anwendung ausgewählt werden";
+                cbo_config.IsEnabled = false;
+                cbo_debug.IsEnabled = false;
+                b_start_session_list.IsEnabled = false;
+                cb_profil.IsEnabled = false;
+
+                cb_profil.SelectedItem = "<kein Profil>";
+                cbo_config.IsChecked = false;
+                cbo_debug.IsChecked = false;
+
+                cbo_config.ToolTip = tooltip;
+                cbo_debug.ToolTip = tooltip;
+                cb_profil.ToolTip = tooltip;
+                b_start_session_list.ToolTip = tooltip;
+            }
         }
 
         void Load()
         {
             ini.Reload();
             Load_Server();
+            Load_Profil();
             LoadFav();
             LoadSettings();
         }
@@ -104,40 +128,74 @@ namespace StartNAV
         }
         private void B_StartNav_Click(object sender, RoutedEventArgs e)
         {
+            string exe = "";
+            string param;
+            
+            if (((Button)sender).Name == "b_start_session_list")
+                param = GetStartParameter(StartTyp.Session);
+            else
+                param = GetStartParameter(StartTyp.Nav);
+
+            if (ini.CheckExe())
+                exe = ini.data["Settings"]["ExePath"] + " ";
+            
+            
             if (cbo_schow_startstring.IsChecked == true)
             {
-                MessageBox.Show(GetStartParameter());
+                MessageBox.Show(exe + " " +param,"Start String",MessageBoxButton.OK,MessageBoxImage.Information);
             }
 
-            Process.Start(GetStartParameter());
+            Process.Start(exe,param);
         }
 
-        string GetStartParameter()
+        string GetStartParameter(StartTyp st)
         {
-            string Navbase = "dynamicsnav://";
+            string Navbase = "\"dynamicsnav://";
             string ServerAdress = ini.GetServerAdress(cb_server.Text);
             string Mandant = "/" + cb_mandant.Text;
             ObjectTypes ob = NavObjects.GetObj(cb_objektTyp.Text);
             string Config = " -configure";
             string Debug = " -debug";
+            string Profile = " -profile:";
+            string sessionlist = " -protocolhandler";
+            string checkedServer = handler.CheckServerString(ServerAdress);
+             string startstring = "";
 
-            string ObjectStart = "/";
-
-            switch (ob)
+            //Serveradresse aktualisieren
+            if (checkedServer != ServerAdress)
             {
-                case ObjectTypes.Page: ObjectStart += "runpage?page=" + tx_objId.Text; break;
-                case ObjectTypes.Table: ObjectStart += "runtable?table=" + tx_objId.Text; break;
-                case ObjectTypes.Report: ObjectStart += "runreport?report=" + tx_objId.Text; break;
+                ini.AddServer(cb_server.Text, checkedServer);
+                ServerAdress = ini.GetServerAdress(cb_server.Text);
             }
 
-            string startstring = Navbase + ServerAdress + Mandant + ObjectStart;
-            if (cbo_config.IsChecked.Value)
-                startstring += Config;
-            if (cbo_debug.IsChecked.Value)
-                startstring += Debug;
+            string ObjectStart = "/";
+            startstring += Navbase + ServerAdress;
 
+            if (st == StartTyp.Nav)
+            {
+                switch (ob)
+                {
+                    case ObjectTypes.Page: ObjectStart += "runpage?page=" + tx_objId.Text; break;
+                    case ObjectTypes.Table: ObjectStart += "runtable?table=" + tx_objId.Text; break;
+                    case ObjectTypes.Report: ObjectStart += "runreport?report=" + tx_objId.Text; break;
+                }
+
+               startstring += Mandant + ObjectStart + "\"";
+                if (cb_profil.Text != "<kein Profil>")
+                    startstring += Profile + cb_profil.Text;
+                if (cbo_config.IsChecked.Value)
+                    startstring += Config;
+                if (cbo_debug.IsChecked.Value)
+                    startstring += Debug;
+            }
+            else if (st == StartTyp.Session)
+            {
+                startstring += "//debug\"" + sessionlist;
+            }
             return startstring;
         }
+
+
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -162,6 +220,11 @@ namespace StartNAV
         void Load_Server()
         {
             cb_server.ItemsSource = ini.GetServer();
+        }
+
+        void Load_Profil()
+        {
+            cb_profil.ItemsSource = ini.GetProfile();
         }
 
         void Load_mandanten()
@@ -268,7 +331,8 @@ namespace StartNAV
                 else if (temp.GetType() == typeof(CheckBox))
                 {
                     CheckBox cb = (CheckBox)temp;
-                    cb.IsChecked = Boolean.Parse(ini.data["Settings"][cb.Name]);
+                    if(ini.data["Settings"].ContainsKey(cb.Name))
+                        cb.IsChecked = Boolean.Parse(ini.data["Settings"][cb.Name]);
                 }
             }
 
@@ -312,19 +376,46 @@ namespace StartNAV
         private void B_getId_Click(object sender, RoutedEventArgs e)
         {
             GetObject w = new GetObject(handler);
-            w.ShowDialog();
-            if(w.retList.Count > 0)
+
+            if (((Button)sender).Name == b_get_favs.Name)
             {
-                foreach(NavObject temp in w.retList)
+                w.ShowDialog3();
+                foreach (NavObject temp in w.retList)
                 {
                     lv_fav.Items.Add(temp.Clone());
-                    ini.AddFav( temp.Typ, temp.ID);
+                    ini.AddFav(temp.Typ, temp.ID);
                 }
             }
-
-            if(!(w.retGet.Typ == ObjectTypes.None)) { 
+            else
+            {
+                w.ShowDialog2();
                 tx_objId.Text = w.retGet.ID.ToString();
                 cb_objektTyp.Text = w.retGet.Typ.ToString();
+            }
+        }
+
+        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        {
+            AddProfile w = new AddProfile(INIFILE, OBJECTFILE);
+            w.ShowDialog();
+            Load_Profil();
+        }
+
+        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
+        {
+            ini.DelProfile(cb_profil.Text);
+            Load_Profil();
+        }
+
+        private void Mi_set_exe_path_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Client (Microsoft.Dynamics.Nav.Client.exe)|Microsoft.Dynamics.Nav.Client.exe";
+            //dialog.InitialDirectory = @"C:\Program Files (x86)";
+            dialog.InitialDirectory = @"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\";
+            if (dialog.ShowDialog() == true) { 
+                ini.SetExePath(dialog.FileName);
+                MessageBox.Show("Pfad zur exe wurde geändert. Bitte Anwendung neu starten!");
             }
         }
     }
