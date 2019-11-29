@@ -113,10 +113,12 @@ namespace StartNAV
             if(cb_objektTyp.SelectedItem.ToString() == "None") { 
                 tx_objId.IsEnabled = false;
                 b_add_fav.IsEnabled = false;
+                b_getId.IsEnabled = false;
             } else
             {
                 tx_objId.IsEnabled = true;
                 b_add_fav.IsEnabled = true;
+                b_getId.IsEnabled = true;
             }
             
         }
