@@ -75,18 +75,17 @@
             Grid.RowSpan="2" 
             Margin="5,0,5,5">
             <TextBlock 
-                Text="Server" FontWeight="Bold" Margin="0,5,0,0"
-                />
+                Text="Server" FontWeight="Bold" Margin="0,5,0,0" />
             <ComboBox
                 Name="cb_server"
-                SelectionChanged="Cb_server_SelectionChanged"
-                />
+                SelectionChanged="Cb_server_SelectionChanged" />
+            <TextBlock
+                x:Name="tbl_serveradresse"
+                Text="Serveradresse" FontSize="9" TextWrapping="Wrap"/>
             <TextBlock 
-                Text="Mandant" FontWeight="Bold" Margin="0,5,0,0"
-                />
+                Text="Mandant" FontWeight="Bold" Margin="0,5,0,0" />
             <ComboBox
-                Name="cb_mandant"
-                 />
+                Name="cb_mandant" />
             <TextBlock
                 Text="Profil" FontWeight="Bold" Margin="0,5,0,0"/>
             <ComboBox
@@ -108,7 +107,9 @@
                         Name="b_getId"
                         Click="B_getId_Click"
                         Grid.Column="1"
-                        Content="..." Margin="0" Padding="5,1" FontWeight="Bold"/>
+                        Content="..." 
+                        Padding="5,1" 
+                        FontWeight="Bold"/>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
@@ -118,8 +119,10 @@
                 Text="Hier steht der Objektname"
                 Name="tb_ObjektName"/>
             <TextBlock
-                Text="Startoptionen" Margin="0,15,0,0" FontWeight="Bold" FontSize="16"/>
-
+                Text="Startoptionen" 
+                Margin="0,15,0,0" 
+                FontWeight="Bold" 
+                FontSize="16"/>
             <CheckBox
                 Name="cbo_config"
                 ToolTipService.ShowOnDisabled="True"
@@ -131,7 +134,6 @@
             <CheckBox
                 Name="cbo_schow_startstring"
                 Content="Zeige Startoptionen"/>
-
         </StackPanel>
         <Grid
             Grid.Row="2"
@@ -173,10 +175,6 @@
                     IsDefault="True"/>
             </StackPanel>
         </Grid>
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="1">
-        </StackPanel>
         <c:NavObjektList
             x:Name="lv_fav"
             Grid.Column="1"
@@ -199,7 +197,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
     </Grid>

@@ -100,9 +100,11 @@ namespace StartNAV
             GetObjectName();
         }
 
+
         private void Cb_server_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Load_mandanten();
+            tbl_serveradresse.Text = ini.GetServerAdress(cb_server.SelectedItem.ToString());
         }
 
         private void Cb_objektTyp_SelectionChanged(object sender, SelectionChangedEventArgs e)

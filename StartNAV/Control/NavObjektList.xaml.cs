@@ -26,17 +26,17 @@ namespace StartNAV.Control
         public NavObject retGet = new NavObject();
         private GridViewColumnHeader listViewSortCol = null;
         private SortAdorner listViewSortAdorner = null;
+        private readonly string TYPE_ALL = "* (ALL)";
 
         public NavObjektList()
         {
             InitializeComponent();
-            cb_type.Items.Add("* (ALL)");
-            cb_type.SelectedItem = "* (ALL)";
+            cb_type.Items.Add(TYPE_ALL);
+            cb_type.SelectedItem = TYPE_ALL;
             foreach (String temp in NavObjects.GetObjectNames())
                 cb_type.Items.Add(temp);
 
             cb_type.Items.Remove(ObjectTypes.None.ToString());
-            
         }
 
         public void SetItems(List<NavObject> items)
@@ -86,7 +86,6 @@ namespace StartNAV.Control
 
         public void Add(NavObject o)
         {
-            
             lv_items.Items.Add(o);
             SetFilter();
         }
@@ -96,14 +95,12 @@ namespace StartNAV.Control
             // 1) Wenn der Typ nicht zusammenstimmt --> FALSE
             // 2) Wenn kein Text eingegeben wurd --> TRUE
             // 3) Wenn der Suchtext in dem Text enthalten ist --> TRUE
-
             if (cb_type.SelectedItem.ToString() != (item as NavObject).Typ.ToString() && cb_type.SelectedItem.ToString() != "* (ALL)")
                 return false;
             else if (String.IsNullOrEmpty(tb_search.Text))
                 return true;
             else
                 return ((item as NavObject).Name.IndexOf(tb_search.Text, StringComparison.OrdinalIgnoreCase) >= 0);
-
         }
 
         private void Tb_search_TextChanged(object sender, TextChangedEventArgs e)
@@ -111,6 +108,16 @@ namespace StartNAV.Control
             CollectionViewSource.GetDefaultView(lv_items.ItemsSource).Refresh();
         }
 
+        private void Cb_type_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lv_items.ItemsSource == null)
+                return;
+
+            CollectionViewSource.GetDefaultView(lv_items.ItemsSource).Refresh();
+        }
+
+
+        #region Sort
         private void LV_items_Click_Header(object sender, RoutedEventArgs e)
         {
             GridViewColumnHeader column = (sender as GridViewColumnHeader);
@@ -131,14 +138,6 @@ namespace StartNAV.Control
             lv_items.Items.SortDescriptions.Add(new SortDescription(sortBy, newDir));
 
         }
-
-        private void Cb_type_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (lv_items.ItemsSource == null)
-                return;
-
-            CollectionViewSource.GetDefaultView(lv_items.ItemsSource).Refresh();
-        }
     }
 
     public class SortAdorner : Adorner
@@ -154,7 +153,7 @@ namespace StartNAV.Control
         public SortAdorner(UIElement element, ListSortDirection dir)
             : base(element)
         {
-            this.Direction = dir;
+            Direction = dir;
         }
 
         protected override void OnRender(DrawingContext drawingContext)
@@ -178,5 +177,6 @@ namespace StartNAV.Control
 
             drawingContext.Pop();
         }
+        #endregion
     }
 }

@@ -42,6 +42,7 @@ namespace StartNAV.Model
         {
             return GetObj(GetName(id));
         }
+
         public static string[] GetObjectNames() {
             return Enum.GetNames(typeof(ObjectTypes));
         }
