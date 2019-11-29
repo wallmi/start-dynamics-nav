@@ -417,5 +417,15 @@ namespace StartNAV
                     "Neustart erforderlich",MessageBoxButton.OK,MessageBoxImage.Information);
             }
         }
+
+        private void Link2Github_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/wallmi/start-dynamics-nav");
+        }
+
+        private void CreateIssue_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/wallmi/start-dynamics-nav");
+        }
     }
 }
