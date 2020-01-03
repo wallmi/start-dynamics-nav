@@ -104,12 +104,17 @@ namespace StartNAV
         private void Cb_server_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Load_mandanten();
+            if (cb_server.SelectedItem is null)
+                return;                         
             tbl_serveradresse.Text = ini.GetServerAdress(cb_server.SelectedItem.ToString());
         }
 
         private void Cb_objektTyp_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(cb_objektTyp.SelectedItem.ToString() == "None") { 
+            if (cb_objektTyp.SelectedItem is null)  
+                return;                             
+
+            if (cb_objektTyp.SelectedItem.ToString() == "None") { 
                 tx_objId.IsEnabled = false;
                 b_add_fav.IsEnabled = false;
                 b_getId.IsEnabled = false;
