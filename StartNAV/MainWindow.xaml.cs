@@ -109,7 +109,6 @@ namespace StartNAV
 
         private void Cb_objektTyp_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            GetObjectName();
             if(cb_objektTyp.SelectedItem.ToString() == "None") { 
                 tx_objId.IsEnabled = false;
                 b_add_fav.IsEnabled = false;
@@ -120,7 +119,7 @@ namespace StartNAV
                 b_add_fav.IsEnabled = true;
                 b_getId.IsEnabled = true;
             }
-            
+            GetObjectName();
         }
         private void B_StartNav_Click(object sender, RoutedEventArgs e)
         {
@@ -243,6 +242,12 @@ namespace StartNAV
             {
                 int id = Int32.Parse(tx_objId.Text);
                 string text = handler.GetObjName(id, cb_objektTyp.Text); 
+                if (cb_objektTyp.SelectedItem.ToString() == ObjectTypes.None.ToString())
+                {
+                    tb_ObjektName.Text = "";
+                    return;
+                }
+
                 if (text == "")
                     tb_ObjektName.Text = "ID nicht gefunden";
                 else
