@@ -38,6 +38,17 @@
                     Click="B_delfile_Click" />
                 <Separator/>
                 <MenuItem
+                    Name="link2Github"
+                    Header="_Link to Github"
+                    Click="Link2Github_Click"
+                    />
+                <MenuItem
+                    Name="CreateIssue"
+                    Header="Ticket erstellen"
+                    ToolTip="Github Account notwendig"
+                    Click="CreateIssue_Click"/>
+                <Separator/>
+                <MenuItem
                     Name="mi_close"
                     Header="_Beenden"
                     Click="Close_Click"

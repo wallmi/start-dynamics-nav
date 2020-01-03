@@ -8,6 +8,7 @@
         Title="Füge Mandant hinzu" 
         WindowStyle="ToolWindow" 
         SizeToContent="WidthAndHeight"
+        FocusManager.FocusedElement="{Binding ElementName=tb_mandant}"
         ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
         <TextBlock
@@ -26,14 +27,14 @@
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
-            Name="tb_mandant" Width="150" Margin="5"
+            Name="tb_mandant" Width="150" Margin="5" TabIndex="1"
             />
         <Button
             Grid.Column="1"
             Grid.Row="2"
             Name="addmandant"
             Content="Add" Margin="5"
-            Click="Addmandant_Click"/>
+            Click="Addmandant_Click" TabIndex="2"/>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

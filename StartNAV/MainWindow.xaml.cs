@@ -104,21 +104,27 @@ namespace StartNAV
         private void Cb_server_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Load_mandanten();
+            if (cb_server.SelectedItem is null)
+                return;                         
             tbl_serveradresse.Text = ini.GetServerAdress(cb_server.SelectedItem.ToString());
         }
 
         private void Cb_objektTyp_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            GetObjectName();
-            if(cb_objektTyp.SelectedItem.ToString() == "None") { 
+            if (cb_objektTyp.SelectedItem is null)  
+                return;                             
+
+            if (cb_objektTyp.SelectedItem.ToString() == "None") { 
                 tx_objId.IsEnabled = false;
                 b_add_fav.IsEnabled = false;
+                b_getId.IsEnabled = false;
             } else
             {
                 tx_objId.IsEnabled = true;
                 b_add_fav.IsEnabled = true;
+                b_getId.IsEnabled = true;
             }
-            
+            GetObjectName();
         }
         private void B_StartNav_Click(object sender, RoutedEventArgs e)
         {
@@ -241,6 +247,12 @@ namespace StartNAV
             {
                 int id = Int32.Parse(tx_objId.Text);
                 string text = handler.GetObjName(id, cb_objektTyp.Text); 
+                if (cb_objektTyp.SelectedItem.ToString() == ObjectTypes.None.ToString())
+                {
+                    tb_ObjektName.Text = "";
+                    return;
+                }
+
                 if (text == "")
                     tb_ObjektName.Text = "ID nicht gefunden";
                 else
@@ -414,6 +426,16 @@ namespace StartNAV
                 MessageBox.Show("Pfad zur exe wurde geändert. Bitte Anwendung neu starten!",
                     "Neustart erforderlich",MessageBoxButton.OK,MessageBoxImage.Information);
             }
+        }
+
+        private void Link2Github_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/wallmi/start-dynamics-nav");
+        }
+
+        private void CreateIssue_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/wallmi/start-dynamics-nav");
         }
     }
 }
