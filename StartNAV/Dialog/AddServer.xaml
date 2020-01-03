@@ -8,6 +8,7 @@
         Title="Füge Server hinzu" 
         WindowStyle="ToolWindow" 
         SizeToContent="WidthAndHeight"
+        FocusManager.FocusedElement="{Binding ElementName=_servername}"
         ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
         <TextBlock
@@ -26,31 +27,31 @@
         <TextBox
             Grid.Row="0"
             Grid.Column="1"
-            Name="_servername" Width="150" Margin="5"
+            Name="_servername" Width="150" Margin="5" TabIndex="1"
             />
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
-            Name="_serveradress" Width="90" Margin="5,5,0,5" HorizontalAlignment="Left"
+            Name="_serveradress" Width="90" Margin="5,5,0,5" HorizontalAlignment="Left" TabIndex="2"
             />
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
             Text="7046"
-            Name="_port" Width="50" Margin="0,5,5,5" HorizontalAlignment="Right"
+            Name="_port" Width="50" Margin="0,5,5,5" HorizontalAlignment="Right" TabIndex="3"
             />
         <TextBox
             Grid.Row="2"
             Grid.Column="1"
             Text="DynamicsNAV100"
-            Name="_instanz" Width="150" Margin="5"
+            Name="_instanz" Width="150" Margin="5" TabIndex="4"
             />
         <Button
             Grid.Column="1"
             Grid.Row="3"
             Name="addServer"
             Content="Hinzufügen" Margin="5"
-            Click="AddServer_Click"/>
+            Click="AddServer_Click" TabIndex="5"/>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
