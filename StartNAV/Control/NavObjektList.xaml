@@ -54,6 +54,17 @@
                             </GridViewColumnHeader>
                         </GridViewColumn.Header>
                     </GridViewColumn>
+                    <GridViewColumn
+                        Width="100"
+                        DisplayMemberBinding="{Binding Version}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader 
+                                Tag="Version"
+                                Click="LV_items_Click_Header">
+                                Version
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

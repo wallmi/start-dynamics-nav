@@ -11,6 +11,7 @@ namespace StartNAV.Model
         public ObjectTypes Typ { get; set; }
         public int ID { get; set; }
         public string Name { get; set; }
+        public string Version { get; set; }
 
         public object Clone()
         {
@@ -22,6 +23,7 @@ namespace StartNAV.Model
             Typ = ObjectTypes.None;
             ID = -1;
             Name = "NULL";
+            Version = "NULL";
         }
 
         public NavObject(string _typ, int _ID, string _Name)
@@ -29,13 +31,31 @@ namespace StartNAV.Model
             Typ = NavObjects.GetObj(_typ);
             ID = _ID;
             Name = _Name;
+            Version = "";
         }
 
-        public NavObject (ObjectTypes _typ, int _ID, string _Name)
+        public NavObject(string _typ, int _ID, string _Name, string _Version)
+        {
+            Typ = NavObjects.GetObj(_typ);
+            ID = _ID;
+            Name = _Name;
+            Version = _Version;
+        }
+
+        public NavObject(ObjectTypes _typ, int _ID, string _Name)
         {
             Typ = _typ;
             ID = _ID;
             Name = _Name;
+            Version = "";
+        }
+
+        public NavObject (ObjectTypes _typ, int _ID, string _Name, string _Version)
+        {
+            Typ = _typ;
+            ID = _ID;
+            Name = _Name;
+            Version = _Version;
         }
     }
 }

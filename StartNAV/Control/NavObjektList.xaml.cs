@@ -95,7 +95,7 @@ namespace StartNAV.Control
             // 1) Wenn der Typ nicht zusammenstimmt --> FALSE
             // 2) Wenn kein Text eingegeben wurd --> TRUE
             // 3) Wenn der Suchtext in dem Text enthalten ist --> TRUE
-            if (cb_type.SelectedItem.ToString() != (item as NavObject).Typ.ToString() && cb_type.SelectedItem.ToString() != "* (ALL)")
+            if (cb_type.SelectedItem.ToString() != (item as NavObject).Typ.ToString() && cb_type.SelectedItem.ToString() != TYPE_ALL)
                 return false;
             else if (String.IsNullOrEmpty(tb_search.Text))
                 return true;

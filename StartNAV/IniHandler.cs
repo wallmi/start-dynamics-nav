@@ -273,7 +273,9 @@ namespace StartNAV
                 if (keyVal.Length == 2)
                 {
                     int id = Int32.Parse(keyVal[1]);
-                    ret.Add(new NavObject (keyVal[0], id,  handler.GetObjName(id, NavObjects.GetObj(keyVal[0]))
+                    ret.Add(new NavObject (keyVal[0], id,  
+                        handler.GetObjName(id, NavObjects.GetObj(keyVal[0])),
+                        handler.GetVersion(id, NavObjects.GetObj(keyVal[0]))
                     )
                     );
                 }

@@ -21,6 +21,7 @@ namespace StartNAV
     {
         readonly Dictionary<string, string> data = new Dictionary<string, string>();
         bool loaded = false;
+        private readonly char SEPERATOR = '|';  //Trennung Zwischen Namen und Version, evtl. mal als Einstellung
 
         public ObjectHandler () {
             
@@ -60,8 +61,8 @@ namespace StartNAV
                 }
                 catch { }
                 if (id == -1) continue;
-                    if (Line.Length == 3) //TODO dont work
-                        data.Add(Line[0] + "_" + Line[1], Line[2]);
+                    if (Line.Length == 4)
+                        data.Add(Line[0] + "_" + Line[1], Line[2] + SEPERATOR + Line[3]);
             }
             loaded = true;
         }
@@ -83,7 +84,21 @@ namespace StartNAV
         {
             string key = GetKeyVal(objID, t);
             if (data.ContainsKey(key))
-                return data[key];
+                return data[key].Split(SEPERATOR)[0];
+
+            return "";
+        }
+        /// <summary>
+        /// Nav Version ermitteln
+        /// </summary>
+        /// <param name="objID">ID des Objectes</param>
+        /// <param name="t">Der Typ des Objectes</param>
+        /// <returns>Version</returns>
+        public string GetVersion(int objID, ObjectTypes t)
+        {
+            string key = GetKeyVal(objID, t);
+            if (data.ContainsKey(key))
+                return data[key].Split(SEPERATOR)[1];
 
             return "";
         }
@@ -129,7 +144,7 @@ namespace StartNAV
                 int id = Int32.Parse(t[1]);
                 ObjectTypes Typ = NavObjects.GetObj(t[0]);
                     if (types.Contains(Typ))
-                        ret.Add(new NavObject(t[0], id, temp.Value ));
+                        ret.Add(new NavObject(t[0], id, temp.Value.Split(SEPERATOR)[0], temp.Value.Split(SEPERATOR)[1]));
                 }
                 catch
                 {
@@ -149,9 +164,6 @@ namespace StartNAV
                 return servername + ":7046/DynamicsNAV100_IMP";
 
             return servername;
-
-
         }
-    
     }
 }
