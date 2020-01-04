@@ -275,9 +275,10 @@ namespace StartNAV
 
         private void B_del_fav_Click(object sender, RoutedEventArgs e)
         {
-            foreach (NavObject temp in lv_fav.GetSelectItems())
-                ini.DeleteFav(temp.Typ, temp.ID);
+            //foreach (NavObject temp in lv_fav.GetSelectItems())
+            //    ini.DeleteFav(temp.Typ, temp.ID);
 
+            ini.DeleteFavs(lv_fav.GetSelectItems());
             LoadFav();
         }
 
@@ -385,10 +386,11 @@ namespace StartNAV
             if (((Button)sender).Name == b_get_favs.Name)
             {
                 w.ShowDialog3();
-                foreach (NavObject temp in w.retList)
-                {
-                    ini.AddFav(temp.Typ, temp.ID);
-                }
+                //foreach (NavObject temp in w.retList)
+                //{
+                //    ini.AddFav(temp.Typ, temp.ID);
+                //}
+                ini.AddFavs(w.retList);
                 LoadFav();
             }
             else

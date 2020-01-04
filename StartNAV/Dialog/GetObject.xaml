@@ -6,15 +6,17 @@
         xmlns:local="clr-namespace:StartNAV.Dialog"
         xmlns:c="clr-namespace:StartNAV.Control"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight"
         WindowStyle="ToolWindow"
-        Title="GetObject">
+        Title="GetObject" 
+        Width="512"
+        Height="300" 
+        SizeToContent="Width">
     <Grid>
         <c:NavObjektList
             x:Name="lv_items"
             Grid.Row="1"
-            Grid.ColumnSpan="2"
-            Height="300"/>
+            Grid.ColumnSpan="2"       
+            />
         <Button
             Name="b_get"
             Grid.Row="2"
@@ -35,8 +37,8 @@
             Margin="5" />
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

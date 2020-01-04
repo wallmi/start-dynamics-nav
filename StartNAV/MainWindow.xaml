@@ -7,17 +7,12 @@
         xmlns:c="clr-namespace:StartNAV.Control"
         mc:Ignorable="d"
         Title="Start DynamicsNAV" 
-        SizeToContent="WidthAndHeight" 
+        SizeToContent="Width" 
         ResizeMode="CanResize"
         Icon="favicon.ico"
         MinHeight="350"
         MinWidth="500"
         Closing="Window_Closing">
-    <Window.Resources>
-        <ResourceDictionary>
-
-     </ResourceDictionary>
-    </Window.Resources>
     <Grid>
         <Menu
             Grid.Row="0"

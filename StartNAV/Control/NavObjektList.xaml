@@ -18,7 +18,7 @@
             Name="lv_items"
             Grid.Row="1"
             Grid.ColumnSpan="2"
-            MinHeight="50">
+            MinHeight="150" VerticalContentAlignment="Top">
             <ListView.View>
                 <GridView>
                     <GridViewColumn 

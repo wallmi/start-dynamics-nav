@@ -57,5 +57,10 @@ namespace StartNAV.Model
             Name = _Name;
             Version = _Version;
         }
+
+        public string getKey()
+        {
+            return Typ + "_" + ID.ToString();
+        }
     }
 }

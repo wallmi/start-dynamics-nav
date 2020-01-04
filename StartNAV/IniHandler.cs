@@ -240,21 +240,37 @@ namespace StartNAV
             AddFav(NavObjects.GetName(type), id);
         }
 
-        public bool DeleteFav(ObjectTypes type, int id)
+        public void AddFavs(List<NavObject> favs)
         {
-            return DeleteFav(NavObjects.GetName(type), id);
+            foreach (NavObject temp in favs)
+            {
+                data["Fav"][FavName(temp.Typ.ToString(), temp.ID)] = "1";
+            }
+            WriteFile();
         }
 
-        public bool DeleteFav(string type,int id)
+        public void DeleteFav(ObjectTypes type, int id)
+        {
+            DeleteFav(NavObjects.GetName(type), id);
+        }
+
+        public void DeleteFav(string type,int id)
         {
             if (!(data["Fav"].ContainsKey(FavName(type, id))))
-                return false;
-
-            data["Fav"].RemoveKey(FavName(type, id));
+                data["Fav"].RemoveKey(FavName(type, id));
            
             WriteFile();
-            return true;
+        }
 
+        public void DeleteFavs(List<NavObject> favs)
+        {
+            foreach (NavObject temp in favs)
+            {
+                if (data["Fav"].ContainsKey(temp.getKey()))
+                    data["Fav"].RemoveKey(temp.getKey());
+
+            }
+            WriteFile();
         }
 
         string FavName(string type, int id)
