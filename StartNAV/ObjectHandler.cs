@@ -21,6 +21,7 @@ namespace StartNAV
     {
         readonly Dictionary<string, string> data = new Dictionary<string, string>();
         bool loaded = false;
+        private string FILENAME = "";
         private readonly char SEPERATOR = '|';  //Trennung Zwischen Namen und Version, evtl. mal als Einstellung
 
         public ObjectHandler () {
@@ -32,27 +33,37 @@ namespace StartNAV
         /// <param name="file">csv File zum einlesen der Objektnamen</param>
         public ObjectHandler(string file)
         {
-            if (File.Exists(file))
-                LoadFromFile(file);
-            else
-                MessageBox.Show("Die Datei " + file + " konnte nicht geladen werden.\n Es werden keine Objektnamen angezeigt!", 
-                    "Datei nicht gefunden", 
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+            LoadFromFile(file);
         }
         /// <summary>
         /// Lade Objektnamen
         /// </summary>
         /// <param name="file">csv File zum einlsen der Objektnamen</param>
-        void LoadFromFile(string file)
+        public void LoadFromFile(string file)
         {
             if (!File.Exists(file))
-                throw new ArgumentException("File not found","file");
+            {
+                MessageBox.Show("Die Datei " + file + " konnte nicht geladen werden.\n Es werden keine Objektnamen angezeigt!",
+                    "Datei nicht gefunden",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
 
-            string[] FileLines = File.ReadAllLines(file);
+            FILENAME = file;
+            LoadFromFile();
+        }
 
-            foreach (string temp in FileLines) { 
-                
+        public void LoadFromFile()
+        {
+            string[] FileLines = File.ReadAllLines(FILENAME);
+
+            if (data.Count() > 0)
+                data.Clear();
+
+            foreach (string temp in FileLines)
+            {
+
                 string[] Line = temp.Split(',');
                 int id = -1;
                 try
@@ -61,7 +72,7 @@ namespace StartNAV
                 }
                 catch { }
                 if (id == -1) continue;
-                    if (Line.Length >= 4)
+                if (Line.Length >= 4)
                     data.Add(Line[0] + "_" + Line[1], Line[2] + SEPERATOR + Version(Line));
             }
             loaded = true;

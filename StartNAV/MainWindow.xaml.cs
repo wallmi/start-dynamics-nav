@@ -439,5 +439,10 @@ namespace StartNAV
         {
             Process.Start("https://github.com/wallmi/start-dynamics-nav/issues/new");
         }
+
+        private void Reload_objlist_Click(object sender, RoutedEventArgs e)
+        {
+            handler.LoadFromFile(OBJECTFILE);
+        }
     }
 }

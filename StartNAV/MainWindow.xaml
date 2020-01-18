@@ -32,6 +32,12 @@
                 <MenuItem 
                     Header="_Reset SettingsFile"
                     Click="B_delfile_Click" />
+                <Separator />
+                <MenuItem
+                    Name="mi_reload_objlist"
+                    Click="Reload_objlist_Click"
+                    Header="_Reload Objectliste">
+                </MenuItem>
                 <Separator/>
                 <MenuItem
                     Name="mi_close"
