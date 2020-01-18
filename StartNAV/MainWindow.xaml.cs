@@ -437,7 +437,7 @@ namespace StartNAV
 
         private void CreateIssue_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://github.com/wallmi/start-dynamics-nav");
+            Process.Start("https://github.com/wallmi/start-dynamics-nav/issues/new");
         }
     }
 }
