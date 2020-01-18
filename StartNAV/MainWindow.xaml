@@ -13,6 +13,7 @@
         MinHeight="450"
         MinWidth="500"
         Closing="Window_Closing" 
+        Closed="Window_Closed"
         Height="517">
     <Grid>
         <Menu
@@ -82,6 +83,11 @@
                     Header="Ticket erstellen"
                     ToolTip="Github Account notwendig"
                     Click="CreateIssue_Click"/>
+                <Separator/>
+                <MenuItem
+                    Name="ShowLog"
+                    Header="Zeige Log"
+                    Click="ShowLog_Click" />
             </MenuItem>
         </Menu>
         <StackPanel

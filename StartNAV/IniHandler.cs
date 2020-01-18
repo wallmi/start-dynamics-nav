@@ -14,7 +14,7 @@ using StartNAV.Model;
 namespace StartNAV
 {
 
-    class IniHandler
+    public class IniHandler
     {
         readonly FileIniDataParser ini = new FileIniDataParser();
         readonly ObjectHandler handler;
@@ -22,9 +22,12 @@ namespace StartNAV
         String FILENAME;
         enum KeyType { key,value };
 
-        public IniHandler(string file, string objfile)
+        readonly Log LOG;
+
+        public IniHandler(string file, string objfile, Log log)
         {
             SetFile(file);
+            LOG = log;
             if (File.Exists(FILENAME))
                 LoadFile();
             else
@@ -34,20 +37,6 @@ namespace StartNAV
             }
             handler = new ObjectHandler(objfile);
         }
-        /// <summary>
-        /// Lädt ini oder erstellt wenn nicht vorhande
-        /// </summary>
-        public void Reload()
-        {
-            if (File.Exists(FILENAME))
-                LoadFile();
-            else
-            {
-                CreateFile();
-                SetToDefault();
-            }
-        }
-
         /// <summary>
         /// Ladet den Inhalt .ini Datei
         /// </summary>
@@ -66,14 +55,13 @@ namespace StartNAV
             FileStream fs;
             fs = File.Create(FILENAME);
             fs.Close();
+            LOG.Add("Setting Datei erstellt: " + FILENAME);
         }
         /// <summary>
         /// 
         /// </summary>
         public void SetToDefault()
         {
-            data = ini.ReadFile(FILENAME);
-
             data["Server"]["TEST"] = "wynvt02wn.bene.cc:7046/DynamicsNAV100";
             data["Server"]["TEST-2"] = "wynvt03wn.bene.cc:7046/DynamicsNAV100";
             data["Server"]["TEST (IMP)"] = "wynvt02wn.bene.cc:7046/DynamicsNAV100_IMP";
@@ -84,8 +72,7 @@ namespace StartNAV
             data["Mandanten-TEST-2"]["BAT_Test"] = "1";
             data["Mandanten-TEST-2"]["BAT_Zielsystem"] = "1";
 
-            WriteFile();
-            LoadFile();
+            LOG.Add("Standard Einstellungen gesetzt");
         }
 
         void SetFile(string FileName)
@@ -96,17 +83,22 @@ namespace StartNAV
         public void MakeBackup()
         {
             File.Copy(FILENAME, FILENAME + ".bak",true);
+            LOG.Add("Backup erstellt:" + FILENAME);
         }
 
         /// <summary>
         /// Löscht die ini Datei wenn vorhanden und Lädt erneut
         /// </summary>
-        public void DelFile()
+        public string DelFile()
         {
             if (File.Exists(FILENAME))
+            {
                 File.Delete(FILENAME);
+                LOG.Add("Datei gelöscht:" + FILENAME);
+            }
 
             LoadFile();
+            return FILENAME;
         }
 
         /// <summary>
@@ -115,18 +107,16 @@ namespace StartNAV
         public void WriteFile()
         {
             ini.WriteFile(FILENAME, data);
+            LOG.Add("Speichere Einstellungen in Datei:" + FILENAME);
         }
-
 
         public List<String> GetServer()
         {
-            LoadFile();
             return SectionStringList("Server",KeyType.key);
         }
 
         public List<String> GetProfile()
         {
-            LoadFile();
             List<String> ret = SectionStringList("Profile", KeyType.key);
             ret.Add("<kein Profil>");
             return ret;
@@ -134,7 +124,6 @@ namespace StartNAV
 
         public List<String> GetMandanten(string server)
         {
-            LoadFile();
             return SectionStringList("Mandanten-" + server, KeyType.key);
         }
         /// <summary>
@@ -196,43 +185,37 @@ namespace StartNAV
         public void AddServer (string name, string adress)
         {
             data["Server"][name] = adress;
-            WriteFile();
         }
 
         public void AddProfile(string name)
         {
             data["Profile"][name] = "1";
-            WriteFile();
         }
 
         public void DelServer(string name)
         {
             data["Server"].RemoveKey(name);
-            WriteFile();
         }
 
         public void DelProfile(string name)
         {
             data["Profile"].RemoveKey(name);
-            WriteFile();
         }
 
         public void DelMandant(string server, string name)
         {
             data["Mandanten-" + server].RemoveKey(name);
-            WriteFile();            
+         
         }
 
         public void AddMandant(string server, string mandant)
         {
             data["Mandanten-"+server][mandant] = "1";
-            WriteFile();
         }
 
         public void AddFav(string type, int id)
         {
             data["Fav"][FavName(type,id)] = "1";
-            WriteFile();
         }
 
         public void AddFav(ObjectTypes type, int id)
@@ -246,7 +229,6 @@ namespace StartNAV
             {
                 data["Fav"][FavName(temp.Typ.ToString(), temp.ID)] = "1";
             }
-            WriteFile();
         }
 
         public void DeleteFav(ObjectTypes type, int id)
@@ -258,8 +240,6 @@ namespace StartNAV
         {
             if (!(data["Fav"].ContainsKey(FavName(type, id))))
                 data["Fav"].RemoveKey(FavName(type, id));
-           
-            WriteFile();
         }
 
         public void DeleteFavs(List<NavObject> favs)
@@ -270,7 +250,6 @@ namespace StartNAV
                     data["Fav"].RemoveKey(temp.getKey());
 
             }
-            WriteFile();
         }
 
         string FavName(string type, int id)
@@ -307,7 +286,6 @@ namespace StartNAV
         public void SaveSetting(string key, string value)
         {
             data["Settings"][key] = value;
-            WriteFile();
         }
 
         public bool CheckExe()
@@ -320,7 +298,12 @@ namespace StartNAV
 
             return false;
         }
-        
+
+        public string GetFilename()
+        {
+            return FILENAME;
+        }
+
 
         #region wiki IniFileParser
         //Iterate through all the sections
