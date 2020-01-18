@@ -61,8 +61,8 @@ namespace StartNAV
                 }
                 catch { }
                 if (id == -1) continue;
-                    if (Line.Length == 4)
-                        data.Add(Line[0] + "_" + Line[1], Line[2] + SEPERATOR + Line[3]);
+                    if (Line.Length >= 4)
+                    data.Add(Line[0] + "_" + Line[1], Line[2] + SEPERATOR + Version(Line));
             }
             loaded = true;
         }
@@ -164,6 +164,22 @@ namespace StartNAV
                 return servername + ":7046/DynamicsNAV100_IMP";
 
             return servername;
+        }
+
+        private String Version(String[] data)
+        {
+            string ret = "";
+            int i = 1;
+            foreach (string temp in data)
+            {
+                if (i > 4)
+                    ret += ",";
+                if (i > 3)
+                    ret += temp;
+               
+                i++;
+            }
+            return ret;
         }
     }
 }

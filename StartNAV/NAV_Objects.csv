@@ -1,11 +1,11 @@
 Type,ID,Name,Version
-0,50071,3TEC Communication Status,Test Version 10.0
-0,50060,3TEC Interf. Error Message,Test Version 10.0
-0,50061,3TEC Interf. PO Communication,Test Version 10.0
-0,50062,3TEC Interf. PO Component,Test Version 10.0
-0,50072,3TEC Interf. PO Consumption,Test Version 10.0
-0,50063,3TEC Interf. PO Ext Text,Test Version 10.0
-0,50073,3TEC Interf. PO Feedback,Test Version 10.0
+0,50071,3TEC Communication Status,Test Version 10.0,Version2,Version2,Version2,Version2,Version2,Version2,Version2
+0,50060,3TEC Interf. Error Message,Test Version 10.0,Version2,Version2,Version2
+0,50061,3TEC Interf. PO Communication,Test Version 10.0,Version2,Version2,Version2
+0,50062,3TEC Interf. PO Component,Test Version 10.0,Version2,Version2
+0,50072,3TEC Interf. PO Consumption,Test Version 10.0,Version2
+0,50063,3TEC Interf. PO Ext Text,Test Version 10.0,Version2,Version2,Version2
+0,50073,3TEC Interf. PO Feedback,Test Version 10.0,Version2
 0,50074,3TEC Interf. PO Output,Test Version 10.0
 0,50064,3TEC Interf. PO Routing,Test Version 10.0
 0,50065,3TEC Interf. PO Routing Tool,Test Version 10.0

@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StartNAV.Dialog"
         mc:Ignorable="d"
-        Title="Info" Height="347.143" Width="582.714">
+        Title="Info" 
+        Height="347.143" 
+        Width="582.714" ResizeMode="NoResize" 
+        ScrollViewer.VerticalScrollBarVisibility="Disabled" WindowStyle="ToolWindow">
     <Grid>
 
     </Grid>
