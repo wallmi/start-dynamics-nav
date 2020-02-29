@@ -230,6 +230,10 @@
       <Project>{2623f8dd-be5c-4856-a017-5c60c7fa0acf}</Project>
       <Name>IniFileParser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\octokit.net\Octokit\Octokit.csproj">
+      <Project>{060a1cfb-050a-4089-a4ed-d4006332aa56}</Project>
+      <Name>Octokit</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.8\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />

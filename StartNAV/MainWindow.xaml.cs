@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Octokit;
 
 using StartNAV.Model;
 using StartNAV.Dialog;
@@ -88,7 +89,7 @@ namespace StartNAV
         {
             List<NavObject> favs = ini.GetFav();
             lv_fav.SetItems(favs);
-            Loghandler.Add("Favouriten geladen");
+            Loghandler.Add("Favoriten geladen");
         }
 
         #region Actions
@@ -447,6 +448,39 @@ namespace StartNAV
         {
             LogWindow dw = new LogWindow(Loghandler.GetEntries());
             dw.Show();
+        }
+
+        private void UpdateApplication(object sender, RoutedEventArgs e)
+        {
+            UpdateApplicationAsync();
+        }
+
+        private async Task UpdateApplicationAsync()
+        {
+            MessageBoxResult res;
+             ProcessStartInfo upd = new ProcessStartInfo("Updater.exe");
+
+            res = MessageBox.Show("Wollen sie die letzte stabile Version installieren? \n (Beta Version installieren)", "Update", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+
+            var client = new GitHubClient(new ProductHeaderValue("wallmi"));
+            var releases = await client.Repository.Release.GetAll("wallmi", "start-dynamics-nav");
+
+            string updateuri = null;
+
+            foreach (var temp in releases) {
+                if (temp.Prerelease & res == MessageBoxResult.Yes)
+                    continue;
+
+                updateuri = temp.Assets[0].BrowserDownloadUrl;
+                if (String.IsNullOrEmpty(updateuri))
+                    continue;
+
+                break;
+            }
+
+            upd.Arguments = updateuri;
+            Process.Start(upd);
+            Close();
         }
     }
 }

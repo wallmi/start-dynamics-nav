@@ -88,6 +88,11 @@
                     Name="ShowLog"
                     Header="Zeige Log"
                     Click="ShowLog_Click" />
+                <Separator/>
+                <MenuItem
+                    Name="Update"
+                    Header="Update"
+                    Click="UpdateApplication" />
             </MenuItem>
         </Menu>
         <StackPanel
