@@ -31,14 +31,16 @@ namespace StartNAV
         readonly IniHandler ini;
         readonly ObjectHandler handler;
         readonly List<object> toSave = new List<object>();
+        readonly Log Loghandler;
         enum StartTyp {Nav,Session }
       
         public MainWindow()
         {
             InitializeComponent();
+            Loghandler = new Log(tb_status);
             handler = new ObjectHandler(OBJECTFILE);
-            ini = new IniHandler(INIFILE, OBJECTFILE);
-
+            ini = new IniHandler(INIFILE, OBJECTFILE,Loghandler);
+            
             ListView lv = lv_fav.lv_items;
             lv.MouseDoubleClick += new MouseButtonEventHandler(Lv_fav_MouseDoubleClick);
             
@@ -60,6 +62,7 @@ namespace StartNAV
                 cbo_debug.IsEnabled = false;
                 b_start_session_list.IsEnabled = false;
                 cb_profil.IsEnabled = false;
+                b_start_nav.IsEnabled = false;
 
                 cb_profil.SelectedItem = "<kein Profil>";
                 cbo_config.IsChecked = false;
@@ -69,12 +72,12 @@ namespace StartNAV
                 cbo_debug.ToolTip = tooltip;
                 cb_profil.ToolTip = tooltip;
                 b_start_session_list.ToolTip = tooltip;
+                b_start_nav.ToolTip = tooltip;
             }
         }
 
         void Load()
         {
-            ini.Reload();
             Load_Server();
             Load_Profil();
             LoadFav();
@@ -85,6 +88,7 @@ namespace StartNAV
         {
             List<NavObject> favs = ini.GetFav();
             lv_fav.SetItems(favs);
+            Loghandler.Add("Favouriten geladen");
         }
 
         #region Actions
@@ -144,6 +148,9 @@ namespace StartNAV
             {
                 MessageBox.Show(exe + " " +param,"Start String",MessageBoxButton.OK,MessageBoxImage.Information);
             }
+            Loghandler.Add("Nav gestartet mit Parameter:" + param);
+            if (String.IsNullOrEmpty(exe))
+                return;
 
             Process.Start(exe,param);
         }
@@ -197,7 +204,7 @@ namespace StartNAV
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            AddServer w = new AddServer(INIFILE, OBJECTFILE);
+            AddServer w = new AddServer(ini);
             w.ShowDialog();
             Load_Server();
         }
@@ -275,9 +282,10 @@ namespace StartNAV
 
         private void B_del_fav_Click(object sender, RoutedEventArgs e)
         {
-            foreach (NavObject temp in lv_fav.GetSelectItems())
-                ini.DeleteFav(temp.Typ, temp.ID);
+            //foreach (NavObject temp in lv_fav.GetSelectItems())
+            //    ini.DeleteFav(temp.Typ, temp.ID);
 
+            ini.DeleteFavs(lv_fav.GetSelectItems());
             LoadFav();
         }
 
@@ -317,7 +325,6 @@ namespace StartNAV
                 }
             }
             ini.WriteFile();
-
         }
         void LoadSettings()
         {
@@ -340,26 +347,12 @@ namespace StartNAV
                         cb.IsChecked = Boolean.Parse(ini.data["Settings"][cb.Name]);
                 }
             }
-
-            /*
-             * Ersetzt durch List toSave
-            cb_server.Text = ini.data["Settings"]["cb_server"];
-            cb_mandant.Text = ini.data["Settings"]["cb_mandant"];
-            cb_objektTyp.Text = ini.data["Settings"]["cb_objektTyp"];
-            tx_objId.Text = ini.data["Settings"]["tx_objId"];
-
-            if (ini.data["Settings"]["cbo_config"] == "True")
-                cbo_config.IsChecked = true;
-
-            if (ini.data["Settings"]["cbo_debug"] == "True")
-                cbo_debug.IsChecked = true;
-                */
+            Loghandler.Add("Einstellungen geladen:" + ini.GetFilename());
         }
-
         
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
-            AddMandant w = new AddMandant(INIFILE,OBJECTFILE);
+            AddMandant w = new AddMandant(ini);
             w.SetServer(ini.GetServer(), cb_server.Text);
             w.ShowDialog();
             Load_mandanten();
@@ -367,15 +360,12 @@ namespace StartNAV
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            
             Close();
         }
 
         private void Mi_save_Click(object sender, RoutedEventArgs e)
         {
             SaveSettings();
-            Load();
-            tb_status.Text = "Einstellung in " + INIFILE + " gespeichert! " + DateTime.Now.ToString("HH:mm:ss");
         }
 
         private void B_getId_Click(object sender, RoutedEventArgs e)
@@ -385,10 +375,11 @@ namespace StartNAV
             if (((Button)sender).Name == b_get_favs.Name)
             {
                 w.ShowDialog3();
-                foreach (NavObject temp in w.retList)
-                {
-                    ini.AddFav(temp.Typ, temp.ID);
-                }
+                //foreach (NavObject temp in w.retList)
+                //{
+                //    ini.AddFav(temp.Typ, temp.ID);
+                //}
+                ini.AddFavs(w.retList);
                 LoadFav();
             }
             else
@@ -401,7 +392,7 @@ namespace StartNAV
 
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
-            AddProfile w = new AddProfile(INIFILE, OBJECTFILE);
+            AddProfile w = new AddProfile(ini);
             w.ShowDialog();
             Load_Profil();
         }
@@ -425,6 +416,7 @@ namespace StartNAV
                 ini.SetExePath(dialog.FileName);
                 MessageBox.Show("Pfad zur exe wurde geändert. Bitte Anwendung neu starten!",
                     "Neustart erforderlich",MessageBoxButton.OK,MessageBoxImage.Information);
+                Loghandler.Add("Pfad zur exe gesetzt: " +dialog.FileName);
             }
         }
 
@@ -435,7 +427,26 @@ namespace StartNAV
 
         private void CreateIssue_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://github.com/wallmi/start-dynamics-nav");
+            Process.Start("https://github.com/wallmi/start-dynamics-nav/issues/new");
+        }
+
+        private void Reload_objlist_Click(object sender, RoutedEventArgs e)
+        {
+            handler.LoadFromFile(OBJECTFILE);
+            Loghandler.Add("Object File neu eingelesen");
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Loghandler.Add("Programm Ordnungsmäßig beendet");
+            Loghandler.SaveToFile();
+            ini.WriteFile();
+        }
+
+        private void ShowLog_Click(object sender, RoutedEventArgs e)
+        {
+            LogWindow dw = new LogWindow(Loghandler.GetEntries());
+            dw.Show();
         }
     }
 }

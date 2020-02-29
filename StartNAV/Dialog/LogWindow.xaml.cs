@@ -15,21 +15,14 @@ using System.Windows.Shapes;
 namespace StartNAV.Dialog
 {
     /// <summary>
-    /// Interaktionslogik für Add.xaml
+    /// Interaktionslogik für Log.xaml
     /// </summary>
-    public partial class AddServer : Window
+    public partial class LogWindow : Window
     {
-        IniHandler INI;
-        public AddServer(IniHandler ini)
+        public LogWindow(List<Model.LogEntry> entries)
         {
             InitializeComponent();
-            INI = ini;
-        }
-
-        private void AddServer_Click(object sender, RoutedEventArgs e)
-        {
-            INI.AddServer(_servername.Text, _serveradress.Text + ":" + _port.Text + "/" + _instanz.Text);
-            Close();
+            lv_logentries.ItemsSource = entries;
         }
     }
 }

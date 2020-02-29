@@ -19,16 +19,16 @@ namespace StartNAV.Dialog
     /// </summary>
     public partial class AddProfile : Window
     {
-        readonly IniHandler ini;
-        public AddProfile(string file, string file2)
+        IniHandler INI;
+        public AddProfile(IniHandler ini)
         {
             InitializeComponent();
-            ini = new IniHandler(file, file2);
+            INI = ini;
         }
 
         private void Addprofile_Click(object sender, RoutedEventArgs e)
         {
-            ini.AddProfile(tb_profile.Text);
+            INI.AddProfile(tb_profile.Text);
             Close();
         }
     }

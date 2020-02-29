@@ -21,6 +21,8 @@ namespace StartNAV
     {
         readonly Dictionary<string, string> data = new Dictionary<string, string>();
         bool loaded = false;
+        private string FILENAME = "";
+        private readonly char SEPERATOR = '|';  //Trennung Zwischen Namen und Version, evtl. mal als Einstellung
 
         public ObjectHandler () {
             
@@ -31,27 +33,37 @@ namespace StartNAV
         /// <param name="file">csv File zum einlesen der Objektnamen</param>
         public ObjectHandler(string file)
         {
-            if (File.Exists(file))
-                LoadFromFile(file);
-            else
-                MessageBox.Show("Die Datei " + file + " konnte nicht geladen werden.\n Es werden keine Objektnamen angezeigt!", 
-                    "Datei nicht gefunden", 
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+            LoadFromFile(file);
         }
         /// <summary>
         /// Lade Objektnamen
         /// </summary>
         /// <param name="file">csv File zum einlsen der Objektnamen</param>
-        void LoadFromFile(string file)
+        public void LoadFromFile(string file)
         {
             if (!File.Exists(file))
-                throw new ArgumentException("File not found","file");
+            {
+                MessageBox.Show("Die Datei " + file + " konnte nicht geladen werden.\n Es werden keine Objektnamen angezeigt!",
+                    "Datei nicht gefunden",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
 
-            string[] FileLines = File.ReadAllLines(file);
+            FILENAME = file;
+            LoadFromFile();
+        }
 
-            foreach (string temp in FileLines) { 
-                
+        public void LoadFromFile()
+        {
+            string[] FileLines = File.ReadAllLines(FILENAME);
+
+            if (data.Count() > 0)
+                data.Clear();
+
+            foreach (string temp in FileLines)
+            {
+
                 string[] Line = temp.Split(',');
                 int id = -1;
                 try
@@ -60,8 +72,8 @@ namespace StartNAV
                 }
                 catch { }
                 if (id == -1) continue;
-                    if (Line.Length == 3) //TODO dont work
-                        data.Add(Line[0] + "_" + Line[1], Line[2]);
+                if (Line.Length >= 4)
+                    data.Add(Line[0] + "_" + Line[1], Line[2] + SEPERATOR + Version(Line));
             }
             loaded = true;
         }
@@ -83,7 +95,21 @@ namespace StartNAV
         {
             string key = GetKeyVal(objID, t);
             if (data.ContainsKey(key))
-                return data[key];
+                return data[key].Split(SEPERATOR)[0];
+
+            return "";
+        }
+        /// <summary>
+        /// Nav Version ermitteln
+        /// </summary>
+        /// <param name="objID">ID des Objectes</param>
+        /// <param name="t">Der Typ des Objectes</param>
+        /// <returns>Version</returns>
+        public string GetVersion(int objID, ObjectTypes t)
+        {
+            string key = GetKeyVal(objID, t);
+            if (data.ContainsKey(key))
+                return data[key].Split(SEPERATOR)[1];
 
             return "";
         }
@@ -129,7 +155,7 @@ namespace StartNAV
                 int id = Int32.Parse(t[1]);
                 ObjectTypes Typ = NavObjects.GetObj(t[0]);
                     if (types.Contains(Typ))
-                        ret.Add(new NavObject(t[0], id, temp.Value ));
+                        ret.Add(new NavObject(t[0], id, temp.Value.Split(SEPERATOR)[0], temp.Value.Split(SEPERATOR)[1]));
                 }
                 catch
                 {
@@ -149,9 +175,22 @@ namespace StartNAV
                 return servername + ":7046/DynamicsNAV100_IMP";
 
             return servername;
-
-
         }
-    
+
+        private String Version(String[] data)
+        {
+            string ret = "";
+            int i = 1;
+            foreach (string temp in data)
+            {
+                if (i > 4)
+                    ret += ",";
+                if (i > 3)
+                    ret += temp;
+               
+                i++;
+            }
+            return ret;
+        }
     }
 }

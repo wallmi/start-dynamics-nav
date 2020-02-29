@@ -7,17 +7,14 @@
         xmlns:c="clr-namespace:StartNAV.Control"
         mc:Ignorable="d"
         Title="Start DynamicsNAV" 
-        SizeToContent="WidthAndHeight" 
+        SizeToContent="Width" 
         ResizeMode="CanResize"
         Icon="favicon.ico"
-        MinHeight="350"
+        MinHeight="450"
         MinWidth="500"
-        Closing="Window_Closing">
-    <Window.Resources>
-        <ResourceDictionary>
-
-     </ResourceDictionary>
-    </Window.Resources>
+        Closing="Window_Closing" 
+        Closed="Window_Closed"
+        Height="517">
     <Grid>
         <Menu
             Grid.Row="0"
@@ -36,17 +33,12 @@
                 <MenuItem 
                     Header="_Reset SettingsFile"
                     Click="B_delfile_Click" />
-                <Separator/>
+                <Separator />
                 <MenuItem
-                    Name="link2Github"
-                    Header="_Link to Github"
-                    Click="Link2Github_Click"
-                    />
-                <MenuItem
-                    Name="CreateIssue"
-                    Header="Ticket erstellen"
-                    ToolTip="Github Account notwendig"
-                    Click="CreateIssue_Click"/>
+                    Name="mi_reload_objlist"
+                    Click="Reload_objlist_Click"
+                    Header="_Reload Objectliste">
+                </MenuItem>
                 <Separator/>
                 <MenuItem
                     Name="mi_close"
@@ -80,6 +72,23 @@
                     Header="_Lösche akt. Profil"
                     Click="MenuItem_Click_5"/>
             </MenuItem>
+            <MenuItem Header="_Hilfe">
+                <MenuItem
+                    Name="link2Github"
+                    Header="_Link to Github"
+                    Click="Link2Github_Click"
+                    />
+                <MenuItem
+                    Name="CreateIssue"
+                    Header="Ticket erstellen"
+                    ToolTip="Github Account notwendig"
+                    Click="CreateIssue_Click"/>
+                <Separator/>
+                <MenuItem
+                    Name="ShowLog"
+                    Header="Zeige Log"
+                    Click="ShowLog_Click" />
+            </MenuItem>
         </Menu>
         <StackPanel
             Grid.Row="1"
@@ -109,24 +118,24 @@
                 SelectionChanged="Cb_objektTyp_SelectionChanged"/>
             <TextBlock
                 Text="ObjectId" FontWeight="Bold" Margin="0,5,0,0"/>
-                <Grid>
-                    <TextBox
+            <Grid>
+                <TextBox
                         Name="tx_objId"
                         Grid.Column="0"
                         TextChanged="Tx_objId_TextChanged" />
-                    <Button
+                <Button
                         Name="b_getId"
                         Click="B_getId_Click"
                         Grid.Column="1"
                         Content="..." 
                         Padding="5,1" 
                         FontWeight="Bold"/>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                </Grid>
-                <TextBlock
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <TextBlock
                 Text="Hier steht der Objektname"
                 Name="tb_ObjektName"/>
             <TextBlock
@@ -150,25 +159,33 @@
             Grid.Row="2"
             Grid.Column="1">
             <StackPanel Margin="5,0,5,5">
-                <StackPanel Orientation="Horizontal">
+                <Grid Width="{Binding ActualWidth, ElementName=b_start_nav, Mode=OneWay}">
                     <Button
+                        Grid.Column="0"
                         Name="b_add_fav"
                         Content="Füge zu Favouriten hinzu"
                         Click="B_add_fav_Click" 
                         Margin="0,5,5,0" 
-                        Padding="5" Width="138"/>
+                        Padding="5" />
                     <Button
+                        Grid.Column="1"
                         Name="b_get_favs"
                         Click="B_getId_Click"
                         Content="Aus Liste hinzufügen" 
                         Margin="0,5,0,0" 
                         />
                     <Button
+                        Grid.Column="2"
                         Name="b_del_fav"
                         Content="Löschen Favoriten"
                         Click="B_del_fav_Click" 
                         Margin="5,5,0,0"/>
-                </StackPanel>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
                 <Button
                     Name="b_start_nav"
                     Content="Start NAV" 
@@ -178,7 +195,7 @@
                     IsDefault="True"/>
                 <Button
                     Name="b_start_session_list"
-                    Content="Session List" 
+                    Content="Starte Session List" 
                     Click="B_StartNav_Click" 
                     Margin="0,5,0,0" 
                     Padding="5" 

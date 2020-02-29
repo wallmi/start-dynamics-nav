@@ -19,11 +19,11 @@ namespace StartNAV.Dialog
     /// </summary>
     public partial class AddMandant : Window
     {
-        readonly IniHandler ini;
-        public AddMandant(string file, string file2)
+        readonly IniHandler INI;
+        public AddMandant(IniHandler ini)
         {
             InitializeComponent();
-            ini = new IniHandler(file, file2);
+            INI = ini;
         }
 
         public void SetServer(List<String> server, string defaultServer){
@@ -33,7 +33,7 @@ namespace StartNAV.Dialog
 
         private void Addmandant_Click(object sender, RoutedEventArgs e)
         {
-            ini.AddMandant(cb_servername.Text, tb_mandant.Text);
+            INI.AddMandant(cb_servername.Text, tb_mandant.Text);
             Close();
         }
     }
