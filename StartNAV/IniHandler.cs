@@ -172,7 +172,7 @@ namespace StartNAV
 
             if (section.Keys.Count > 0)
                 foreach (KeyData key in section.Keys)
-                    if (key.KeyName.Split(sepChar)[0] == keyPra || keyPra == "")
+                    if (key.KeyName.Split(sepChar)[0] == keyPra || String.IsNullOrEmpty(keyPra))
                     {
                         if (t == KeyType.key)
                             list.Add(key.KeyName);
@@ -225,6 +225,9 @@ namespace StartNAV
 
         public void AddFavs(List<NavObject> favs)
         {
+            if (favs == null)
+                return;
+
             foreach (NavObject temp in favs)
             {
                 data["Fav"][FavName(temp.Typ.ToString(), temp.ID)] = "1";
@@ -244,6 +247,8 @@ namespace StartNAV
 
         public void DeleteFavs(List<NavObject> favs)
         {
+            if (favs == null)
+                return;
             foreach (NavObject temp in favs)
             {
                 if (data["Fav"].ContainsKey(temp.getKey()))
@@ -267,7 +272,7 @@ namespace StartNAV
                 string[] keyVal = key.KeyName.Split('_');
                 if (keyVal.Length == 2)
                 {
-                    int id = Int32.Parse(keyVal[1]);
+                    int id = int.Parse(keyVal[1]);
                     ret.Add(new NavObject (keyVal[0], id,  
                         handler.GetObjName(id, NavObjects.GetObj(keyVal[0])),
                         handler.GetVersion(id, NavObjects.GetObj(keyVal[0]))
@@ -290,7 +295,10 @@ namespace StartNAV
 
         public bool CheckExe()
         {
-            if (!(data["Settings"].ContainsKey("ExePath")))
+            if (!data["Settings"].ContainsKey("ExePath"))
+                return false;
+
+            if (String.IsNullOrEmpty(data["Settings"]["ExePath"]))
                 return false;
 
             if (File.Exists(data["Settings"]["ExePath"]))

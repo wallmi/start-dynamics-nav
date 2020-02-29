@@ -11,19 +11,18 @@ namespace StartNAV.Model
     public class Log
     {
         private readonly List<LogEntry> entries = new List<LogEntry>();
-        private readonly String FILENAME = "";
+        private readonly String FILENAME = "Log.log";
         private int CurrentID = 0;
         private readonly TextBlock TB;
 
         public Log (TextBlock tb)
         {
-            FILENAME = AppDomain.CurrentDomain.BaseDirectory 
-                + "Log_" 
-                + DateTime.Now.ToString("dd.MM.yyyy_HHmmss") 
-                + ".log";
-            File.Create(FILENAME);
+            if(!File.Exists(FILENAME))
+                File.Create(FILENAME);
+
             TB = tb;
-            Add("New Logfile created:" + Path.GetFileName(FILENAME));
+            Add("--------------------------------------------------");
+            Add("New Log started");
         }
 
         public void Add(string text)
@@ -37,7 +36,8 @@ namespace StartNAV.Model
         /// </summary>
         public void SaveToFile()
         {
-            if (FILENAME == "") return;
+            if (String.IsNullOrEmpty(FILENAME)) return;
+
             foreach(LogEntry temp in entries)
                 File.AppendAllText(FILENAME, temp.ToString()+"\n");
             entries.Clear();    
@@ -52,18 +52,28 @@ namespace StartNAV.Model
     public class LogEntry : IEquatable<LogEntry>
     {
         private int ID { get; set; }
-
         public string Text { get; set; }
         public DateTime DateTime { get; set; }
+        public bool WithDateTime { get; set; }
 
         public string DateTimeString { get { return DateTime.ToString("HH:mm:ss");  } }
+
+        public LogEntry(string text, int id, bool withdatetime)
+        {
+            DateTime = DateTime.Now;
+            Text = text;
+            ID = id;
+            WithDateTime = withdatetime;
+        }
 
         public LogEntry(string text, int id)
         {
             DateTime = DateTime.Now;
             Text = text;
             ID = id;
+            WithDateTime = true;
         }
+
 
         public bool Equals(LogEntry other)
         {
@@ -73,7 +83,10 @@ namespace StartNAV.Model
 
         public override string ToString()
         {
-            return DateTime.ToString() + "|" + Text;
+            if (WithDateTime)
+                return DateTime.ToString() + "|" + Text;
+            else
+                return Text;
         }
     }
 }

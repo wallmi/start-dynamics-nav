@@ -62,6 +62,7 @@ namespace StartNAV
                 cbo_debug.IsEnabled = false;
                 b_start_session_list.IsEnabled = false;
                 cb_profil.IsEnabled = false;
+                b_start_nav.IsEnabled = false;
 
                 cb_profil.SelectedItem = "<kein Profil>";
                 cbo_config.IsChecked = false;
@@ -71,6 +72,7 @@ namespace StartNAV
                 cbo_debug.ToolTip = tooltip;
                 cb_profil.ToolTip = tooltip;
                 b_start_session_list.ToolTip = tooltip;
+                b_start_nav.ToolTip = tooltip;
             }
         }
 
@@ -147,6 +149,9 @@ namespace StartNAV
                 MessageBox.Show(exe + " " +param,"Start String",MessageBoxButton.OK,MessageBoxImage.Information);
             }
             Loghandler.Add("Nav gestartet mit Parameter:" + param);
+            if (String.IsNullOrEmpty(exe))
+                return;
+
             Process.Start(exe,param);
         }
 

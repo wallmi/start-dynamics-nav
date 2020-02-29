@@ -341,3 +341,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/StartNAV/packages.config
+/StartNAV/GlobalSuppressions.cs
