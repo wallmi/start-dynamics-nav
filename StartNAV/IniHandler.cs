@@ -33,6 +33,7 @@ namespace StartNAV
             else
             {
                 CreateFile();
+                LoadFile();
                 SetToDefault();
             }
             handler = new ObjectHandler(objfile);
