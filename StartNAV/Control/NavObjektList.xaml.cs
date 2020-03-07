@@ -23,7 +23,7 @@ namespace StartNAV.Control
     /// </summary>
     public partial class NavObjektList : UserControl
     {
-        public NavObject retGet = new NavObject();
+        //private NavObject retGet = new NavObject();
         private GridViewColumnHeader listViewSortCol = null;
         private SortAdorner listViewSortAdorner = null;
         private readonly string TYPE_ALL = "* (ALL)";
@@ -36,7 +36,7 @@ namespace StartNAV.Control
             foreach (String temp in NavObjects.GetObjectNames())
                 cb_type.Items.Add(temp);
 
-            cb_type.Items.Remove(ObjectTypes.None.ToString());
+            cb_type.Items.Remove(ObjectType.None.ToString());
         }
 
         public void SetItems(List<NavObject> items)
@@ -159,6 +159,9 @@ namespace StartNAV.Control
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
+
+            if (drawingContext == null)
+                return;
 
             if (AdornedElement.RenderSize.Width < 20)
                 return;

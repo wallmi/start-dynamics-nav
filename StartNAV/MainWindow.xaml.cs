@@ -142,7 +142,7 @@ namespace StartNAV
                 param = GetStartParameter(StartTyp.Nav);
 
             if (ini.CheckExe())
-                exe = ini.data["Settings"]["ExePath"] + " ";
+                exe = ini.Data["Settings"]["ExePath"] + " ";
             
             
             if (cbo_schow_startstring.IsChecked == true)
@@ -161,7 +161,7 @@ namespace StartNAV
             string Navbase = "\"dynamicsnav://";
             string ServerAdress = ini.GetServerAdress(cb_server.Text);
             string Mandant = "/" + cb_mandant.Text;
-            ObjectTypes ob = NavObjects.GetObj(cb_objektTyp.Text);
+            ObjectType ob = NavObjects.GetObj(cb_objektTyp.Text);
             string Config = " -configure";
             string Debug = " -debug";
             string Profile = " -profile:";
@@ -183,9 +183,9 @@ namespace StartNAV
             {
                 switch (ob)
                 {
-                    case ObjectTypes.Page: ObjectStart += "runpage?page=" + tx_objId.Text; break;
-                    case ObjectTypes.Table: ObjectStart += "runtable?table=" + tx_objId.Text; break;
-                    case ObjectTypes.Report: ObjectStart += "runreport?report=" + tx_objId.Text; break;
+                    case ObjectType.Page: ObjectStart += "runpage?page=" + tx_objId.Text; break;
+                    case ObjectType.Table: ObjectStart += "runtable?table=" + tx_objId.Text; break;
+                    case ObjectType.Report: ObjectStart += "runreport?report=" + tx_objId.Text; break;
                 }
 
                startstring += Mandant + ObjectStart + "\"";
@@ -255,7 +255,7 @@ namespace StartNAV
             {
                 int id = Int32.Parse(tx_objId.Text);
                 string text = handler.GetObjName(id, cb_objektTyp.Text); 
-                if (cb_objektTyp.SelectedItem.ToString() == ObjectTypes.None.ToString())
+                if (cb_objektTyp.SelectedItem.ToString() == ObjectType.None.ToString())
                 {
                     tb_ObjektName.Text = "";
                     return;
@@ -312,17 +312,17 @@ namespace StartNAV
                 if (temp.GetType() == typeof(ComboBox))
                 {
                     ComboBox cb = (ComboBox)temp;
-                    ini.data["Settings"][cb.Name] = cb.Text;
+                    ini.Data["Settings"][cb.Name] = cb.Text;
                 }
                 else if (temp.GetType() == typeof(TextBox))
                 {
                     TextBox tb = (TextBox)temp;
-                    ini.data["Settings"][tb.Name] = tb.Text;
+                    ini.Data["Settings"][tb.Name] = tb.Text;
                 }
                 else if (temp.GetType() == typeof(CheckBox))
                 {
                     CheckBox cb = (CheckBox)temp;
-                    ini.data["Settings"][cb.Name] = cb.IsChecked.ToString();
+                    ini.Data["Settings"][cb.Name] = cb.IsChecked.ToString();
                 }
             }
             ini.WriteFile();
@@ -334,18 +334,18 @@ namespace StartNAV
                 if (temp.GetType() == typeof(ComboBox))
                 {
                     ComboBox cb = (ComboBox)temp;
-                    cb.Text = ini.data["Settings"][cb.Name];
+                    cb.Text = ini.Data["Settings"][cb.Name];
                 }
                 else if (temp.GetType() == typeof(TextBox))
                 {
                     TextBox tb = (TextBox)temp;
-                    tb.Text = ini.data["Settings"][tb.Name];
+                    tb.Text = ini.Data["Settings"][tb.Name];
                 }
                 else if (temp.GetType() == typeof(CheckBox))
                 {
                     CheckBox cb = (CheckBox)temp;
-                    if(ini.data["Settings"].ContainsKey(cb.Name))
-                        cb.IsChecked = Boolean.Parse(ini.data["Settings"][cb.Name]);
+                    if(ini.Data["Settings"].ContainsKey(cb.Name))
+                        cb.IsChecked = Boolean.Parse(ini.Data["Settings"][cb.Name]);
                 }
             }
             Loghandler.Add("Einstellungen geladen:" + ini.GetFilename());
@@ -380,14 +380,15 @@ namespace StartNAV
                 //{
                 //    ini.AddFav(temp.Typ, temp.ID);
                 //}
-                ini.AddFavs(w.retList);
+                ini.AddFavs(w.getSelectionList());
                 LoadFav();
             }
             else
             {
                 w.ShowDialog2();
-                tx_objId.Text = w.retGet.ID.ToString();
-                cb_objektTyp.Text = w.retGet.Typ.ToString();
+                NavObject ret = w.getSelectedItem();
+                tx_objId.Text = ret.ID.ToString();
+                cb_objektTyp.Text = ret.Typ.ToString();
             }
         }
 
@@ -458,7 +459,7 @@ namespace StartNAV
         private async Task UpdateApplicationAsync()
         {
             MessageBoxResult res;
-             ProcessStartInfo upd = new ProcessStartInfo("Updater.exe");
+            ProcessStartInfo upd = new ProcessStartInfo("Updater.exe");
 
             res = MessageBox.Show("Wollen sie die letzte stabile Version installieren? \n (Beta Version installieren)", "Update", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 

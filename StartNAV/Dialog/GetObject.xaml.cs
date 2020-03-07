@@ -22,11 +22,13 @@ namespace StartNAV.Dialog
     /// </summary>
     public partial class GetObject : Window
     {
-        public NavObject retGet= new NavObject();
-        public List<NavObject> retList = new List<NavObject>();
+        private NavObject retGet= new NavObject();
+        private List<NavObject> retList = new List<NavObject>();
   
         public GetObject(ObjectHandler handler)
         {
+            if (handler is null) return;
+
             InitializeComponent();
             lv_items.SetItems(handler.GetObjectNames());
 
@@ -73,5 +75,15 @@ namespace StartNAV.Dialog
             Close();
         }
         #endregion
+
+        public List<NavObject> getSelectionList()
+        {
+            return retList;
+        }
+
+        public NavObject getSelectedItem()
+        {
+            return retGet;
+        }
     }
 }

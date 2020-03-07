@@ -23,8 +23,8 @@ namespace Updater
     /// </summary>
     public partial class MainWindow : Window
     {
-        string temp = System.IO.Path.GetTempPath() + @"StartNAV\Updater\";
-        Log log = new Log();
+        readonly string temp = System.IO.Path.GetTempPath() + @"StartNAV\Updater\";
+        readonly Log log = new Log();
 
         public MainWindow()
         {
@@ -35,10 +35,10 @@ namespace Updater
             if (args.Length == 1)
                 return;
 
-            update(args[1]);
+            Update(args[1]);
         }
 
-        private void update (string path)
+        private void Update (string path)
         {
             try 
             { 
@@ -61,7 +61,9 @@ namespace Updater
 
                 //Kopiere die Dateien
                 FileCopy(@temp+ @"files\StartNAV.exe", "StartNAV.exe");
-            
+                FileCopy(@temp + @"files\IniFileParser.dll", "IniFileParser.dll");
+
+                
                 //Temp Verzeichnis löschen
                 Directory.Delete(temp,true);
                 log.Add("Temporäres Verzeichnis gelöscht");

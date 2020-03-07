@@ -18,7 +18,7 @@ namespace StartNAV
     {
         readonly FileIniDataParser ini = new FileIniDataParser();
         readonly ObjectHandler handler;
-        public IniData data;
+        public IniData Data { set; get; }
         String FILENAME;
         enum KeyType { key,value };
 
@@ -44,9 +44,7 @@ namespace StartNAV
         void LoadFile()
         {
             if (File.Exists(FILENAME))
-                data = ini.ReadFile(FILENAME);
-            else
-                data = new IniData();
+                Data = ini.ReadFile(FILENAME);
         }
         /// <summary>
         /// Erzeugt ini File
@@ -63,15 +61,15 @@ namespace StartNAV
         /// </summary>
         public void SetToDefault()
         {
-            data["Server"]["TEST"] = "wynvt02wn.bene.cc:7046/DynamicsNAV100";
-            data["Server"]["TEST-2"] = "wynvt03wn.bene.cc:7046/DynamicsNAV100";
-            data["Server"]["TEST (IMP)"] = "wynvt02wn.bene.cc:7046/DynamicsNAV100_IMP";
+            Data["Server"]["TEST"] = "wynvt02wn.bene.cc:7046/DynamicsNAV100";
+            Data["Server"]["TEST-2"] = "wynvt03wn.bene.cc:7046/DynamicsNAV100";
+            Data["Server"]["TEST (IMP)"] = "wynvt02wn.bene.cc:7046/DynamicsNAV100_IMP";
 
-            data["Mandanten-TEST"]["BAT_Zielsystem"] = "1";
-            data["Mandanten-TEST"]["BAT_Test"] = "1";
+            Data["Mandanten-TEST"]["BAT_Zielsystem"] = "1";
+            Data["Mandanten-TEST"]["BAT_Test"] = "1";
 
-            data["Mandanten-TEST-2"]["BAT_Test"] = "1";
-            data["Mandanten-TEST-2"]["BAT_Zielsystem"] = "1";
+            Data["Mandanten-TEST-2"]["BAT_Test"] = "1";
+            Data["Mandanten-TEST-2"]["BAT_Zielsystem"] = "1";
 
             LOG.Add("Standard Einstellungen gesetzt");
         }
@@ -107,7 +105,7 @@ namespace StartNAV
         /// </summary>
         public void WriteFile()
         {
-            ini.WriteFile(FILENAME, data);
+            ini.WriteFile(FILENAME, Data);
             LOG.Add("Speichere Einstellungen in Datei:" + FILENAME);
         }
 
@@ -140,7 +138,7 @@ namespace StartNAV
 
         public string GetServerAdress(string servername)
         {
-            return data["Server"][servername];
+            return Data["Server"][servername];
         }
 
         /// <summary>
@@ -166,7 +164,7 @@ namespace StartNAV
         List<String> SectionStringList(string sectionName, KeyType t, string keyPra,char sepChar)
         {
             List<String> list = new List<string>();
-            SectionData section = data.Sections.GetSectionData(sectionName);
+            SectionData section = Data.Sections.GetSectionData(sectionName);
 
             if (section is null)
                 return list;
@@ -185,41 +183,41 @@ namespace StartNAV
 
         public void AddServer (string name, string adress)
         {
-            data["Server"][name] = adress;
+            Data["Server"][name] = adress;
         }
 
         public void AddProfile(string name)
         {
-            data["Profile"][name] = "1";
+            Data["Profile"][name] = "1";
         }
 
         public void DelServer(string name)
         {
-            data["Server"].RemoveKey(name);
+            Data["Server"].RemoveKey(name);
         }
 
         public void DelProfile(string name)
         {
-            data["Profile"].RemoveKey(name);
+            Data["Profile"].RemoveKey(name);
         }
 
         public void DelMandant(string server, string name)
         {
-            data["Mandanten-" + server].RemoveKey(name);
+            Data["Mandanten-" + server].RemoveKey(name);
          
         }
 
         public void AddMandant(string server, string mandant)
         {
-            data["Mandanten-"+server][mandant] = "1";
+            Data["Mandanten-"+server][mandant] = "1";
         }
 
         public void AddFav(string type, int id)
         {
-            data["Fav"][FavName(type,id)] = "1";
+            Data["Fav"][FavName(type,id)] = "1";
         }
 
-        public void AddFav(ObjectTypes type, int id)
+        public void AddFav(ObjectType type, int id)
         {
             AddFav(NavObjects.GetName(type), id);
         }
@@ -231,19 +229,19 @@ namespace StartNAV
 
             foreach (NavObject temp in favs)
             {
-                data["Fav"][FavName(temp.Typ.ToString(), temp.ID)] = "1";
+                Data["Fav"][FavName(temp.Typ.ToString(), temp.ID)] = "1";
             }
         }
 
-        public void DeleteFav(ObjectTypes type, int id)
+        public void DeleteFav(ObjectType type, int id)
         {
             DeleteFav(NavObjects.GetName(type), id);
         }
 
         public void DeleteFav(string type,int id)
         {
-            if (!(data["Fav"].ContainsKey(FavName(type, id))))
-                data["Fav"].RemoveKey(FavName(type, id));
+            if (!(Data["Fav"].ContainsKey(FavName(type, id))))
+                Data["Fav"].RemoveKey(FavName(type, id));
         }
 
         public void DeleteFavs(List<NavObject> favs)
@@ -252,13 +250,13 @@ namespace StartNAV
                 return;
             foreach (NavObject temp in favs)
             {
-                if (data["Fav"].ContainsKey(temp.getKey()))
-                    data["Fav"].RemoveKey(temp.getKey());
+                if (Data["Fav"].ContainsKey(temp.GetKey()))
+                    Data["Fav"].RemoveKey(temp.GetKey());
 
             }
         }
 
-        string FavName(string type, int id)
+       string FavName(string type, int id)
         {
             return type + "_" + id.ToString();
         }
@@ -266,9 +264,9 @@ namespace StartNAV
         public List<NavObject> GetFav()
         {
             List<NavObject> ret = new List<NavObject>();
-            if (data.Sections["Fav"] is null)
+            if (Data.Sections["Fav"] is null)
                 return ret;
-            foreach (KeyData key in data.Sections["Fav"])
+            foreach (KeyData key in Data.Sections["Fav"])
             {
                 string[] keyVal = key.KeyName.Split('_');
                 if (keyVal.Length == 2)
@@ -291,18 +289,18 @@ namespace StartNAV
 
         public void SaveSetting(string key, string value)
         {
-            data["Settings"][key] = value;
+            Data["Settings"][key] = value;
         }
 
         public bool CheckExe()
         {
-            if (!data["Settings"].ContainsKey("ExePath"))
+            if (!Data["Settings"].ContainsKey("ExePath"))
                 return false;
 
-            if (String.IsNullOrEmpty(data["Settings"]["ExePath"]))
+            if (String.IsNullOrEmpty(Data["Settings"]["ExePath"]))
                 return false;
 
-            if (File.Exists(data["Settings"]["ExePath"]))
+            if (File.Exists(Data["Settings"]["ExePath"]))
                 return true;
 
             return false;

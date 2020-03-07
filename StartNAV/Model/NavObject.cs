@@ -8,7 +8,7 @@ namespace StartNAV.Model
 {
     public class NavObject : ICloneable
     {
-        public ObjectTypes Typ { get; set; }
+        public ObjectType Typ { get; set; }
         public int ID { get; set; }
         public string Name { get; set; }
         public string Version { get; set; }
@@ -20,7 +20,7 @@ namespace StartNAV.Model
 
         public NavObject()
         {
-            Typ = ObjectTypes.None;
+            Typ = ObjectType.None;
             ID = -1;
             Name = "NULL";
             Version = "NULL";
@@ -42,7 +42,7 @@ namespace StartNAV.Model
             Version = _Version;
         }
 
-        public NavObject(ObjectTypes _typ, int _ID, string _Name)
+        public NavObject(ObjectType _typ, int _ID, string _Name)
         {
             Typ = _typ;
             ID = _ID;
@@ -50,7 +50,7 @@ namespace StartNAV.Model
             Version = "";
         }
 
-        public NavObject (ObjectTypes _typ, int _ID, string _Name, string _Version)
+        public NavObject (ObjectType _typ, int _ID, string _Name, string _Version)
         {
             Typ = _typ;
             ID = _ID;
@@ -58,7 +58,7 @@ namespace StartNAV.Model
             Version = _Version;
         }
 
-        public string getKey()
+        public string GetKey()
         {
             return Typ + "_" + ID.ToString();
         }
