@@ -184,6 +184,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="NAV_Objects._csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="NAV_Objects.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

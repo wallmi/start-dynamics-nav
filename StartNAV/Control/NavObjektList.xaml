@@ -55,11 +55,13 @@
                         </GridViewColumn.Header>
                     </GridViewColumn>
                     <GridViewColumn
+                        x:Name="gvc_version"
                         Width="100"
                         DisplayMemberBinding="{Binding Version}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader 
                                 Tag="Version"
+                                Name="_version"
                                 Click="LV_items_Click_Header">
                                 Version
                             </GridViewColumnHeader>
