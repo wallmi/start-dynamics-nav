@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartNAV", "StartNAV\StartNAV.csproj", "{C84269BC-C609-47E4-AF71-C99E2EFAEDA6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IniFileParser", "..\ini-parser\src\IniFileParser\IniFileParser.csproj", "{2623F8DD-BE5C-4856-A017-5C60C7FA0ACF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{C84269BC-C609-47E4-AF71-C99E2EFAEDA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C84269BC-C609-47E4-AF71-C99E2EFAEDA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C84269BC-C609-47E4-AF71-C99E2EFAEDA6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2623F8DD-BE5C-4856-A017-5C60C7FA0ACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2623F8DD-BE5C-4856-A017-5C60C7FA0ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2623F8DD-BE5C-4856-A017-5C60C7FA0ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2623F8DD-BE5C-4856-A017-5C60C7FA0ACF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
