@@ -13,5 +13,5 @@ Parameter Starthilfe für Dynamics NAV
 
 ### Nav Objects aus System mit
 SQL:
-`Select [Type], [Name]
+`Select [Type], [Name], [Version]
 FROM [Object]`
