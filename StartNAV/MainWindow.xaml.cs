@@ -89,7 +89,10 @@ namespace StartNAV
         {
             List<NavObject> favs = ini.GetFav();
             lv_fav.SetItems(favs);
+
             Loghandler.Add("Favoriten geladen");
+            if (!handler.withversion)
+                lv_fav.setShowVersion(false);
         }
 
         #region Actions

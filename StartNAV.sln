@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29102.190
@@ -7,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartNAV", "StartNAV\StartN
 	ProjectSection(ProjectDependencies) = postProject
 		{BEC97818-E846-4E00-B431-64E90BEE813F} = {BEC97818-E846-4E00-B431-64E90BEE813F}
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IniFileParser", "..\ini-parser\src\IniFileParser\IniFileParser.csproj", "{2623F8DD-BE5C-4856-A017-5C60C7FA0ACF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{BEC97818-E846-4E00-B431-64E90BEE813F}"
 EndProject

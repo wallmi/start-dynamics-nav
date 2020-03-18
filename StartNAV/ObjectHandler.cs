@@ -23,6 +23,7 @@ namespace StartNAV
         bool loaded = false;
         private string FILENAME = "";
         private readonly char SEPERATOR = '|';  //Trennung Zwischen Namen und Version, evtl. mal als Einstellung
+        public bool withversion { set; get; } = false;
 
         public ObjectHandler () {
             
@@ -63,8 +64,8 @@ namespace StartNAV
 
             foreach (string temp in FileLines)
             {
-
-                string[] Line = temp.Split(',');
+                string temp1 = temp.Replace("\"", "");
+                string[] Line = temp1.Split(',');
                 int id = -1;
                 try
                 {
@@ -74,8 +75,13 @@ namespace StartNAV
                 
                 }
                 if (id == -1) continue;
-                if (Line.Length >= 4)
+                if (Line.Length >= 4) { 
                     data.Add(Line[0] + "_" + Line[1], Line[2] + SEPERATOR + Version(Line));
+                    withversion = true;
+                }
+                else if (Line.Length == 3)
+                    data.Add(Line[0] + "_" + Line[1], Line[2]);
+                
             }
             loaded = true;
         }
@@ -111,6 +117,7 @@ namespace StartNAV
         {
             string key = GetKeyVal(objID, t);
             if (data.ContainsKey(key))
+                if (data[key].Contains(SEPERATOR))
                 return data[key].Split(SEPERATOR)[1];
 
             return "";
@@ -162,7 +169,7 @@ namespace StartNAV
                 }
                 catch
                 {
-
+                   
                 }
             }
             return ret;

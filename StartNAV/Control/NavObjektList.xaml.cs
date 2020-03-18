@@ -90,6 +90,15 @@ namespace StartNAV.Control
             SetFilter();
         }
 
+        public void setShowVersion (bool show)
+        {
+            if (!show)
+            {
+                _version.Visibility = Visibility.Hidden;
+                gvc_version.Width = 0;
+            }
+        }
+
         private bool UserFilter(object item)
         {
             // 1) Wenn der Typ nicht zusammenstimmt --> FALSE
