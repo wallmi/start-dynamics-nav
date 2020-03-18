@@ -1,20 +1,47 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartNAV", "StartNAV\StartNAV.csproj", "{C84269BC-C609-47E4-AF71-C99E2EFAEDA6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BEC97818-E846-4E00-B431-64E90BEE813F} = {BEC97818-E846-4E00-B431-64E90BEE813F}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{BEC97818-E846-4E00-B431-64E90BEE813F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octokit", "..\octokit.net\Octokit\Octokit.csproj", "{060A1CFB-050A-4089-A4ED-D4006332AA56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		debug Beta|Any CPU = debug Beta|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C84269BC-C609-47E4-AF71-C99E2EFAEDA6}.debug Beta|Any CPU.ActiveCfg = Debug|Any CPU
+		{C84269BC-C609-47E4-AF71-C99E2EFAEDA6}.debug Beta|Any CPU.Build.0 = Debug|Any CPU
 		{C84269BC-C609-47E4-AF71-C99E2EFAEDA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C84269BC-C609-47E4-AF71-C99E2EFAEDA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C84269BC-C609-47E4-AF71-C99E2EFAEDA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C84269BC-C609-47E4-AF71-C99E2EFAEDA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2623F8DD-BE5C-4856-A017-5C60C7FA0ACF}.debug Beta|Any CPU.ActiveCfg = Debug|Any CPU
+		{2623F8DD-BE5C-4856-A017-5C60C7FA0ACF}.debug Beta|Any CPU.Build.0 = Debug|Any CPU
+		{2623F8DD-BE5C-4856-A017-5C60C7FA0ACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2623F8DD-BE5C-4856-A017-5C60C7FA0ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2623F8DD-BE5C-4856-A017-5C60C7FA0ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2623F8DD-BE5C-4856-A017-5C60C7FA0ACF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEC97818-E846-4E00-B431-64E90BEE813F}.debug Beta|Any CPU.ActiveCfg = Debug Beta|Any CPU
+		{BEC97818-E846-4E00-B431-64E90BEE813F}.debug Beta|Any CPU.Build.0 = Debug Beta|Any CPU
+		{BEC97818-E846-4E00-B431-64E90BEE813F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEC97818-E846-4E00-B431-64E90BEE813F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEC97818-E846-4E00-B431-64E90BEE813F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEC97818-E846-4E00-B431-64E90BEE813F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{060A1CFB-050A-4089-A4ED-D4006332AA56}.debug Beta|Any CPU.ActiveCfg = Debug|Any CPU
+		{060A1CFB-050A-4089-A4ED-D4006332AA56}.debug Beta|Any CPU.Build.0 = Debug|Any CPU
+		{060A1CFB-050A-4089-A4ED-D4006332AA56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{060A1CFB-050A-4089-A4ED-D4006332AA56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{060A1CFB-050A-4089-A4ED-D4006332AA56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{060A1CFB-050A-4089-A4ED-D4006332AA56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

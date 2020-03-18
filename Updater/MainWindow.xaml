@@ -1,0 +1,19 @@
+﻿<Window x:Class="Updater.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Updater"
+        mc:Ignorable="d"
+        Closed="Window_Closed"
+        Title="MainWindow" Height="150.464" Width="429.411">
+    <Grid>
+        <StackPanel>
+        <TextBlock FontWeight="Bold" FontSize="36">
+            Fehler beim Update
+        </TextBlock>
+            <TextBlock
+            Name="tb_errormsg" FontSize="22" FontWeight="Bold"/>
+        </StackPanel>
+    </Grid>
+</Window>

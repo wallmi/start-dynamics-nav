@@ -6,32 +6,27 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace StartNAV.Model
+namespace Updater
 {
     public class Log
     {
         private readonly List<LogEntry> entries = new List<LogEntry>();
-        private readonly String FILENAME = "Log.log";
+        private readonly String FILENAME = "Updater.log";
         private int CurrentID = 0;
-        private readonly TextBlock TB;
 
-        public Log (TextBlock tb)
+        public Log ()
         {
-            if(!File.Exists(FILENAME)) { 
+            if(!File.Exists(FILENAME))
                 File.Create(FILENAME);
-                
-            }
 
-            TB = tb;
             Add("--------------------------------------------------");
-            Add("New Log started");
+            Add("Updater gestarted");
         }
 
         public void Add(string text)
         {
             entries.Add(new LogEntry(text,CurrentID));
             CurrentID++;
-            TB.Text = text;
         }
         /// <summary>
         /// Schreibt Log Einträge in eine Datei und löscht diese

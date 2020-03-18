@@ -59,7 +59,7 @@ namespace StartNAV
         {
             string[] FileLines = File.ReadAllLines(FILENAME);
 
-            if (data.Count() > 0)
+            if (data.Count > 0)
                 data.Clear();
 
             foreach (string temp in FileLines)
@@ -71,7 +71,9 @@ namespace StartNAV
                 {
                     id = Int32.Parse(Line[0]);
                 }
-                catch { }
+                catch {
+                
+                }
                 if (id == -1) continue;
                 if (Line.Length >= 4) { 
                     data.Add(Line[0] + "_" + Line[1], Line[2] + SEPERATOR + Version(Line));
@@ -97,7 +99,7 @@ namespace StartNAV
         /// <param name="objID">ID des Objectes</param>
         /// <param name="t">Der Typ des Objectes</param>
         /// <returns>Objektname</returns>
-        public string GetObjName(int objID, ObjectTypes t)
+        public string GetObjName(int objID, ObjectType t)
         {
             string key = GetKeyVal(objID, t);
             if (data.ContainsKey(key))
@@ -111,7 +113,7 @@ namespace StartNAV
         /// <param name="objID">ID des Objectes</param>
         /// <param name="t">Der Typ des Objectes</param>
         /// <returns>Version</returns>
-        public string GetVersion(int objID, ObjectTypes t)
+        public string GetVersion(int objID, ObjectType t)
         {
             string key = GetKeyVal(objID, t);
             if (data.ContainsKey(key))
@@ -131,7 +133,7 @@ namespace StartNAV
             return GetObjName(objID, NavObjects.GetObj(objName));
         }
 
-        string GetKeyVal(int objID, ObjectTypes t)
+        string GetKeyVal(int objID, ObjectType t)
         {
             int id = (int)t;
             return id.ToString() + "_" + objID.ToString();
@@ -140,7 +142,7 @@ namespace StartNAV
         public List<String> GetObjs()
         {
             List<string> ret = new List<string>();
-            foreach (string temp in Enum.GetNames(typeof(ObjectTypes)))
+            foreach (string temp in Enum.GetNames(typeof(ObjectType)))
                 ret.Add(temp);
 
             return ret;
@@ -149,18 +151,19 @@ namespace StartNAV
         public List<NavObject> GetObjectNames()
         {
             List<NavObject> ret = new List<NavObject>();
-            List<ObjectTypes> types = new List<ObjectTypes>
+            List<ObjectType> types = new List<ObjectType>
             {
-                ObjectTypes.Page,
-                ObjectTypes.Report,
-                ObjectTypes.Table
+                ObjectType.Page,
+                ObjectType.Report,
+                ObjectType.Table
             };
 
             foreach (KeyValuePair<string, string> temp in data) {
                 string[] t = temp.Key.Split('_');
+
                 try { 
                 int id = Int32.Parse(t[1]);
-                ObjectTypes Typ = NavObjects.GetObj(t[0]);
+                    ObjectType Typ = NavObjects.GetObj(t[0]);
                     if (types.Contains(Typ))
                         ret.Add(new NavObject(t[0], id, temp.Value.Split(SEPERATOR)[0], temp.Value.Split(SEPERATOR)[1]));
                 }
@@ -178,6 +181,8 @@ namespace StartNAV
         /// <returns></returns>
         public String CheckServerString(String servername)
         {
+            if (String.IsNullOrEmpty(servername)) return "";
+
             if (!servername.Contains(":"))
                 return servername + ":7046/DynamicsNAV100_IMP";
 
