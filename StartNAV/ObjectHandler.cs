@@ -64,8 +64,8 @@ namespace StartNAV
 
             foreach (string temp in FileLines)
             {
-
-                string[] Line = temp.Split(',');
+                string temp1 = temp.Replace("\"", "");
+                string[] Line = temp1.Split(',');
                 int id = -1;
                 try
                 {
@@ -166,7 +166,7 @@ namespace StartNAV
                 }
                 catch
                 {
-
+                   
                 }
             }
             return ret;

@@ -33,7 +33,7 @@
                         </GridViewColumn.Header>
                             </GridViewColumn>
                     <GridViewColumn
-                        Width="50"
+                        Width="75"
                         DisplayMemberBinding="{Binding ID}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader 
@@ -44,7 +44,7 @@
                         </GridViewColumn.Header>
                     </GridViewColumn>
                     <GridViewColumn
-                        Width="300"
+                        Width="200"
                         DisplayMemberBinding="{Binding Name}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader 
@@ -56,7 +56,7 @@
                     </GridViewColumn>
                     <GridViewColumn
                         x:Name="gvc_version"
-                        Width="100"
+                        Width="150"
                         DisplayMemberBinding="{Binding Version}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader 
