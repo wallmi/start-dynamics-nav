@@ -75,6 +75,18 @@ namespace StartNAV
                 b_start_session_list.ToolTip = tooltip;
                 b_start_nav.ToolTip = tooltip;
             }
+
+            string[] args = Environment.GetCommandLineArgs();
+
+            if (args.Length == 2) { 
+                MessageBox.Show("Argumente: " + args[1], "Update");
+                ini.SetSettings("updateuri", args[1]);
+            }
+
+
+            if (ini.GetSetting("upd") == "true")
+                UpdateApplicationAsync();
+        
         }
 
         void Load()
@@ -90,7 +102,7 @@ namespace StartNAV
             List<NavObject> favs = ini.GetFav();
             lv_fav.SetItems(favs);
 
-            Loghandler.Add("Favoriten geladen");
+            Loghandler.Add(Resource.Load_Fav);
             if (!handler.withversion)
                 lv_fav.setShowVersion(false);
         }
@@ -461,30 +473,60 @@ namespace StartNAV
 
         private async Task UpdateApplicationAsync()
         {
-            MessageBoxResult res;
+            //MessageBoxResult res;
             ProcessStartInfo upd = new ProcessStartInfo("Updater.exe");
 
-            res = MessageBox.Show("Wollen sie die letzte stabile Version installieren? \n (Beta Version installieren)", "Update", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            //res = MessageBox.Show("Wollen sie die letzte stabile Version installieren? \n (Nein = Beta Version installieren)", "Update", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
-            var client = new GitHubClient(new ProductHeaderValue("wallmi"));
-            var releases = await client.Repository.Release.GetAll("wallmi", "start-dynamics-nav");
+            var client = new GitHubClient(new ProductHeaderValue(ini.GetSetting("upd_user")));
+            //var repo = client.Repository.Get(ini.Data["Settings"]["upd_user"],
+            //    ini.Data["Settings"]["upd_repository"]);
+
+            var releases = await client.Repository.Release.GetAll(
+                ini.GetSetting("upd_user"), 
+                ini.GetSetting("upd_repository"));
 
             string updateuri = null;
 
             foreach (var temp in releases) {
-                if (temp.Prerelease & res == MessageBoxResult.Yes)
-                    continue;
+                if (temp.Prerelease & ini.GetSetting("upd_beta") == "false")
+                    continue;   //Pre Release überstringen
 
                 updateuri = temp.Assets[0].BrowserDownloadUrl;
+
+                if (updateuri == ini.GetSetting("updateuri"))
+                    continue;   //Wenn Updateversion gleich ist
+
                 if (String.IsNullOrEmpty(updateuri))
-                    continue;
+                    continue;   //Wenn kein Release vorhanden ist
 
                 break;
             }
 
+            if (updateuri == null)
+                return;
+
+            MessageBoxResult res = MessageBox.Show("Neue Version vorhanden, soll von " + updateuri + " heruntergeladen und installiert werden?",
+                "Update",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (res == MessageBoxResult.No) {
+                Loghandler.Add("Update wurde übersprungen");
+                return;
+            }
+
+            Loghandler.Add("Update von: " + updateuri);
+            
             upd.Arguments = updateuri;
             Process.Start(upd);
             Close();
+        }
+
+        private void Options_Click(object sender, RoutedEventArgs e)
+        {
+            Options opt = new Options(ini);
+            opt.ShowDialog();
         }
     }
 }

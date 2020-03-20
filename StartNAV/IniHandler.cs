@@ -108,6 +108,10 @@ namespace StartNAV
             ini.WriteFile(FILENAME, Data);
             LOG.Add("Speichere Einstellungen in Datei:" + FILENAME);
         }
+        public void Save()
+        {
+            WriteFile();
+        }
 
         public List<String> GetServer()
         {
@@ -284,12 +288,23 @@ namespace StartNAV
 
         public void SetExePath(string path)
         {
-            SaveSetting("ExePath", path);
+            SetSettings("ExePath", path);
         }
 
-        public void SaveSetting(string key, string value)
+        public void SetSettings(string key, string value)
         {
             Data["Settings"][key] = value;
+        }
+        public void SetSettings(string key, string value, bool savetofile)
+        {
+            SetSettings(key, value);
+            if (savetofile)
+                Save();
+        }
+
+        public string GetSetting(string key)
+        {
+            return Data["Settings"][key];
         }
 
         public bool CheckExe()

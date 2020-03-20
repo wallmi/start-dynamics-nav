@@ -1,0 +1,85 @@
+﻿<Window x:Class="StartNAV.Dialog.Options"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StartNAV.Dialog"
+        mc:Ignorable="d"
+        Title="Options" Height="150" Width="373.987">
+    <Grid>
+        <TextBlock Grid.Row="0">
+            Beim Start nach Update suchen
+        </TextBlock>
+        <TextBlock
+            Grid.Row="1">
+            Update User
+        </TextBlock>
+        <TextBlock
+            Grid.Row="2">
+            Update Repository
+        </TextBlock>
+        <TextBlock
+            Grid.Row="3">
+            Betaversion
+        </TextBlock>
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="0"
+            Grid.Column="1">
+            <RadioButton
+                GroupName="opt_upd"
+                x:Name="opt_upd_yes"
+                Content="Ja"/>
+            <RadioButton
+                GroupName="opt_upd"
+                x:Name="opt_upd_no"
+                Content="Nein"/>
+        </StackPanel>
+        <TextBox
+            x:Name="opt_upd_user"
+            Grid.Column="1"
+            Grid.Row="1"
+            Text="wallmi"/>
+        <TextBox
+            x:Name="opt_upd_repository"
+            Grid.Column="1"
+            Grid.Row="2"
+            Text="start-dynamics-nav"/>
+        <CheckBox
+            Grid.Row="3"
+            Grid.Column="1"
+            Content="Aktivieren"
+            Name="opt_upd_beta"/>
+        
+        <Grid
+            Grid.Row="6"
+            Grid.Column="1">
+            <Button 
+                Content="OK" 
+                Grid.Column="0" 
+                Click="saveSettings"/>
+            <Button 
+                Content="Abbruch"  
+                Grid.Column="1"
+                Click="abbort"
+                />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition
+                Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+    </Grid>
+</Window>

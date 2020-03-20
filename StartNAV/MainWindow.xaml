@@ -89,6 +89,10 @@
                     Header="Zeige Log"
                     Click="ShowLog_Click" />
                 <Separator/>
+                <MenuItem 
+                    Name="Options"
+                    Header="_Optionen"
+                    Click="Options_Click"/>
                 <MenuItem
                     Name="Update"
                     Header="Update"
@@ -217,7 +221,7 @@
         <StatusBar
             Grid.Row="3"
             Grid.ColumnSpan="2"
-            Width="Auto">
+           >
             <StatusBarItem>
                 <TextBlock
                     x:Name="tb_status"/>

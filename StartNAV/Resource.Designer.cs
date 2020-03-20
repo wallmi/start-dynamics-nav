@@ -81,6 +81,15 @@ namespace StartNAV {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Favoriten geladen ähnelt.
+        /// </summary>
+        public static string Load_Fav {
+            get {
+                return ResourceManager.GetString("Load_Fav", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         public static byte[] NewFile_16x {

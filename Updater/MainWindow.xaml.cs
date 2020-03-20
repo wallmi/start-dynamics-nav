@@ -25,6 +25,7 @@ namespace Updater
     {
         readonly string temp = System.IO.Path.GetTempPath() + @"StartNAV\Updater\";
         readonly Log log = new Log();
+        string updateuri;
 
         public MainWindow()
         {
@@ -67,6 +68,7 @@ namespace Updater
                 //Temp Verzeichnis löschen
                 Directory.Delete(temp,true);
                 log.Add("Temporäres Verzeichnis gelöscht");
+                updateuri = path;
                 Close();
             }
             catch (Exception e)
@@ -74,6 +76,8 @@ namespace Updater
                 log.Add("Ausnahme Fehler: " + e.Message);
                 tb_errormsg.Text = e.Message;
             }
+
+            
         }
 
         private void FileCopy(string from, string to)
@@ -85,7 +89,9 @@ namespace Updater
         private void Window_Closed(object sender, EventArgs e)
         {
             log.SaveToFile();
+
             ProcessStartInfo start = new ProcessStartInfo("StartNAV.exe");
+            start.Arguments = updateuri;
             Process.Start(start);
         }
     }
