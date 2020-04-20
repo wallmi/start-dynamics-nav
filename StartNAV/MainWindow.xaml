@@ -10,10 +10,8 @@
         SizeToContent="Width" 
         ResizeMode="CanResize"
         Icon="favicon.ico"
-        MinHeight="450"
-        MinWidth="500"
-        Closing="Window_Closing" 
-        Closed="Window_Closed"
+        MinHeight="450"             MinWidth="500"
+        Closing="Window_Closing"    Closed="Window_Closed"
         Height="517">
     <Grid>
         <Menu

@@ -34,7 +34,7 @@ namespace Updater
             string[] args = Environment.GetCommandLineArgs();
 
             if (args.Length == 1)
-                return;
+                return;          
 
             Update(args[1]);
         }
@@ -42,8 +42,10 @@ namespace Updater
         private void Update (string path)
         {
             try 
-            { 
+            {
                 //Download
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 WebClient wc = new WebClient();
                 Directory.CreateDirectory(temp);
                 File.Delete(temp + "package.7z");
@@ -52,7 +54,7 @@ namespace Updater
 
                 //entpacken 7-zip
                 ProcessStartInfo processStartInfo = new ProcessStartInfo();
-                processStartInfo.FileName = @"7z\7z.exe";
+                processStartInfo.FileName = @"7z.exe";
                 processStartInfo.Arguments = @"e ";
                 processStartInfo.Arguments += temp + "package.7z ";
                 processStartInfo.Arguments += @"-o" + temp + @"files";
@@ -61,8 +63,16 @@ namespace Updater
                 log.Add("Entpackt nach: " + temp + @"files");
 
                 //Kopiere die Dateien
-                FileCopy(@temp+ @"files\StartNAV.exe", "StartNAV.exe");
-                FileCopy(@temp + @"files\IniFileParser.dll", "IniFileParser.dll");
+                foreach(string file in Directory.GetFiles(temp+@"files\"))
+                {
+                    if (System.IO.Path.GetFileName(file) == "Updater.exe")
+                        FileCopy(file, "Updater_new.exe");
+                    else
+                        FileCopy(file, System.IO.Path.GetFileName(file));
+                }
+
+                //FileCopy(@temp+ @"files\StartNAV.exe", "StartNAV.exe");
+                //FileCopy(@temp + @"files\IniFileParser.dll", "IniFileParser.dll");
 
                 
                 //Temp Verzeichnis löschen
@@ -92,6 +102,12 @@ namespace Updater
 
             ProcessStartInfo start = new ProcessStartInfo("StartNAV.exe");
             start.Arguments = updateuri;
+
+            
+            if (Environment.GetCommandLineArgs().Length >= 3)           //For Debugging
+                if (Environment.GetCommandLineArgs()[2] == "debug")     //For Debugging
+                    return;
+
             Process.Start(start);
         }
     }

@@ -78,10 +78,12 @@ namespace StartNAV
 
             string[] args = Environment.GetCommandLineArgs();
 
-            if (args.Length == 2) { 
+            if (args.Length == 2) {
+                File.Copy("Updater_new.exe","Updater.exe");
+                Loghandler.Add("Der Updater wurde aktualisiert");
                 MessageBox.Show("Argumente: " + args[1], "Update");
                 ini.SetSettings("updateuri", args[1]);
-            }
+            } 
 
 
             if (ini.GetSetting("upd") == "true")
