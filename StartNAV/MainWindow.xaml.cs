@@ -184,7 +184,7 @@ namespace StartNAV
             string Profile = " -profile:";
             string sessionlist = " -protocolhandler";
             string checkedServer = handler.CheckServerString(ServerAdress);
-             string startstring = "";
+            string startstring = "";
 
             //Serveradresse aktualisieren
             if (checkedServer != ServerAdress)
@@ -207,7 +207,7 @@ namespace StartNAV
 
                startstring += Mandant + ObjectStart + "\"";
                 if (cb_profil.Text != "<kein Profil>")
-                    startstring += Profile + cb_profil.Text;
+                    startstring += Profile + "\"" + cb_profil.Text + "\"";
                 if (cbo_config.IsChecked.Value)
                     startstring += Config;
                 if (cbo_debug.IsChecked.Value)
