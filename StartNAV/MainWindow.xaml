@@ -16,8 +16,9 @@
     <Grid>
         <Menu
             Grid.Row="0"
-            Grid.ColumnSpan="2">
-            <MenuItem Header="_Datei">
+            Grid.ColumnSpan="3">
+            <MenuItem 
+                Header="_Datei">
                 <MenuItem
                     Name="mi_set_exe_path"
                     Click="Mi_set_exe_path_Click"
@@ -44,7 +45,7 @@
                     Click="Close_Click"
                     />
             </MenuItem>
-            <MenuItem Header="_Server">
+            <MenuItem Header="Server">
                 <MenuItem 
                     Header="_Add"
                     Click="MenuItem_Click"/>
@@ -70,7 +71,7 @@
                     Header="_Lösche akt. Profil"
                     Click="MenuItem_Click_5"/>
             </MenuItem>
-            <MenuItem Header="_Hilfe">
+            <MenuItem Header="Hilfe">
                 <MenuItem
                     Name="link2Github"
                     Header="_Link to Github"
@@ -102,41 +103,47 @@
             Grid.RowSpan="2" 
             Margin="5,0,5,5">
             <TextBlock 
-                Text="Server" FontWeight="Bold" Margin="0,5,0,0" />
+                Text="Server" 
+                Style="{DynamicResource H2}" />
             <ComboBox
                 Name="cb_server"
                 SelectionChanged="Cb_server_SelectionChanged" />
             <TextBlock
                 x:Name="tbl_serveradresse"
-                Text="Serveradresse" FontSize="9" TextWrapping="Wrap"/>
+                Text="Serveradresse" 
+                TextWrapping="Wrap" Style="{DynamicResource sub1}" />
             <TextBlock 
-                Text="Mandant" FontWeight="Bold" Margin="0,5,0,0" />
+                Text="Mandant" 
+                Style="{DynamicResource H2}" />
             <ComboBox
                 Name="cb_mandant" />
             <TextBlock
-                Text="Profil" FontWeight="Bold" Margin="0,5,0,0"/>
+                Text="Profil" 
+                Style="{DynamicResource H2}"/>
             <ComboBox
                 ToolTipService.ShowOnDisabled="True"
                 Name="cb_profil" />
             <TextBlock
-                Text="ObjektTyp" FontWeight="Bold" Margin="0,5,0,0"/>
+                Text="ObjektTyp" 
+                Style="{DynamicResource H2}"/>
             <ComboBox
                 Name="cb_objektTyp"
                 SelectionChanged="Cb_objektTyp_SelectionChanged"/>
             <TextBlock
-                Text="ObjectId" FontWeight="Bold" Margin="0,5,0,0"/>
+                Text="ObjectId" 
+                Style="{DynamicResource H2}"/>
             <Grid>
                 <TextBox
                         Name="tx_objId"
                         Grid.Column="0"
-                        TextChanged="Tx_objId_TextChanged" />
+                        TextChanged="Tx_objId_TextChanged" Margin="0" />
                 <Button
                         Name="b_getId"
                         Click="B_getId_Click"
                         Grid.Column="1"
                         Content="..." 
                         Padding="5,1" 
-                        FontWeight="Bold"/>
+                        FontWeight="Bold" Margin="0"/>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="Auto"/>
@@ -144,49 +151,54 @@
             </Grid>
             <TextBlock
                 Text="Hier steht der Objektname"
-                Name="tb_ObjektName"/>
+                Name="tb_ObjektName" 
+                Style="{DynamicResource sub1}"/>
             <TextBlock
                 Text="Startoptionen" 
-                Margin="0,15,0,0" 
-                FontWeight="Bold" 
-                FontSize="16"/>
+                Style="{DynamicResource H1}"/>
             <CheckBox
                 Name="cbo_config"
                 ToolTipService.ShowOnDisabled="True"
-                Content="Konfigurationsmodus"/>
+                Content="Konfigurationsmodus" 
+                Style="{DynamicResource stack}"/>
             <CheckBox
                 Name="cbo_debug"
                 ToolTipService.ShowOnDisabled="True"
-                Content="Debug"/>
+                Content="Debug" 
+                Style="{DynamicResource stack}"/>
             <CheckBox
                 Name="cbo_schow_startstring"
-                Content="Zeige Startoptionen"/>
+                Content="Zeige Startoptionen" 
+                Style="{DynamicResource stack}"/>
         </StackPanel>
+        <GridSplitter
+            Grid.Column="1"
+            Width="5"
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            HorizontalAlignment="Center"
+            />
         <Grid
             Grid.Row="2"
-            Grid.Column="1">
-            <StackPanel Margin="5,0,5,5">
+            Grid.Column="2">
+            <StackPanel Margin="0,0,0,10">
                 <Grid Width="{Binding ActualWidth, ElementName=b_start_nav, Mode=OneWay}">
                     <Button
                         Grid.Column="0"
                         Name="b_add_fav"
                         Content="Füge zu Favouriten hinzu"
-                        Click="B_add_fav_Click" 
-                        Margin="0,5,5,0" 
-                        Padding="5" />
+                        Click="B_add_fav_Click" />
                     <Button
                         Grid.Column="1"
                         Name="b_get_favs"
                         Click="B_getId_Click"
                         Content="Aus Liste hinzufügen" 
-                        Margin="0,5,0,0" 
-                        />
+                        Margin="5,5,5,0" />
                     <Button
                         Grid.Column="2"
                         Name="b_del_fav"
                         Content="Löschen Favoriten"
-                        Click="B_del_fav_Click" 
-                        Margin="5,5,0,0"/>
+                        Click="B_del_fav_Click" />
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -197,29 +209,22 @@
                     Name="b_start_nav"
                     Content="Start NAV" 
                     Click="B_StartNav_Click" 
-                    Margin="0,5,0,0" 
-                    Padding="5" 
                     IsDefault="True"/>
                 <Button
                     Name="b_start_session_list"
                     Content="Starte Session List" 
                     Click="B_StartNav_Click" 
-                    Margin="0,5,0,0" 
-                    Padding="5" 
                     ToolTipService.ShowOnDisabled="True"
                     IsDefault="True"/>
             </StackPanel>
         </Grid>
         <c:NavObjektList
             x:Name="lv_fav"
-            Grid.Column="1"
-            Grid.Row="1"
-            Margin="5,0" 
-            />
+            Grid.Column="2"
+            Grid.Row="1" />
         <StatusBar
             Grid.Row="3"
-            Grid.ColumnSpan="2"
-           >
+            Grid.ColumnSpan="3">
             <StatusBarItem>
                 <TextBlock
                     x:Name="tb_status"/>
@@ -233,6 +238,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
     </Grid>

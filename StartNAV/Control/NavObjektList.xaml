@@ -13,7 +13,7 @@
         <TextBox
             Grid.Column="1"
             Name="tb_search"
-            TextChanged="Tb_search_TextChanged"/>
+            TextChanged="Tb_search_TextChanged" Margin="0"/>
         <ListView
             Name="lv_items"
             Grid.Row="1"

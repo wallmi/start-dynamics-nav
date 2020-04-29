@@ -70,11 +70,7 @@ namespace Updater
                     else
                         FileCopy(file, System.IO.Path.GetFileName(file));
                 }
-
-                //FileCopy(@temp+ @"files\StartNAV.exe", "StartNAV.exe");
-                //FileCopy(@temp + @"files\IniFileParser.dll", "IniFileParser.dll");
-
-                
+              
                 //Temp Verzeichnis löschen
                 Directory.Delete(temp,true);
                 log.Add("Temporäres Verzeichnis gelöscht");
@@ -86,8 +82,6 @@ namespace Updater
                 log.Add("Ausnahme Fehler: " + e.Message);
                 tb_errormsg.Text = e.Message;
             }
-
-            
         }
 
         private void FileCopy(string from, string to)
