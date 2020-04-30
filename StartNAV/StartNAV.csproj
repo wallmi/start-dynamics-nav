@@ -193,6 +193,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="NAV_Objects.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

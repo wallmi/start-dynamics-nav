@@ -57,6 +57,10 @@ namespace StartNAV
             Load();
 
             if (!ini.CheckExe())
+                if (MessageBox.Show("Pfad zur Exe wurde nicht eingerichtet. Möchten sie das jetzt durchführen?",
+                    "Pfad zur EXE", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    Mi_set_exe_path_Click(null, null);
+            else
             {
                 string tooltip = "Für diese Option muss zuerst die Anwendung ausgewählt werden";
                 cbo_config.IsEnabled = false;
@@ -475,6 +479,16 @@ namespace StartNAV
 
         private async Task UpdateApplicationAsync()
         {
+
+            if (ini.GetSetting("upd_user") == null)
+                ini.SetSettings("upd_user", "wallmi");
+
+            if (ini.GetSetting("upd_repository") == null)
+                ini.SetSettings("upd_repository", "start-dynamics-nav");
+
+            if (ini.GetSetting("upd_beta") == null)
+                ini.SetSettings("upd_beta", "false");
+
             //MessageBoxResult res;
             ProcessStartInfo upd = new ProcessStartInfo("Updater.exe");
 
