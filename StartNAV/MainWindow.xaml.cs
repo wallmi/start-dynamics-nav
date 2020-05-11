@@ -551,5 +551,15 @@ namespace StartNAV
         {
             Process.Start("NAVFilterConvert.exe");
         }
+
+        private void b_addFavGroup_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void b_delFavGroup_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
