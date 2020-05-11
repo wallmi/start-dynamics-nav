@@ -48,12 +48,12 @@
         <CheckBox
             Grid.Row="3"
             Grid.Column="1"
-            Content="Aktivieren"
+            Content="Beta"
             Name="opt_upd_beta"/>
-        
-        <Grid
-            Grid.Row="6"
-            Grid.Column="1">
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Column="1"
+            Grid.Row="4">
             <Button 
                 Content="OK" 
                 Grid.Column="0" 
@@ -63,17 +63,13 @@
                 Grid.Column="1"
                 Click="abbort" Margin="0,5,5,5"
                 />
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-        </Grid>
+        </StackPanel>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
