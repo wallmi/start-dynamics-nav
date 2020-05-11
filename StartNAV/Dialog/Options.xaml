@@ -5,22 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StartNAV.Dialog"
         mc:Ignorable="d"
-        Title="Options" Height="150" Width="373.987">
-    <Grid>
+        Title="Options" SizeToContent="WidthAndHeight" >
+    <Grid Margin="5">
         <TextBlock Grid.Row="0">
-            Beim Start nach Update suchen
+            Beim Start nach Update suchen?
         </TextBlock>
         <TextBlock
             Grid.Row="1">
-            Update User
+            Update User (Github)
         </TextBlock>
         <TextBlock
             Grid.Row="2">
-            Update Repository
+            Update Repository  (Github)
         </TextBlock>
         <TextBlock
             Grid.Row="3">
-            Betaversion
+            Releasechannel
         </TextBlock>
         <StackPanel
             Orientation="Horizontal"
@@ -57,11 +57,11 @@
             <Button 
                 Content="OK" 
                 Grid.Column="0" 
-                Click="saveSettings"/>
+                Click="saveSettings" Margin="5"/>
             <Button 
                 Content="Abbruch"  
                 Grid.Column="1"
-                Click="abbort"
+                Click="abbort" Margin="0,5,5,5"
                 />
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
