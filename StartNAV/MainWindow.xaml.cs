@@ -546,5 +546,10 @@ namespace StartNAV
             Options opt = new Options(ini);
             opt.ShowDialog();
         }
+
+        private void MenuItem_Click_6(object sender, RoutedEventArgs e)
+        {
+            Process.Start("NAVFilterConvert.exe");
+        }
     }
 }

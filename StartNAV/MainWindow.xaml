@@ -45,6 +45,7 @@
                     Click="Close_Click"
                     />
             </MenuItem>
+            <MenuItem Header="_Settings">
             <MenuItem Header="Server">
                 <MenuItem 
                     Header="_Add"
@@ -70,6 +71,12 @@
                 <MenuItem
                     Header="_Lösche akt. Profil"
                     Click="MenuItem_Click_5"/>
+            </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem 
+                    Header="ConvertLineBreaks"
+                    Click="MenuItem_Click_6"/>
             </MenuItem>
             <MenuItem Header="Hilfe">
                 <MenuItem

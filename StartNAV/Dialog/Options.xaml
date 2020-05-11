@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StartNAV.Dialog"
         mc:Ignorable="d"
-        Title="Options" SizeToContent="WidthAndHeight" >
-    <Grid>
+        Title="Options" 
+        SizeToContent="WidthAndHeight" >
+    <Grid Margin="5">
         <TextBlock Grid.Row="0">
             Beim Start nach Update suchen?
         </TextBlock>
@@ -57,7 +58,7 @@
             <Button 
                 Content="OK" 
                 Grid.Column="0" 
-                Click="saveSettings"/>
+                Click="saveSettings" Margin="0,5,5,0"/>
             <Button 
                 Content="Abbruch"  
                 Grid.Column="1"
