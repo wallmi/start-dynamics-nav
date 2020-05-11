@@ -415,8 +415,10 @@ namespace StartNAV
 
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
-            AddProfile w = new AddProfile(ini);
+            AddDialog w = new AddDialog("Profil");
+            
             w.ShowDialog();
+            ini.AddProfile(w.input);
             Load_Profil();
         }
 
