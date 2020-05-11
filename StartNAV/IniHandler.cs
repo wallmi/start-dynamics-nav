@@ -286,6 +286,28 @@ namespace StartNAV
             return ret;
         }
 
+        public void AddFavGroup(string groupname)
+        {
+            if (String.IsNullOrEmpty(groupname))
+                return;
+
+            Data["FavGroup"][groupname] = "1";
+        }
+
+        public List<string> GetFavGroups()
+        {
+            if (Data.Sections["FavGroup"] == null)
+                Data.Sections.AddSection("FavGroup");
+
+            List<string> ret = new List<string>();
+            foreach (KeyData key in Data.Sections["FavGroup"])
+            {
+                ret.Add(key.KeyName);
+            }
+
+            return ret;
+        }
+
         public void SetExePath(string path)
         {
             SetSettings("ExePath", path);

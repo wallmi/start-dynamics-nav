@@ -48,11 +48,11 @@ namespace StartNAV
             foreach (String temp in NavObjects.GetObjectNames())
                 cb_objektTyp.Items.Add(temp);
 
-            //TODO: Geht sicher auch schöner :)
             toSave.Add(cb_server);              toSave.Add(cb_mandant);
             toSave.Add(cb_objektTyp);           toSave.Add(tx_objId);
             toSave.Add(cbo_config);             toSave.Add(cbo_debug);
             toSave.Add(cbo_schow_startstring);  toSave.Add(cb_profil);
+            toSave.Add(cb_favGroup);
 
             Load();
 
@@ -100,7 +100,10 @@ namespace StartNAV
             Load_Server();
             Load_Profil();
             LoadFav();
+            LoadFavGroup();
+            //-------------
             LoadSettings();
+            
         }
 
         void LoadFav()
@@ -111,6 +114,10 @@ namespace StartNAV
             Loghandler.Add(Resource.Load_Fav);
             if (!handler.withversion)
                 lv_fav.setShowVersion(false);
+        }
+        void LoadFavGroup()
+        {
+            cb_favGroup.ItemsSource = ini.GetFavGroups();
         }
 
         #region Actions
@@ -556,7 +563,10 @@ namespace StartNAV
 
         private void b_addFavGroup_Click(object sender, RoutedEventArgs e)
         {
-
+            AddDialog w = new AddDialog("Favoriten Gruppe");
+            w.ShowDialog();
+            ini.AddFavGroup(w.input);
+            LoadFavGroup();
         }
 
         private void b_delFavGroup_Click(object sender, RoutedEventArgs e)
