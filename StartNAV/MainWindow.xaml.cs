@@ -57,6 +57,10 @@ namespace StartNAV
             Load();
 
             if (!ini.CheckExe())
+                if (MessageBox.Show("Pfad zur Exe wurde nicht eingerichtet. Möchten sie das jetzt durchführen?",
+                    "Pfad zur EXE", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    Mi_set_exe_path_Click(null, null);
+            else
             {
                 string tooltip = "Für diese Option muss zuerst die Anwendung ausgewählt werden";
                 cbo_config.IsEnabled = false;
@@ -78,10 +82,12 @@ namespace StartNAV
 
             string[] args = Environment.GetCommandLineArgs();
 
-            if (args.Length == 2) { 
+            if (args.Length == 2) {
+                File.Copy("Updater_new.exe","Updater.exe");
+                Loghandler.Add("Der Updater wurde aktualisiert");
                 MessageBox.Show("Argumente: " + args[1], "Update");
                 ini.SetSettings("updateuri", args[1]);
-            }
+            } 
 
 
             if (ini.GetSetting("upd") == "true")
@@ -182,7 +188,7 @@ namespace StartNAV
             string Profile = " -profile:";
             string sessionlist = " -protocolhandler";
             string checkedServer = handler.CheckServerString(ServerAdress);
-             string startstring = "";
+            string startstring = "";
 
             //Serveradresse aktualisieren
             if (checkedServer != ServerAdress)
@@ -205,7 +211,7 @@ namespace StartNAV
 
                startstring += Mandant + ObjectStart + "\"";
                 if (cb_profil.Text != "<kein Profil>")
-                    startstring += Profile + cb_profil.Text;
+                    startstring += Profile + "\"" + cb_profil.Text + "\"";
                 if (cbo_config.IsChecked.Value)
                     startstring += Config;
                 if (cbo_debug.IsChecked.Value)
@@ -473,6 +479,16 @@ namespace StartNAV
 
         private async Task UpdateApplicationAsync()
         {
+
+            if (ini.GetSetting("upd_user") == null)
+                ini.SetSettings("upd_user", "wallmi");
+
+            if (ini.GetSetting("upd_repository") == null)
+                ini.SetSettings("upd_repository", "start-dynamics-nav");
+
+            if (ini.GetSetting("upd_beta") == null)
+                ini.SetSettings("upd_beta", "false");
+
             //MessageBoxResult res;
             ProcessStartInfo upd = new ProcessStartInfo("Updater.exe");
 
@@ -487,6 +503,7 @@ namespace StartNAV
                 ini.GetSetting("upd_repository"));
 
             string updateuri = null;
+            string version = "";
 
             foreach (var temp in releases) {
                 if (temp.Prerelease & ini.GetSetting("upd_beta") == "false")
@@ -500,13 +517,14 @@ namespace StartNAV
                 if (String.IsNullOrEmpty(updateuri))
                     continue;   //Wenn kein Release vorhanden ist
 
-                break;
+                version = temp.TagName;
+                break;          //
             }
 
             if (updateuri == null)
                 return;
 
-            MessageBoxResult res = MessageBox.Show("Neue Version vorhanden, soll von " + updateuri + " heruntergeladen und installiert werden?",
+            MessageBoxResult res = MessageBox.Show("Neue Version " + version + " vorhanden, soll von " + updateuri + " heruntergeladen und installiert werden?",
                 "Update",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);

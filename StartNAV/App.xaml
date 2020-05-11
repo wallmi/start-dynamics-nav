@@ -4,6 +4,56 @@
              xmlns:local="clr-namespace:StartNAV"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- Textbox-->
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5,5,5,5"/>
+        </Style>
+
+        <!-- RadioButton-->
+        <Style TargetType="RadioButton">
+            <Setter Property="Margin" Value="5,5,5,5"/>
+        </Style>
+
+        <!-- TextBlock-->
+        <Style TargetType="TextBlock" >
+           
+        </Style>
+            <!-- Sub1-->
+            <Style x:Key="sub1" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="9"/>
+                <Setter Property="Margin" Value="0,0,0,0"/>
+            </Style>
+            <!-- Heading 1-->
+            <Style x:Key="H1" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Margin" Value="5,10,0,0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+           <!-- Heading 2-->
+           <Style x:Key="H2" TargetType="TextBlock">
+                <Setter Property="Margin" Value="0,5,0,0"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+
+        <!-- Button-->
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="0,5,0,0"/>
+            <Setter Property="Padding" Value="10,5,10,5"/>
+        </Style>
+
+        <!-- CheckBox-->
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="5,5,5,5"/>
+        </Style>
+            <!-- CheckBox-->
+            <Style x:Key="stack" TargetType="CheckBox">
+                <Setter Property="Margin" Value="5,5,0,0"/>
+            </Style>
+        
+        <!-- MenuItem-->
+        <Style TargetType="MenuItem">
+
+
+        </Style>
     </Application.Resources>
 </Application>
