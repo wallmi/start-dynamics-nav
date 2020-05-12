@@ -23,6 +23,10 @@
             Grid.Row="3">
             Releasechannel
         </TextBlock>
+        <TextBlock
+            Grid.Row="4">
+            Favouriten Gruppen
+        </TextBlock>
         <StackPanel
             Orientation="Horizontal"
             Grid.Row="0"
@@ -30,35 +34,56 @@
             <RadioButton
                 GroupName="opt_upd"
                 x:Name="opt_upd_yes"
+                Click="change"
                 Content="Ja"/>
             <RadioButton
                 GroupName="opt_upd"
                 x:Name="opt_upd_no"
+                Click="change"
                 Content="Nein"/>
         </StackPanel>
         <TextBox
             x:Name="opt_upd_user"
             Grid.Column="1"
             Grid.Row="1"
+            TextChanged="tx_change"
             Text="wallmi"/>
         <TextBox
             x:Name="opt_upd_repository"
             Grid.Column="1"
             Grid.Row="2"
+            TextChanged="tx_change"
             Text="start-dynamics-nav"/>
         <CheckBox
             Grid.Row="3"
             Grid.Column="1"
             Content="Beta"
+            Click="change"
             Name="opt_upd_beta"/>
         <StackPanel
             Orientation="Horizontal"
+            Grid.Row="4"
+            Grid.Column="1">
+            <RadioButton
+                GroupName="opt_favgroup"
+                x:Name="opt_favgroup_yes"
+                Click="change"
+                Content="Ja"/>
+            <RadioButton
+                GroupName="opt_favgroup"
+                x:Name="opt_favgroup_no"
+                Click="change"
+                Content="Nein"/>
+        </StackPanel>
+        <StackPanel
+            Orientation="Horizontal"
             Grid.Column="1"
-            Grid.Row="4">
+            Grid.Row="5">
             <Button 
                 Content="OK" 
                 Grid.Column="0" 
-                Click="saveSettings" Margin="0,5,5,0"/>
+                Click="saveSettings" 
+                Margin="0,5,5,0"/>
             <Button 
                 Content="Abbruch"  
                 Grid.Column="1"
@@ -70,7 +95,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>

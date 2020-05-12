@@ -48,6 +48,7 @@ namespace StartNAV
             foreach (String temp in NavObjects.GetObjectNames())
                 cb_objektTyp.Items.Add(temp);
 
+            //Pbjekte die gespeichert werden sollen
             toSave.Add(cb_server);              toSave.Add(cb_mandant);
             toSave.Add(cb_objektTyp);           toSave.Add(tx_objId);
             toSave.Add(cbo_config);             toSave.Add(cbo_debug);
@@ -56,32 +57,41 @@ namespace StartNAV
 
             Load();
 
+            //Kein Pfad zur exe eingerichtet
             if (!ini.CheckExe())
                 if (MessageBox.Show("Pfad zur Exe wurde nicht eingerichtet. Möchten sie das jetzt durchführen?",
                     "Pfad zur EXE", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     Mi_set_exe_path_Click(null, null);
-            else
-            {
-                string tooltip = "Für diese Option muss zuerst die Anwendung ausgewählt werden";
-                cbo_config.IsEnabled = false;
-                cbo_debug.IsEnabled = false;
-                b_start_session_list.IsEnabled = false;
-                cb_profil.IsEnabled = false;
-                b_start_nav.IsEnabled = false;
+                else
+                {
+                    string tooltip = "Für diese Option muss zuerst die Anwendung ausgewählt werden";
+                    cbo_config.IsEnabled = false;
+                    cbo_debug.IsEnabled = false;
+                    b_start_session_list.IsEnabled = false;
+                    cb_profil.IsEnabled = false;
+                    b_start_nav.IsEnabled = false;
 
-                cb_profil.SelectedItem = "<kein Profil>";
-                cbo_config.IsChecked = false;
-                cbo_debug.IsChecked = false;
+                    cb_profil.SelectedItem = "<kein Profil>";
+                    cbo_config.IsChecked = false;
+                    cbo_debug.IsChecked = false;
 
-                cbo_config.ToolTip = tooltip;
-                cbo_debug.ToolTip = tooltip;
-                cb_profil.ToolTip = tooltip;
-                b_start_session_list.ToolTip = tooltip;
-                b_start_nav.ToolTip = tooltip;
-            }
+                    cbo_config.ToolTip = tooltip;
+                    cbo_debug.ToolTip = tooltip;
+                    cb_profil.ToolTip = tooltip;
+                    b_start_session_list.ToolTip = tooltip;
+                    b_start_nav.ToolTip = tooltip;
+                }
 
+            //Keine Favgruppeneinstellung gefunden
+            if (ini.GetSetting("favgroup") == null)
+                if (MessageBox.Show("Sollen Favoriten Gruppen verwendet werden?",
+                    "Favoriten Gruppen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    ini.SetSettings("favgroup", "true");
+                else
+                    ini.SetSettings("favgroup", "false");
+
+            //Updater aktualisieren
             string[] args = Environment.GetCommandLineArgs();
-
             if (args.Length == 2) {
                 File.Copy("Updater_new.exe","Updater.exe");
                 Loghandler.Add("Der Updater wurde aktualisiert");
@@ -89,7 +99,7 @@ namespace StartNAV
                 ini.SetSettings("updateuri", args[1]);
             } 
 
-
+            //Update
             if (ini.GetSetting("upd") == "true")
                 UpdateApplicationAsync();
         
@@ -99,17 +109,15 @@ namespace StartNAV
         {
             Load_Server();
             Load_Profil();
-            LoadFav();
             LoadFavGroup();
+            LoadFav();
             //-------------
             LoadSettings();
-            
         }
 
         void LoadFav()
         {
-            List<NavObject> favs = ini.GetFav();
-            lv_fav.SetItems(favs);
+            lv_fav.SetItems(ini.GetFav(getFavgroup()));
 
             Loghandler.Add(Resource.Load_Fav);
             if (!handler.withversion)
@@ -117,7 +125,16 @@ namespace StartNAV
         }
         void LoadFavGroup()
         {
-            cb_favGroup.ItemsSource = ini.GetFavGroups();
+            if (ini.GetSetting("favgroup") == "true")
+                cb_favGroup.ItemsSource = ini.GetFavGroups();
+            else
+            { 
+                sp_FavGroup.Visibility = Visibility.Hidden;
+                sp_FavGroup.Height = 0;
+                cb_favGroup.Items.Clear();
+                cb_favGroup.Items.Add("NOFAVGROUP");
+                cb_favGroup.SelectedItem = "NOFAVGROUP";
+            }
         }
 
         #region Actions
@@ -304,7 +321,7 @@ namespace StartNAV
         {
             int id = Int32.Parse(tx_objId.Text);
             //lv_fav.Add(new NavObject(cb_objektTyp.Text, id, tb_ObjektName.Text));
-            ini.AddFav(cb_objektTyp.Text,id);
+            ini.AddFav(cb_objektTyp.Text,id, getFavgroup());
             LoadFav();
         }
 
@@ -314,7 +331,7 @@ namespace StartNAV
             //foreach (NavObject temp in lv_fav.GetSelectItems())
             //    ini.DeleteFav(temp.Typ, temp.ID);
 
-            ini.DeleteFavs(lv_fav.GetSelectItems());
+            ini.DeleteFavs(lv_fav.GetSelectItems(),getFavgroup());
             LoadFav();
         }
 
@@ -408,7 +425,7 @@ namespace StartNAV
                 //{
                 //    ini.AddFav(temp.Typ, temp.ID);
                 //}
-                ini.AddFavs(w.getSelectionList());
+                ini.AddFavs(w.getSelectionList(), getFavgroup());
                 LoadFav();
             }
             else
@@ -571,7 +588,30 @@ namespace StartNAV
 
         private void b_delFavGroup_Click(object sender, RoutedEventArgs e)
         {
+            ini.DelFavGroup(cb_favGroup.SelectedValue.ToString());
+            LoadFavGroup();
+        }
 
+        private bool isfavgroup()
+        {
+            if (ini.GetSetting("favgroup") == "true")
+                return true;
+
+            return false;
+        }
+
+        private string getFavgroup()
+        {
+            if (cb_favGroup.SelectedValue == "NOFAVGROUP" || cb_favGroup.SelectedValue == null)
+                return null;
+
+            return cb_favGroup.SelectedValue.ToString();
+        }
+
+
+        private void cb_favGroup_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LoadFav();
         }
     }
 }

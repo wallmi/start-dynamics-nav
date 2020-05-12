@@ -107,7 +107,7 @@
         </Menu>
         <StackPanel
             Grid.Row="1"
-            Grid.RowSpan="2" 
+            Grid.RowSpan="3" 
             Margin="5,0,5,5">
             <TextBlock 
                 Text="Server" 
@@ -185,11 +185,13 @@
             Grid.RowSpan="3"
             HorizontalAlignment="Center" />
         <StackPanel
+            x:Name="sp_FavGroup"
             Grid.Row="1"
             Grid.Column="2"
             Orientation="Horizontal">
         <ComboBox
-            x:Name="cb_favGroup" />
+            x:Name="cb_favGroup"
+            SelectionChanged="cb_favGroup_SelectionChanged" />
             <Button
                 x:Name="b_addFavGroup"
                 Content="Add" 

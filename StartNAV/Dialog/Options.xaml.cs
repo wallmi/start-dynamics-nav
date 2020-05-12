@@ -22,6 +22,7 @@ namespace StartNAV.Dialog
     public partial class Options : Window
     {
         IniHandler ini;
+        bool changed = false;
         public Options(IniHandler Ini)
         {
             InitializeComponent();
@@ -39,6 +40,11 @@ namespace StartNAV.Dialog
             else
                 opt_upd_beta.IsChecked = false;
 
+            if (ini.GetSetting("favgroup") == "true")
+                opt_favgroup_yes.IsChecked = true;
+            else
+                opt_favgroup_no.IsChecked = true;
+
         }
         public void saveSettings (object sender, RoutedEventArgs e)
         {
@@ -55,12 +61,33 @@ namespace StartNAV.Dialog
             else
                 ini.SetSettings("upd_beta", "false");
 
+            if (opt_favgroup_yes.IsChecked == true)
+                ini.SetSettings("favgroup", "true");
+            else
+                ini.SetSettings("favgroup", "false");
+
             ini.Save();
+
+            if (changed)
+                MessageBox.Show("Einstellung wurden geändert, bitte die Anwendung neu starten", "Einstellung geändert",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+
             Close();
         }
         public void abbort(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        public void change(object sender, RoutedEventArgs e)
+        {
+            changed = true;
+        }
+
+        private void tx_change(object sender, TextChangedEventArgs e)
+        {
+            changed = true;
+
         }
     }
 }
