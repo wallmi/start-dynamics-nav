@@ -31,8 +31,12 @@ namespace StartNAV.Dialog
             else
                 opt_upd_no.IsChecked = true;
 
-            opt_upd_user.Text = ini.GetSetting("upd_user");
-            opt_upd_repository.Text = ini.GetSetting("upd_repository");
+            if (!String.IsNullOrEmpty(ini.GetSetting("upd_user")))
+                opt_upd_user.Text = ini.GetSetting("upd_user");
+
+            if (!String.IsNullOrEmpty(ini.GetSetting("upd_user")))
+                opt_upd_repository.Text = ini.GetSetting("upd_repository");
+
 
             if (ini.GetSetting("upd_beta") == "true")
                 opt_upd_beta.IsChecked = true;
