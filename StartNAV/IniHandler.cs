@@ -281,7 +281,7 @@ namespace StartNAV
             DeleteFavs(favs, null);
         }
 
-       string FavName(string type, int id)
+       static string FavName(string type, int id)
         {
             return type + "_" + id.ToString();
         }

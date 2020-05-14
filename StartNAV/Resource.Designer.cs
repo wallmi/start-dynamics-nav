@@ -81,7 +81,7 @@ namespace StartNAV {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Favoriten geladen ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Favoriten geladen, Gruppe: ähnelt.
         /// </summary>
         public static string Load_Fav {
             get {

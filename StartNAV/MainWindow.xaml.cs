@@ -55,6 +55,18 @@ namespace StartNAV
             toSave.Add(cbo_schow_startstring);  toSave.Add(cb_profil);
             toSave.Add(cb_favGroup);
 
+            //Keine Favgruppeneinstellung gefunden
+            if (ini.GetSetting("favgroup") == null) 
+                if (MessageBox.Show("Sollen Favoriten Gruppen verwendet werden?",
+                    "Favoriten Gruppen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                { 
+                    ini.SetSettings("favgroup", "true");
+                    ini.AddFavGroup("(DEFAULT)");
+                    ini.SetSettings("cb_favGroup", "(DEFAULT)");
+                }
+                else
+                    ini.SetSettings("favgroup", "false");
+
             Load();
 
             //Kein Pfad zur exe eingerichtet
@@ -82,13 +94,6 @@ namespace StartNAV
                     b_start_nav.ToolTip = tooltip;
                 }
 
-            //Keine Favgruppeneinstellung gefunden
-            if (ini.GetSetting("favgroup") == null)
-                if (MessageBox.Show("Sollen Favoriten Gruppen verwendet werden?",
-                    "Favoriten Gruppen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                    ini.SetSettings("favgroup", "true");
-                else
-                    ini.SetSettings("favgroup", "false");
 
             //Updater aktualisieren
             string[] args = Environment.GetCommandLineArgs();
@@ -119,7 +124,7 @@ namespace StartNAV
         {
             lv_fav.SetItems(ini.GetFav(getFavgroup()));
 
-            Loghandler.Add(Resource.Load_Fav);
+            Loghandler.Add(Resource.Load_Fav+getFavgroup());
             if (!handler.withversion)
                 lv_fav.setShowVersion(false);
         }
@@ -442,7 +447,7 @@ namespace StartNAV
             AddDialog w = new AddDialog("Profil");
             
             w.ShowDialog();
-            ini.AddProfile(w.input);
+            ini.AddProfile(w.INPUT);
             Load_Profil();
         }
 
@@ -582,7 +587,7 @@ namespace StartNAV
         {
             AddDialog w = new AddDialog("Favoriten Gruppe");
             w.ShowDialog();
-            ini.AddFavGroup(w.input);
+            ini.AddFavGroup(w.INPUT);
             LoadFavGroup();
         }
 
