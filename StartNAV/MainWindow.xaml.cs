@@ -47,13 +47,13 @@ namespace StartNAV
             
             foreach (String temp in NavObjects.GetObjectNames())
                 cb_objektTyp.Items.Add(temp);
-
-            //TODO: Geht sicher auch schöner :)
+         
             toSave.Add(cb_server);              toSave.Add(cb_mandant);
             toSave.Add(cb_objektTyp);           toSave.Add(tx_objId);
             toSave.Add(cbo_config);             toSave.Add(cbo_debug);
             toSave.Add(cbo_schow_startstring);  toSave.Add(cb_profil);
-
+            toSave.Add(cbo_disable_pers);
+            
             Load();
 
             if (!ini.CheckExe())
@@ -65,6 +65,7 @@ namespace StartNAV
                 string tooltip = "Für diese Option muss zuerst die Anwendung ausgewählt werden";
                 cbo_config.IsEnabled = false;
                 cbo_debug.IsEnabled = false;
+                cbo_disable_pers.IsEnabled = false;
                 b_start_session_list.IsEnabled = false;
                 cb_profil.IsEnabled = false;
                 b_start_nav.IsEnabled = false;
@@ -72,9 +73,11 @@ namespace StartNAV
                 cb_profil.SelectedItem = "<kein Profil>";
                 cbo_config.IsChecked = false;
                 cbo_debug.IsChecked = false;
+                cbo_disable_pers.IsChecked = false;
 
                 cbo_config.ToolTip = tooltip;
                 cbo_debug.ToolTip = tooltip;
+                cbo_disable_pers.ToolTip = tooltip;
                 cb_profil.ToolTip = tooltip;
                 b_start_session_list.ToolTip = tooltip;
                 b_start_nav.ToolTip = tooltip;
@@ -88,11 +91,8 @@ namespace StartNAV
                 MessageBox.Show("Argumente: " + args[1], "Update");
                 ini.SetSettings("updateuri", args[1]);
             } 
-
-
             if (ini.GetSetting("upd") == "true")
                 UpdateApplicationAsync();
-        
         }
 
         void Load()
@@ -185,6 +185,7 @@ namespace StartNAV
             ObjectType ob = NavObjects.GetObj(cb_objektTyp.Text);
             string Config = " -configure";
             string Debug = " -debug";
+            string DisablePer = " -disablepersonalization";
             string Profile = " -profile:";
             string sessionlist = " -protocolhandler";
             string checkedServer = handler.CheckServerString(ServerAdress);
@@ -216,6 +217,8 @@ namespace StartNAV
                     startstring += Config;
                 if (cbo_debug.IsChecked.Value)
                     startstring += Debug;
+                if (cbo_disable_pers.IsChecked.Value)
+                    startstring += DisablePer;
             }
             else if (st == StartTyp.Session)
             {
@@ -481,24 +484,13 @@ namespace StartNAV
 
         private async Task UpdateApplicationAsync()
         {
-
-            if (ini.GetSetting("upd_user") == null)
-                ini.SetSettings("upd_user", "wallmi");
-
-            if (ini.GetSetting("upd_repository") == null)
-                ini.SetSettings("upd_repository", "start-dynamics-nav");
-
-            if (ini.GetSetting("upd_beta") == null)
-                ini.SetSettings("upd_beta", "false");
-
+            defaultoptions();
             //MessageBoxResult res;
             ProcessStartInfo upd = new ProcessStartInfo("Updater.exe");
 
             //res = MessageBox.Show("Wollen sie die letzte stabile Version installieren? \n (Nein = Beta Version installieren)", "Update", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
             var client = new GitHubClient(new ProductHeaderValue(ini.GetSetting("upd_user")));
-            //var repo = client.Repository.Get(ini.Data["Settings"]["upd_user"],
-            //    ini.Data["Settings"]["upd_repository"]);
 
             var releases = await client.Repository.Release.GetAll(
                 ini.GetSetting("upd_user"), 
@@ -545,13 +537,27 @@ namespace StartNAV
 
         private void Options_Click(object sender, RoutedEventArgs e)
         {
+            defaultoptions();
             Options opt = new Options(ini);
             opt.ShowDialog();
         }
 
+
+        private void defaultoptions () 
+        { 
+            if (ini.GetSetting("upd_user") == null)
+                ini.SetSettings("upd_user", "wallmi");
+
+            if (ini.GetSetting("upd_repository") == null)
+                ini.SetSettings("upd_repository", "start-dynamics-nav");
+
+            if (ini.GetSetting("upd_beta") == null)
+                ini.SetSettings("upd_beta", "false");
+
         private void MenuItem_Click_6(object sender, RoutedEventArgs e)
         {
             Process.Start("NAVFilterConvert.exe");
+
         }
     }
 }
