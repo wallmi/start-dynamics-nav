@@ -33,64 +33,64 @@ namespace StartNAV
         readonly ObjectHandler handler;
         readonly List<object> toSave = new List<object>();
         readonly Log Loghandler;
-        enum StartTyp {Nav,Session }
-      
+        enum StartTyp { Nav, Session }
+
         public MainWindow()
         {
             InitializeComponent();
             Loghandler = new Log(tb_status);
             handler = new ObjectHandler(OBJECTFILE);
-            ini = new IniHandler(INIFILE, OBJECTFILE,Loghandler);
-            
+            ini = new IniHandler(INIFILE, OBJECTFILE, Loghandler);
+
             ListView lv = lv_fav.lv_items;
             lv.MouseDoubleClick += new MouseButtonEventHandler(Lv_fav_MouseDoubleClick);
-            
+
             foreach (String temp in NavObjects.GetObjectNames())
                 cb_objektTyp.Items.Add(temp);
-         
+
             toSave.Add(cb_server);              toSave.Add(cb_mandant);
             toSave.Add(cb_objektTyp);           toSave.Add(tx_objId);
             toSave.Add(cbo_config);             toSave.Add(cbo_debug);
             toSave.Add(cbo_schow_startstring);  toSave.Add(cb_profil);
             toSave.Add(cbo_disable_pers);
-            
+
             Load();
 
             if (!ini.CheckExe())
                 if (MessageBox.Show("Pfad zur Exe wurde nicht eingerichtet. Möchten sie das jetzt durchführen?",
                     "Pfad zur EXE", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     Mi_set_exe_path_Click(null, null);
-            else
-            {
-                string tooltip = "Für diese Option muss zuerst die Anwendung ausgewählt werden";
-                cbo_config.IsEnabled = false;
-                cbo_debug.IsEnabled = false;
-                cbo_disable_pers.IsEnabled = false;
-                b_start_session_list.IsEnabled = false;
-                cb_profil.IsEnabled = false;
-                b_start_nav.IsEnabled = false;
+                else
+                {
+                    string tooltip = "Für diese Option muss zuerst die Anwendung ausgewählt werden";
+                    cbo_config.IsEnabled = false;
+                    cbo_debug.IsEnabled = false;
+                    cbo_disable_pers.IsEnabled = false;
+                    b_start_session_list.IsEnabled = false;
+                    cb_profil.IsEnabled = false;
+                    b_start_nav.IsEnabled = false;
 
-                cb_profil.SelectedItem = "<kein Profil>";
-                cbo_config.IsChecked = false;
-                cbo_debug.IsChecked = false;
-                cbo_disable_pers.IsChecked = false;
+                    cb_profil.SelectedItem = "<kein Profil>";
+                    cbo_config.IsChecked = false;
+                    cbo_debug.IsChecked = false;
+                    cbo_disable_pers.IsChecked = false;
 
-                cbo_config.ToolTip = tooltip;
-                cbo_debug.ToolTip = tooltip;
-                cbo_disable_pers.ToolTip = tooltip;
-                cb_profil.ToolTip = tooltip;
-                b_start_session_list.ToolTip = tooltip;
-                b_start_nav.ToolTip = tooltip;
-            }
+                    cbo_config.ToolTip = tooltip;
+                    cbo_debug.ToolTip = tooltip;
+                    cbo_disable_pers.ToolTip = tooltip;
+                    cb_profil.ToolTip = tooltip;
+                    b_start_session_list.ToolTip = tooltip;
+                    b_start_nav.ToolTip = tooltip;
+                }
 
             string[] args = Environment.GetCommandLineArgs();
 
             if (args.Length == 2) {
-                File.Copy("Updater_new.exe","Updater.exe",true);
+                File.Copy("Updater_new.exe", "Updater.exe", true);
                 Loghandler.Add("Der Updater wurde aktualisiert");
                 MessageBox.Show("Argumente: " + args[1], "Update");
                 ini.SetSettings("updateuri", args[1]);
-            } 
+            }
             if (ini.GetSetting("upd") == "true")
                 UpdateApplicationAsync();
         }
@@ -131,16 +131,16 @@ namespace StartNAV
         {
             Load_mandanten();
             if (cb_server.SelectedItem is null)
-                return;                         
+                return;
             tbl_serveradresse.Text = ini.GetServerAdress(cb_server.SelectedItem.ToString());
         }
 
         private void Cb_objektTyp_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cb_objektTyp.SelectedItem is null)  
-                return;                             
+            if (cb_objektTyp.SelectedItem is null)
+                return;
 
-            if (cb_objektTyp.SelectedItem.ToString() == "None") { 
+            if (cb_objektTyp.SelectedItem.ToString() == "None") {
                 tx_objId.IsEnabled = false;
                 b_add_fav.IsEnabled = false;
                 b_getId.IsEnabled = false;
@@ -156,7 +156,7 @@ namespace StartNAV
         {
             string exe = "";
             string param;
-            
+
             if (((Button)sender).Name == "b_start_session_list")
                 param = GetStartParameter(StartTyp.Session);
             else
@@ -164,17 +164,17 @@ namespace StartNAV
 
             if (ini.CheckExe())
                 exe = ini.Data["Settings"]["ExePath"] + " ";
-            
-            
+
+
             if (cbo_schow_startstring.IsChecked == true)
             {
-                MessageBox.Show(exe + " " +param,"Start String",MessageBoxButton.OK,MessageBoxImage.Information);
+                MessageBox.Show(exe + " " + param, "Start String", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             Loghandler.Add("Nav gestartet mit Parameter:" + param);
             if (String.IsNullOrEmpty(exe))
                 return;
 
-            Process.Start(exe,param);
+            Process.Start(exe, param);
         }
 
         string GetStartParameter(StartTyp st)
@@ -210,7 +210,7 @@ namespace StartNAV
                     case ObjectType.Report: ObjectStart += "runreport?report=" + tx_objId.Text; break;
                 }
 
-               startstring += Mandant + ObjectStart + "\"";
+                startstring += Mandant + ObjectStart + "\"";
                 if (cb_profil.Text != "<kein Profil>")
                     startstring += Profile + "\"" + cb_profil.Text + "\"";
                 if (cbo_config.IsChecked.Value)
@@ -278,7 +278,7 @@ namespace StartNAV
             try
             {
                 int id = Int32.Parse(tx_objId.Text);
-                string text = handler.GetObjName(id, cb_objektTyp.Text); 
+                string text = handler.GetObjName(id, cb_objektTyp.Text);
                 if (cb_objektTyp.SelectedItem.ToString() == ObjectType.None.ToString())
                 {
                     tb_ObjektName.Text = "";
@@ -300,7 +300,7 @@ namespace StartNAV
         {
             int id = Int32.Parse(tx_objId.Text);
             //lv_fav.Add(new NavObject(cb_objektTyp.Text, id, tb_ObjektName.Text));
-            ini.AddFav(cb_objektTyp.Text,id);
+            ini.AddFav(cb_objektTyp.Text, id);
             LoadFav();
         }
 
@@ -368,13 +368,13 @@ namespace StartNAV
                 else if (temp.GetType() == typeof(CheckBox))
                 {
                     CheckBox cb = (CheckBox)temp;
-                    if(ini.Data["Settings"].ContainsKey(cb.Name))
+                    if (ini.Data["Settings"].ContainsKey(cb.Name))
                         cb.IsChecked = Boolean.Parse(ini.Data["Settings"][cb.Name]);
                 }
             }
             Loghandler.Add("Einstellungen geladen:" + ini.GetFilename());
         }
-        
+
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
             AddMandant w = new AddMandant(ini);
@@ -419,7 +419,7 @@ namespace StartNAV
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
             AddDialog w = new AddDialog("Profil");
-            
+
             w.ShowDialog();
             ini.AddProfile(w.input);
             Load_Profil();
@@ -436,15 +436,15 @@ namespace StartNAV
             OpenFileDialog dialog = new OpenFileDialog
             {
                 Filter = "Client (Microsoft.Dynamics.Nav.Client.exe)|Microsoft.Dynamics.Nav.Client.exe",
-                  InitialDirectory = @"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\"
+                InitialDirectory = @"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\"
             };
 
             if (dialog.ShowDialog() == true)
             {
                 ini.SetExePath(dialog.FileName);
                 MessageBox.Show("Pfad zur exe wurde geändert. Bitte Anwendung neu starten!",
-                    "Neustart erforderlich",MessageBoxButton.OK,MessageBoxImage.Information);
-                Loghandler.Add("Pfad zur exe gesetzt: " +dialog.FileName);
+                    "Neustart erforderlich", MessageBoxButton.OK, MessageBoxImage.Information);
+                Loghandler.Add("Pfad zur exe gesetzt: " + dialog.FileName);
             }
         }
 
@@ -493,7 +493,7 @@ namespace StartNAV
             var client = new GitHubClient(new ProductHeaderValue(ini.GetSetting("upd_user")));
 
             var releases = await client.Repository.Release.GetAll(
-                ini.GetSetting("upd_user"), 
+                ini.GetSetting("upd_user"),
                 ini.GetSetting("upd_repository"));
 
             string updateuri = null;
@@ -529,7 +529,7 @@ namespace StartNAV
             }
 
             Loghandler.Add("Update von: " + updateuri);
-            
+
             upd.Arguments = updateuri;
             Process.Start(upd);
             Close();
@@ -543,8 +543,8 @@ namespace StartNAV
         }
 
 
-        private void defaultoptions () 
-        { 
+        private void defaultoptions()
+        {
             if (ini.GetSetting("upd_user") == null)
                 ini.SetSettings("upd_user", "wallmi");
 
@@ -553,6 +553,7 @@ namespace StartNAV
 
             if (ini.GetSetting("upd_beta") == null)
                 ini.SetSettings("upd_beta", "false");
+        }
 
         private void MenuItem_Click_6(object sender, RoutedEventArgs e)
         {
