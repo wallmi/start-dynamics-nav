@@ -177,6 +177,10 @@
                 Name="cbo_schow_startstring"
                 Content="Zeige Startoptionen" 
                 Style="{DynamicResource stack}"/>
+            <CheckBox
+                Name="cbo_disable_pers"
+                Content="Personalisierung deaktivieren" 
+                Style="{DynamicResource stack}"/>
         </StackPanel>
         <GridSplitter
             Grid.Column="1"

@@ -33,18 +33,18 @@ namespace StartNAV
         readonly ObjectHandler handler;
         readonly List<object> toSave = new List<object>();
         readonly Log Loghandler;
-        enum StartTyp {Nav,Session }
-      
+        enum StartTyp { Nav, Session }
+
         public MainWindow()
         {
             InitializeComponent();
             Loghandler = new Log(tb_status);
             handler = new ObjectHandler(OBJECTFILE);
-            ini = new IniHandler(INIFILE, OBJECTFILE,Loghandler);
-            
+            ini = new IniHandler(INIFILE, OBJECTFILE, Loghandler);
+
             ListView lv = lv_fav.lv_items;
             lv.MouseDoubleClick += new MouseButtonEventHandler(Lv_fav_MouseDoubleClick);
-            
+
             foreach (String temp in NavObjects.GetObjectNames())
                 cb_objektTyp.Items.Add(temp);
 
@@ -53,6 +53,7 @@ namespace StartNAV
             toSave.Add(cb_objektTyp);           toSave.Add(tx_objId);
             toSave.Add(cbo_config);             toSave.Add(cbo_debug);
             toSave.Add(cbo_schow_startstring);  toSave.Add(cb_profil);
+            toSave.Add(cbo_disable_pers);
             toSave.Add(cb_favGroup);
 
             //Keine Favgruppeneinstellung gefunden
@@ -107,7 +108,6 @@ namespace StartNAV
             //Update
             if (ini.GetSetting("upd") == "true")
                 UpdateApplicationAsync();
-        
         }
 
         void Load()
@@ -160,16 +160,16 @@ namespace StartNAV
         {
             Load_mandanten();
             if (cb_server.SelectedItem is null)
-                return;                         
+                return;
             tbl_serveradresse.Text = ini.GetServerAdress(cb_server.SelectedItem.ToString());
         }
 
         private void Cb_objektTyp_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cb_objektTyp.SelectedItem is null)  
-                return;                             
+            if (cb_objektTyp.SelectedItem is null)
+                return;
 
-            if (cb_objektTyp.SelectedItem.ToString() == "None") { 
+            if (cb_objektTyp.SelectedItem.ToString() == "None") {
                 tx_objId.IsEnabled = false;
                 b_add_fav.IsEnabled = false;
                 b_getId.IsEnabled = false;
@@ -185,7 +185,7 @@ namespace StartNAV
         {
             string exe = "";
             string param;
-            
+
             if (((Button)sender).Name == "b_start_session_list")
                 param = GetStartParameter(StartTyp.Session);
             else
@@ -193,17 +193,17 @@ namespace StartNAV
 
             if (ini.CheckExe())
                 exe = ini.Data["Settings"]["ExePath"] + " ";
-            
-            
+
+
             if (cbo_schow_startstring.IsChecked == true)
             {
-                MessageBox.Show(exe + " " +param,"Start String",MessageBoxButton.OK,MessageBoxImage.Information);
+                MessageBox.Show(exe + " " + param, "Start String", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             Loghandler.Add("Nav gestartet mit Parameter:" + param);
             if (String.IsNullOrEmpty(exe))
                 return;
 
-            Process.Start(exe,param);
+            Process.Start(exe, param);
         }
 
         string GetStartParameter(StartTyp st)
@@ -214,6 +214,7 @@ namespace StartNAV
             ObjectType ob = NavObjects.GetObj(cb_objektTyp.Text);
             string Config = " -configure";
             string Debug = " -debug";
+            string DisablePer = " -disablepersonalization";
             string Profile = " -profile:";
             string sessionlist = " -protocolhandler";
             string checkedServer = handler.CheckServerString(ServerAdress);
@@ -238,13 +239,15 @@ namespace StartNAV
                     case ObjectType.Report: ObjectStart += "runreport?report=" + tx_objId.Text; break;
                 }
 
-               startstring += Mandant + ObjectStart + "\"";
+                startstring += Mandant + ObjectStart + "\"";
                 if (cb_profil.Text != "<kein Profil>")
                     startstring += Profile + "\"" + cb_profil.Text + "\"";
                 if (cbo_config.IsChecked.Value)
                     startstring += Config;
                 if (cbo_debug.IsChecked.Value)
                     startstring += Debug;
+                if (cbo_disable_pers.IsChecked.Value)
+                    startstring += DisablePer;
             }
             else if (st == StartTyp.Session)
             {
@@ -304,7 +307,7 @@ namespace StartNAV
             try
             {
                 int id = Int32.Parse(tx_objId.Text);
-                string text = handler.GetObjName(id, cb_objektTyp.Text); 
+                string text = handler.GetObjName(id, cb_objektTyp.Text);
                 if (cb_objektTyp.SelectedItem.ToString() == ObjectType.None.ToString())
                 {
                     tb_ObjektName.Text = "";
@@ -394,13 +397,13 @@ namespace StartNAV
                 else if (temp.GetType() == typeof(CheckBox))
                 {
                     CheckBox cb = (CheckBox)temp;
-                    if(ini.Data["Settings"].ContainsKey(cb.Name))
+                    if (ini.Data["Settings"].ContainsKey(cb.Name))
                         cb.IsChecked = Boolean.Parse(ini.Data["Settings"][cb.Name]);
                 }
             }
             Loghandler.Add("Einstellungen geladen:" + ini.GetFilename());
         }
-        
+
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
             AddMandant w = new AddMandant(ini);
@@ -445,7 +448,7 @@ namespace StartNAV
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
             AddDialog w = new AddDialog("Profil");
-            
+
             w.ShowDialog();
             ini.AddProfile(w.INPUT);
             Load_Profil();
@@ -462,15 +465,15 @@ namespace StartNAV
             OpenFileDialog dialog = new OpenFileDialog
             {
                 Filter = "Client (Microsoft.Dynamics.Nav.Client.exe)|Microsoft.Dynamics.Nav.Client.exe",
-                  InitialDirectory = @"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\"
+                InitialDirectory = @"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\"
             };
 
             if (dialog.ShowDialog() == true)
             {
                 ini.SetExePath(dialog.FileName);
                 MessageBox.Show("Pfad zur exe wurde geändert. Bitte Anwendung neu starten!",
-                    "Neustart erforderlich",MessageBoxButton.OK,MessageBoxImage.Information);
-                Loghandler.Add("Pfad zur exe gesetzt: " +dialog.FileName);
+                    "Neustart erforderlich", MessageBoxButton.OK, MessageBoxImage.Information);
+                Loghandler.Add("Pfad zur exe gesetzt: " + dialog.FileName);
             }
         }
 
@@ -510,27 +513,16 @@ namespace StartNAV
 
         private async Task UpdateApplicationAsync()
         {
-
-            if (ini.GetSetting("upd_user") == null)
-                ini.SetSettings("upd_user", "wallmi");
-
-            if (ini.GetSetting("upd_repository") == null)
-                ini.SetSettings("upd_repository", "start-dynamics-nav");
-
-            if (ini.GetSetting("upd_beta") == null)
-                ini.SetSettings("upd_beta", "false");
-
+            defaultoptions();
             //MessageBoxResult res;
             ProcessStartInfo upd = new ProcessStartInfo("Updater.exe");
 
             //res = MessageBox.Show("Wollen sie die letzte stabile Version installieren? \n (Nein = Beta Version installieren)", "Update", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
             var client = new GitHubClient(new ProductHeaderValue(ini.GetSetting("upd_user")));
-            //var repo = client.Repository.Get(ini.Data["Settings"]["upd_user"],
-            //    ini.Data["Settings"]["upd_repository"]);
 
             var releases = await client.Repository.Release.GetAll(
-                ini.GetSetting("upd_user"), 
+                ini.GetSetting("upd_user"),
                 ini.GetSetting("upd_repository"));
 
             string updateuri = null;
@@ -566,7 +558,7 @@ namespace StartNAV
             }
 
             Loghandler.Add("Update von: " + updateuri);
-            
+
             upd.Arguments = updateuri;
             Process.Start(upd);
             Close();
@@ -574,13 +566,28 @@ namespace StartNAV
 
         private void Options_Click(object sender, RoutedEventArgs e)
         {
+            defaultoptions();
             Options opt = new Options(ini);
             opt.ShowDialog();
+        }
+
+
+        private void defaultoptions()
+        {
+            if (ini.GetSetting("upd_user") == null)
+                ini.SetSettings("upd_user", "wallmi");
+
+            if (ini.GetSetting("upd_repository") == null)
+                ini.SetSettings("upd_repository", "start-dynamics-nav");
+
+            if (ini.GetSetting("upd_beta") == null)
+                ini.SetSettings("upd_beta", "false");
         }
 
         private void MenuItem_Click_6(object sender, RoutedEventArgs e)
         {
             Process.Start("NAVFilterConvert.exe");
+
         }
 
         private void b_addFavGroup_Click(object sender, RoutedEventArgs e)
