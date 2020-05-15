@@ -17,18 +17,21 @@ namespace StartNAV.Dialog
     /// <summary>
     /// Interaktionslogik für AddProfile.xaml
     /// </summary>
-    public partial class AddProfile : Window
+    public partial class AddDialog : Window
     {
-        IniHandler INI;
-        public AddProfile(IniHandler ini)
+        public string input = "";
+        public AddDialog(string name)
         {
             InitializeComponent();
-            INI = ini;
+
+            tb_Name.Text = name;
+            Title = "Füge " + name +" hinzu";
+            
         }
 
         private void Addprofile_Click(object sender, RoutedEventArgs e)
         {
-            INI.AddProfile(tb_profile.Text);
+            input = tb_profile.Text;
             Close();
         }
     }

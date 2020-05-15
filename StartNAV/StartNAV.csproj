@@ -100,8 +100,8 @@
     <Compile Include="Dialog\AddMandant.xaml.cs">
       <DependentUpon>AddMandant.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialog\AddProfile.xaml.cs">
-      <DependentUpon>AddProfile.xaml</DependentUpon>
+    <Compile Include="Dialog\AddDialog.xaml.cs">
+      <DependentUpon>AddDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialog\GetObject.xaml.cs">
       <DependentUpon>GetObject.xaml</DependentUpon>
@@ -131,7 +131,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialog\AddProfile.xaml">
+    <Page Include="Dialog\AddDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

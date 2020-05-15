@@ -86,12 +86,11 @@ namespace StartNAV
             string[] args = Environment.GetCommandLineArgs();
 
             if (args.Length == 2) {
-                File.Copy("Updater_new.exe","Updater.exe");
+                File.Copy("Updater_new.exe","Updater.exe",true);
                 Loghandler.Add("Der Updater wurde aktualisiert");
                 MessageBox.Show("Argumente: " + args[1], "Update");
                 ini.SetSettings("updateuri", args[1]);
             } 
-
             if (ini.GetSetting("upd") == "true")
                 UpdateApplicationAsync();
         }
@@ -419,8 +418,10 @@ namespace StartNAV
 
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
-            AddProfile w = new AddProfile(ini);
+            AddDialog w = new AddDialog("Profil");
+            
             w.ShowDialog();
+            ini.AddProfile(w.input);
             Load_Profil();
         }
 
@@ -483,9 +484,7 @@ namespace StartNAV
 
         private async Task UpdateApplicationAsync()
         {
-
             defaultoptions();
-
             //MessageBoxResult res;
             ProcessStartInfo upd = new ProcessStartInfo("Updater.exe");
 
@@ -543,6 +542,7 @@ namespace StartNAV
             opt.ShowDialog();
         }
 
+
         private void defaultoptions () 
         { 
             if (ini.GetSetting("upd_user") == null)
@@ -553,6 +553,11 @@ namespace StartNAV
 
             if (ini.GetSetting("upd_beta") == null)
                 ini.SetSettings("upd_beta", "false");
+
+        private void MenuItem_Click_6(object sender, RoutedEventArgs e)
+        {
+            Process.Start("NAVFilterConvert.exe");
+
         }
     }
 }
