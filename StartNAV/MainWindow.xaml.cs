@@ -527,6 +527,7 @@ namespace StartNAV
 
             string updateuri = null;
             string version = "";
+            string whatsnew = "";
 
             foreach (var temp in releases) {
                 if (temp.Prerelease & ini.GetSetting("upd_beta") == "false")
@@ -541,13 +542,16 @@ namespace StartNAV
                     continue;   //Wenn kein Release vorhanden ist
 
                 version = temp.TagName;
+                whatsnew = temp.Body;
                 break;          //
             }
 
             if (updateuri == null)
                 return;
 
-            MessageBoxResult res = MessageBox.Show("Neue Version " + version + " vorhanden, soll von " + updateuri + " heruntergeladen und installiert werden?",
+            MessageBoxResult res = MessageBox.Show("Neue Version " + version + " vorhanden, soll von " + updateuri + " heruntergeladen und installiert werden?\n\r"
+                + "\n\r Das ist neu in der Version"
+                + whatsnew,
                 "Update",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
