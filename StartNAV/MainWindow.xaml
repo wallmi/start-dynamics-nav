@@ -143,7 +143,8 @@
                 <TextBox
                         Name="tx_objId"
                         Grid.Column="0"
-                        TextChanged="Tx_objId_TextChanged" Margin="0" />
+                        TextChanged="Tx_objId_TextChanged" 
+                    Margin="0" />
                 <Button
                         Name="b_getId"
                         Click="B_getId_Click"
