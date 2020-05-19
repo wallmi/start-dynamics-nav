@@ -189,9 +189,10 @@
             Grid.Row="1"
             Grid.Column="2"
             Orientation="Horizontal">
-        <ComboBox
+            <ComboBox
             x:Name="cb_favGroup"
-            SelectionChanged="cb_favGroup_SelectionChanged" />
+            SelectionChanged="cb_favGroup_SelectionChanged">
+            </ComboBox>
             <Button
                 x:Name="b_addFavGroup"
                 Content="Add" 

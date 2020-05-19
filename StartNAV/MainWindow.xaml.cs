@@ -57,7 +57,7 @@ namespace StartNAV
 
             //Keine Favgruppeneinstellung gefunden
             if (ini.GetSetting("favgroup") == null) 
-                if (MessageBox.Show("Sollen Favoriten Gruppen verwendet werden?",
+                if (MessageBox.Show(Resource.Fav_Group_Ques,
                     "Favoriten Gruppen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 { 
                     ini.SetSettings("favgroup", "true");
