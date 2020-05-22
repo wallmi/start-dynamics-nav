@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:StartNAV.Dialog"
         mc:Ignorable="d"
         MaxWidth="800"
-        Title="Log" Height="271" Width="528" SizeToContent="Width" WindowStyle="ToolWindow">
+        Title="Log" 
+        Height="271" 
+        Width="528" 
+        SizeToContent="Width" 
+        WindowStyle="ToolWindow">
     <Grid>
         <ListView
             Name="lv_logentries">

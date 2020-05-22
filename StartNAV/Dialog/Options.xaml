@@ -25,7 +25,7 @@
         </TextBlock>
         <TextBlock
             Grid.Row="4">
-            Favouriten Gruppen
+            Favoriten Gruppen
         </TextBlock>
         <StackPanel
             Orientation="Horizontal"

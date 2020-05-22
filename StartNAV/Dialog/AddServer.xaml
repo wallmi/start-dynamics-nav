@@ -9,16 +9,20 @@
         WindowStyle="ToolWindow" 
         SizeToContent="WidthAndHeight"
         FocusManager.FocusedElement="{Binding ElementName=_servername}"
-        ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
-    <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterOwner">
+    <Grid HorizontalAlignment="Left" 
+          VerticalAlignment="Top">
         <TextBlock
             Grid.Row="0"
             Grid.Column="0"
-            Text="Servername" Margin="5"/>
+            Text="Servername" 
+            Margin="5"/>
         <TextBlock
             Grid.Row="1"
             Grid.Column="0"
-            Text="Serveradresse:Port" Margin="5"/>
+            Text="Serveradresse:Port" 
+            Margin="5"/>
         <TextBlock
             Grid.Row="2"
             Grid.Column="0"
@@ -27,31 +31,46 @@
         <TextBox
             Grid.Row="0"
             Grid.Column="1"
-            Name="_servername" Width="150" Margin="5" TabIndex="1"
+            Name="_servername" 
+            Margin="5" 
+            TabIndex="1"
             />
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
-            Name="_serveradress" Width="90" Margin="5,5,0,5" HorizontalAlignment="Left" TabIndex="2"
+            Name="_serveradress" 
+            Width="90" 
+            Margin="5,5,0,5" 
+            HorizontalAlignment="Left" 
+            TabIndex="2"
             />
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
             Text="7046"
-            Name="_port" Width="50" Margin="0,5,5,5" HorizontalAlignment="Right" TabIndex="3"
+            Name="_port" 
+            Width="50" 
+            Margin="0,5,5,5" 
+            HorizontalAlignment="Right" 
+            TabIndex="3"
             />
         <TextBox
             Grid.Row="2"
             Grid.Column="1"
             Text="DynamicsNAV100"
-            Name="_instanz" Width="150" Margin="5" TabIndex="4"
+            Name="_instanz" 
+            Width="150" 
+            Margin="5" 
+            TabIndex="4"
             />
         <Button
             Grid.Column="1"
             Grid.Row="3"
             Name="addServer"
-            Content="Hinzufügen" Margin="5"
-            Click="AddServer_Click" TabIndex="5"/>
+            Content="Hinzufügen" 
+            Margin="5"
+            Click="AddServer_Click" 
+            TabIndex="5"/>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
@@ -61,7 +80,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="160"/>
         </Grid.ColumnDefinitions>
     </Grid>
 </Window>

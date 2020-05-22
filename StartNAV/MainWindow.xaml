@@ -143,7 +143,8 @@
                 <TextBox
                         Name="tx_objId"
                         Grid.Column="0"
-                        TextChanged="Tx_objId_TextChanged" Margin="0" />
+                        TextChanged="Tx_objId_TextChanged" 
+                    Margin="0" />
                 <Button
                         Name="b_getId"
                         Click="B_getId_Click"
@@ -176,6 +177,10 @@
             <CheckBox
                 Name="cbo_schow_startstring"
                 Content="Zeige Startoptionen" 
+                Style="{DynamicResource stack}"/>
+            <CheckBox
+                Name="cbo_disable_pers"
+                Content="Personalisierung deaktivieren" 
                 Style="{DynamicResource stack}"/>
         </StackPanel>
         <GridSplitter
@@ -211,7 +216,7 @@
         <Grid
             Grid.Row="3"
             Grid.Column="2">
-            <StackPanel Margin="0,0,0,10">
+            <StackPanel Margin="0,0,5,10">
                 <Grid Width="{Binding ActualWidth, ElementName=b_start_nav, Mode=OneWay}">
                     <Button
                         Grid.Column="0"

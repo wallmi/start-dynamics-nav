@@ -7,8 +7,10 @@
         mc:Ignorable="d"
         Title="Info" 
         Height="347.143" 
-        Width="582.714" ResizeMode="NoResize" 
-        ScrollViewer.VerticalScrollBarVisibility="Disabled" WindowStyle="ToolWindow">
+        Width="582.714" 
+        ResizeMode="NoResize" 
+        ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+        WindowStyle="ToolWindow">
     <Grid>
 
     </Grid>
