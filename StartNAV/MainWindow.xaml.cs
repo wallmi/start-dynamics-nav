@@ -188,7 +188,7 @@ namespace StartNAV
             string DisablePer = " -disablepersonalization";
             string Profile = " -profile:";
             string sessionlist = " -protocolhandler";
-            string checkedServer = handler.CheckServerString(ServerAdress);
+            string checkedServer = ObjectHandler.CheckServerString(ServerAdress);
             string startstring = "";
 
             //Serveradresse aktualisieren
@@ -285,7 +285,7 @@ namespace StartNAV
                     return;
                 }
 
-                if (text == "")
+                if (String.IsNullOrEmpty(text))
                     tb_ObjektName.Text = "ID nicht gefunden";
                 else
                     tb_ObjektName.Text = text;

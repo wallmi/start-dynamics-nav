@@ -19,7 +19,11 @@ namespace StartNAV.Dialog
     /// </summary>
     public partial class AddDialog : Window
     {
-        public string input = "";
+        public string input
+        {
+            get { return input; }
+            set { input = value; }
+        }
         public AddDialog(string name)
         {
             InitializeComponent();

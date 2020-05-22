@@ -25,6 +25,9 @@ namespace StartNAV.Dialog
         public Options(IniHandler Ini)
         {
             InitializeComponent();
+            if (Ini == null)
+                return;
+
             ini = Ini;
             if (ini.GetSetting("upd") == "true")
                 opt_upd_yes.IsChecked = true;

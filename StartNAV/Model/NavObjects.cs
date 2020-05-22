@@ -8,7 +8,7 @@ namespace StartNAV.Model
 {
     public enum ObjectType {None = -1, Table = 0, Report = 3, Page = 8 };
 
-    public class NavObjects
+    static public class NavObjects
     {
         public static int GetId(string objectName)
         {

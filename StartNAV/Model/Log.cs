@@ -17,11 +17,9 @@ namespace StartNAV.Model
 
         public Log (TextBlock tb)
         {
-            if(!File.Exists(FILENAME)) { 
+            if(!File.Exists(FILENAME)) 
                 File.Create(FILENAME);
                 
-            }
-
             TB = tb;
             Add("--------------------------------------------------");
             Add("New Log started");

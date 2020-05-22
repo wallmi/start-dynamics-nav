@@ -139,7 +139,7 @@ namespace StartNAV
             return id.ToString() + "_" + objID.ToString();
         }
         
-        public List<String> GetObjs()
+        static public List<String> GetObjs()
         {
             List<string> ret = new List<string>();
             foreach (string temp in Enum.GetNames(typeof(ObjectType)))
@@ -179,7 +179,7 @@ namespace StartNAV
         /// </summary>
         /// <param name="servername"></param>
         /// <returns></returns>
-        public String CheckServerString(String servername)
+        static public String CheckServerString(String servername)
         {
             if (String.IsNullOrEmpty(servername)) return "";
 
@@ -189,7 +189,7 @@ namespace StartNAV
             return servername;
         }
 
-        private String Version(String[] data)
+        static private String Version(String[] data)
         {
             string ret = "";
             int i = 1;
