@@ -23,13 +23,15 @@
                  Grid.Row="1"
                  TextWrapping="Wrap"
                  AcceptsReturn="True"
-                 TextChanged="tx_input_TextChanged"></TextBox>
+                 TextChanged="tx_input_TextChanged" 
+                 VerticalScrollBarVisibility="Auto"></TextBox>
         <TextBox x:Name="tx_output" 
                  Grid.Row="1"
                  TextWrapping="Wrap"
                  AcceptsReturn="True"
                  Grid.Column="1" 
-                 IsReadOnly="True"></TextBox>
+                 IsReadOnly="True" 
+                 VerticalScrollBarVisibility="Auto"></TextBox>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
