@@ -192,6 +192,9 @@ namespace StartNAV
 
         public void AddProfile(string name)
         {
+            if (String.IsNullOrEmpty(name))
+                return;
+
             Data["Profile"][name] = "1";
         }
 

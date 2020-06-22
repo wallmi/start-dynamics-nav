@@ -19,11 +19,7 @@ namespace StartNAV.Dialog
     /// </summary>
     public partial class AddDialog : Window
     {
-        public string input
-        {
-            get { return input; }
-            set { input = value; }
-        }
+        string _input = "";
         public AddDialog(string name)
         {
             InitializeComponent();
@@ -33,9 +29,13 @@ namespace StartNAV.Dialog
             
         }
 
-        private void Addprofile_Click(object sender, RoutedEventArgs e)
+        public string INPUT { 
+            get { return _input; } 
+            set { _input = value; }
+        }
+        private void Add_Click(object sender, RoutedEventArgs e)
         {
-            input = tb_profile.Text;
+            _input = tb_profile.Text;
             Close();
         }
     }
