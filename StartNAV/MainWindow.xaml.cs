@@ -562,7 +562,7 @@ namespace StartNAV
                 return;
 
             MessageBoxResult res = MessageBox.Show("Neue Version " + version + " vorhanden, soll von " + updateuri + " heruntergeladen und installiert werden?\n\r"
-                + "\n\r Das ist neu in der Version"
+                + "\n\r Das ist neu in der Version: \n\r"
                 + whatsnew,
                 "Update",
                 MessageBoxButton.YesNo,
