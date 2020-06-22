@@ -19,6 +19,7 @@ using StartNAV.Model;
 using StartNAV.Dialog;
 using System.Diagnostics;
 using Microsoft.Win32;
+using System.Threading;
 
 namespace StartNAV
 {
@@ -83,11 +84,19 @@ namespace StartNAV
             string[] args = Environment.GetCommandLineArgs();
 
             if (args.Length == 2) {
-                File.Copy("Updater_new.exe","Updater.exe",true);
+                Thread.Sleep(2000);
+                try { 
+                    File.Copy("Updater_new.exe","Updater.exe",true);
+                    File.Delete("Updater_new.exe");
+                }
+                catch (Exception e)
+                {
+                    Loghandler.Add("Fehler Updater aktualisieren: " + e.Message);
+                }
                 Loghandler.Add("Der Updater wurde aktualisiert");
-                MessageBox.Show("Argumente: " + args[1], "Update");
+                MessageBox.Show("Update erfolgreich durchgeführt: " + args[1], "Update erfolgreich");
                 ini.SetSettings("updateuri", args[1]);
-            } 
+            }
 
 
             if (ini.GetSetting("upd") == "true")
@@ -513,8 +522,11 @@ namespace StartNAV
 
                 updateuri = temp.Assets[0].BrowserDownloadUrl;
 
-                if (updateuri == ini.GetSetting("updateuri"))
-                    continue;   //Wenn Updateversion gleich ist
+                if (updateuri == ini.GetSetting("updateuri")) {
+                     //Wenn die installierte Version mit der gefunden zusammen passt Ende
+                    updateuri = null;
+                    break;   //Wenn Updateversion gleich ist   
+                }
 
                 if (String.IsNullOrEmpty(updateuri))
                     continue;   //Wenn kein Release vorhanden ist
