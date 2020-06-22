@@ -57,7 +57,8 @@ namespace Updater
                 processStartInfo.FileName = @"7z.exe";
                 processStartInfo.Arguments = @"e ";
                 processStartInfo.Arguments += temp + "package.7z ";
-                processStartInfo.Arguments += @"-o" + temp + @"files";
+                processStartInfo.Arguments += @"-o" + temp + @"files ";
+                processStartInfo.Arguments += "-y";
                 Process pr = Process.Start(processStartInfo);
                 pr.WaitForExit();
                 log.Add("Entpackt nach: " + temp + @"files");
