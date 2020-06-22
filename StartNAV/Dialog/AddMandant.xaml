@@ -9,32 +9,41 @@
         WindowStyle="ToolWindow" 
         SizeToContent="WidthAndHeight"
         FocusManager.FocusedElement="{Binding ElementName=tb_mandant}"
-        ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
-    <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterOwner">
+    <Grid HorizontalAlignment="Left" 
+          VerticalAlignment="Top">
         <TextBlock
             Grid.Row="0"
             Grid.Column="0"
-            Text="Servername" Margin="5"/>
+            Text="Servername" 
+            Margin="5"/>
         <TextBlock
             Grid.Row="1"
             Grid.Column="0"
-            Text="Mandant" Margin="5"/>
+            Text="Mandant" 
+            Margin="5"/>
         <ComboBox
             Grid.Row="0"
             Grid.Column="1"
-            Name="cb_servername" Width="150" Margin="5"
+            Name="cb_servername" 
+            Margin="5"
             />
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
-            Name="tb_mandant" Width="150" Margin="5" TabIndex="1"
+            Name="tb_mandant" 
+            Margin="5" 
+            TabIndex="1"
             />
         <Button
             Grid.Column="1"
             Grid.Row="2"
             Name="addmandant"
-            Content="Add" Margin="5"
-            Click="Addmandant_Click" TabIndex="2"/>
+            Content="Add" 
+            Margin="5"
+            Click="Addmandant_Click" 
+            TabIndex="2"/>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -42,7 +51,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="160"/>
         </Grid.ColumnDefinitions>
     </Grid>
 </Window>

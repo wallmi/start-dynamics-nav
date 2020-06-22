@@ -19,6 +19,7 @@ using StartNAV.Model;
 using StartNAV.Dialog;
 using System.Diagnostics;
 using Microsoft.Win32;
+using System.Threading;
 
 namespace StartNAV
 {
@@ -48,14 +49,29 @@ namespace StartNAV
             foreach (String temp in NavObjects.GetObjectNames())
                 cb_objektTyp.Items.Add(temp);
 
+            //Pbjekte die gespeichert werden sollen
             toSave.Add(cb_server);              toSave.Add(cb_mandant);
             toSave.Add(cb_objektTyp);           toSave.Add(tx_objId);
             toSave.Add(cbo_config);             toSave.Add(cbo_debug);
             toSave.Add(cbo_schow_startstring);  toSave.Add(cb_profil);
             toSave.Add(cbo_disable_pers);
+            toSave.Add(cb_favGroup);
+
+            //Keine Favgruppeneinstellung gefunden
+            if (ini.GetSetting("favgroup") == null) 
+                if (MessageBox.Show(Resource.Fav_Group_Ques,
+                    "Favoriten Gruppen", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                { 
+                    ini.SetSettings("favgroup", "true");
+                    ini.AddFavGroup("(DEFAULT)");
+                    ini.SetSettings("cb_favGroup", "(DEFAULT)");
+                }
+                else
+                    ini.SetSettings("favgroup", "false");
 
             Load();
 
+            //Kein Pfad zur exe eingerichtet
             if (!ini.CheckExe())
                 if (MessageBox.Show("Pfad zur Exe wurde nicht eingerichtet. Möchten sie das jetzt durchführen?",
                     "Pfad zur EXE", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -65,7 +81,6 @@ namespace StartNAV
                     string tooltip = "Für diese Option muss zuerst die Anwendung ausgewählt werden";
                     cbo_config.IsEnabled = false;
                     cbo_debug.IsEnabled = false;
-                    cbo_disable_pers.IsEnabled = false;
                     b_start_session_list.IsEnabled = false;
                     cb_profil.IsEnabled = false;
                     b_start_nav.IsEnabled = false;
@@ -73,24 +88,33 @@ namespace StartNAV
                     cb_profil.SelectedItem = "<kein Profil>";
                     cbo_config.IsChecked = false;
                     cbo_debug.IsChecked = false;
-                    cbo_disable_pers.IsChecked = false;
 
                     cbo_config.ToolTip = tooltip;
                     cbo_debug.ToolTip = tooltip;
-                    cbo_disable_pers.ToolTip = tooltip;
                     cb_profil.ToolTip = tooltip;
                     b_start_session_list.ToolTip = tooltip;
                     b_start_nav.ToolTip = tooltip;
                 }
 
-            string[] args = Environment.GetCommandLineArgs();
 
+            //Updater aktualisieren
+            string[] args = Environment.GetCommandLineArgs();
             if (args.Length == 2) {
-                File.Copy("Updater_new.exe", "Updater.exe", true);
+                Thread.Sleep(2000);
+                try { 
+                    File.Copy("Updater_new.exe","Updater.exe",true);
+                    File.Delete("Updater_new.exe");
+                }
+                catch (Exception e)
+                {
+                    Loghandler.Add("Fehler Updater aktualisieren: " + e.Message);
+                }
                 Loghandler.Add("Der Updater wurde aktualisiert");
-                MessageBox.Show("Argumente: " + args[1], "Update");
+                MessageBox.Show("Update erfolgreich durchgeführt: " + args[1], "Update erfolgreich");
                 ini.SetSettings("updateuri", args[1]);
             }
+
+            //Update
             if (ini.GetSetting("upd") == "true")
                 UpdateApplicationAsync();
         }
@@ -99,18 +123,32 @@ namespace StartNAV
         {
             Load_Server();
             Load_Profil();
+            LoadFavGroup();
             LoadFav();
+            //-------------
             LoadSettings();
         }
 
         void LoadFav()
         {
-            List<NavObject> favs = ini.GetFav();
-            lv_fav.SetItems(favs);
+            lv_fav.SetItems(ini.GetFav(getFavgroup()));
 
-            Loghandler.Add(Resource.Load_Fav);
+            Loghandler.Add(Resource.Load_Fav+getFavgroup());
             if (!handler.withversion)
                 lv_fav.setShowVersion(false);
+        }
+        void LoadFavGroup()
+        {
+            if (ini.GetSetting("favgroup") == "true")
+                cb_favGroup.ItemsSource = ini.GetFavGroups();
+            else
+            { 
+                sp_FavGroup.Visibility = Visibility.Hidden;
+                sp_FavGroup.Height = 0;
+                cb_favGroup.Items.Clear();
+                cb_favGroup.Items.Add("NOFAVGROUP");
+                cb_favGroup.SelectedItem = "NOFAVGROUP";
+            }
         }
 
         #region Actions
@@ -300,7 +338,7 @@ namespace StartNAV
         {
             int id = Int32.Parse(tx_objId.Text);
             //lv_fav.Add(new NavObject(cb_objektTyp.Text, id, tb_ObjektName.Text));
-            ini.AddFav(cb_objektTyp.Text, id);
+            ini.AddFav(cb_objektTyp.Text,id, getFavgroup());
             LoadFav();
         }
 
@@ -310,7 +348,7 @@ namespace StartNAV
             //foreach (NavObject temp in lv_fav.GetSelectItems())
             //    ini.DeleteFav(temp.Typ, temp.ID);
 
-            ini.DeleteFavs(lv_fav.GetSelectItems());
+            ini.DeleteFavs(lv_fav.GetSelectItems(),getFavgroup());
             LoadFav();
         }
 
@@ -404,7 +442,7 @@ namespace StartNAV
                 //{
                 //    ini.AddFav(temp.Typ, temp.ID);
                 //}
-                ini.AddFavs(w.getSelectionList());
+                ini.AddFavs(w.getSelectionList(), getFavgroup());
                 LoadFav();
             }
             else
@@ -421,7 +459,7 @@ namespace StartNAV
             AddDialog w = new AddDialog("Profil");
 
             w.ShowDialog();
-            ini.AddProfile(w.input);
+            ini.AddProfile(w.INPUT);
             Load_Profil();
         }
 
@@ -498,6 +536,7 @@ namespace StartNAV
 
             string updateuri = null;
             string version = "";
+            string whatsnew = "";
 
             foreach (var temp in releases) {
                 if (temp.Prerelease & ini.GetSetting("upd_beta") == "false")
@@ -505,20 +544,26 @@ namespace StartNAV
 
                 updateuri = temp.Assets[0].BrowserDownloadUrl;
 
-                if (updateuri == ini.GetSetting("updateuri"))
-                    continue;   //Wenn Updateversion gleich ist
+                if (updateuri == ini.GetSetting("updateuri")) {
+                     //Wenn die installierte Version mit der gefunden zusammen passt Ende
+                    updateuri = null;
+                    break;   //Wenn Updateversion gleich ist   
+                }
 
                 if (String.IsNullOrEmpty(updateuri))
                     continue;   //Wenn kein Release vorhanden ist
 
                 version = temp.TagName;
+                whatsnew = temp.Body;
                 break;          //
             }
 
             if (updateuri == null)
                 return;
 
-            MessageBoxResult res = MessageBox.Show("Neue Version " + version + " vorhanden, soll von " + updateuri + " heruntergeladen und installiert werden?",
+            MessageBoxResult res = MessageBox.Show("Neue Version " + version + " vorhanden, soll von " + updateuri + " heruntergeladen und installiert werden?\n\r"
+                + "\n\r Das ist neu in der Version: \n\r"
+                + whatsnew,
                 "Update",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
@@ -559,6 +604,42 @@ namespace StartNAV
         {
             Process.Start("NAVFilterConvert.exe");
 
+        }
+
+        private void b_addFavGroup_Click(object sender, RoutedEventArgs e)
+        {
+            AddDialog w = new AddDialog("Favoriten Gruppe");
+            w.ShowDialog();
+            ini.AddFavGroup(w.INPUT);
+            LoadFavGroup();
+        }
+
+        private void b_delFavGroup_Click(object sender, RoutedEventArgs e)
+        {
+            ini.DelFavGroup(cb_favGroup.SelectedValue.ToString());
+            LoadFavGroup();
+        }
+
+        private bool isfavgroup()
+        {
+            if (ini.GetSetting("favgroup") == "true")
+                return true;
+
+            return false;
+        }
+
+        private string getFavgroup()
+        {
+            if (cb_favGroup.SelectedValue == "NOFAVGROUP" || cb_favGroup.SelectedValue == null)
+                return null;
+
+            return cb_favGroup.SelectedValue.ToString();
+        }
+
+
+        private void cb_favGroup_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LoadFav();
         }
     }
 }

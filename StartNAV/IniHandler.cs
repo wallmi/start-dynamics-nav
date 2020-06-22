@@ -216,9 +216,18 @@ namespace StartNAV
             Data["Mandanten-"+server][mandant] = "1";
         }
 
+        //Add Favs
+        public void AddFav(string type, int id, string group)
+        {
+            if (String.IsNullOrEmpty(group))
+                Data["Fav"][FavName(type, id)] = "1";
+            else
+                Data["Fav_"+group][FavName(type, id)] = "1";
+        }
+
         public void AddFav(string type, int id)
         {
-            Data["Fav"][FavName(type,id)] = "1";
+            AddFav(type, id, null);
         }
 
         public void AddFav(ObjectType type, int id)
@@ -226,15 +235,30 @@ namespace StartNAV
             AddFav(NavObjects.GetName(type), id);
         }
 
-        public void AddFavs(List<NavObject> favs)
+        public void AddFavs(List<NavObject> favs,string group)
         {
             if (favs == null)
                 return;
 
             foreach (NavObject temp in favs)
             {
-                Data["Fav"][FavName(temp.Typ.ToString(), temp.ID)] = "1";
+                AddFav(temp.Typ.ToString(), temp.ID, group);
             }
+        }
+
+        //Delete Favs
+        public void DeleteFav(string type, int id, string group)
+        {
+            string section = "Fav";
+            if (!String.IsNullOrEmpty(group))
+                section += "_" + group;
+
+            if ((Data[section].ContainsKey(FavName(type, id))))
+                Data[section].RemoveKey(FavName(type, id));
+        }
+        public void DeleteFav(string type, int id)
+        {
+            DeleteFav(type, id,null);
         }
 
         public void DeleteFav(ObjectType type, int id)
@@ -242,22 +266,19 @@ namespace StartNAV
             DeleteFav(NavObjects.GetName(type), id);
         }
 
-        public void DeleteFav(string type,int id)
-        {
-            if (!(Data["Fav"].ContainsKey(FavName(type, id))))
-                Data["Fav"].RemoveKey(FavName(type, id));
-        }
-
-        public void DeleteFavs(List<NavObject> favs)
+        public void DeleteFavs(List<NavObject> favs, string group)
         {
             if (favs == null)
                 return;
             foreach (NavObject temp in favs)
             {
-                if (Data["Fav"].ContainsKey(temp.GetKey()))
-                    Data["Fav"].RemoveKey(temp.GetKey());
-
+                DeleteFav(temp.Typ.ToString(), temp.ID, group);
             }
+        }
+
+        public void DeleteFavs(List<NavObject> favs)
+        {
+            DeleteFavs(favs, null);
         }
 
        static string FavName(string type, int id)
@@ -265,24 +286,63 @@ namespace StartNAV
             return type + "_" + id.ToString();
         }
 
-        public List<NavObject> GetFav()
+        public List<NavObject> GetFav(string group)
         {
+            string section = "Fav";
+            if (!String.IsNullOrEmpty(group))
+                section += "_" + group;
+
             List<NavObject> ret = new List<NavObject>();
-            if (Data.Sections["Fav"] is null)
+            if (Data.Sections[section] is null)
                 return ret;
-            foreach (KeyData key in Data.Sections["Fav"])
+            foreach (KeyData key in Data.Sections[section])
             {
                 string[] keyVal = key.KeyName.Split('_');
                 if (keyVal.Length == 2)
                 {
                     int id = int.Parse(keyVal[1]);
-                    ret.Add(new NavObject (keyVal[0], id,  
+                    ret.Add(new NavObject(keyVal[0], id,
                         handler.GetObjName(id, NavObjects.GetObj(keyVal[0])),
                         handler.GetVersion(id, NavObjects.GetObj(keyVal[0]))
                     )
                     );
                 }
             }
+            return ret;
+
+        }
+
+        public List<NavObject> GetFav()
+        {
+            return GetFav(null);
+        }
+
+        //Fav Group
+        public void AddFavGroup(string groupname)
+        {
+            if (String.IsNullOrEmpty(groupname))
+                return;
+
+            Data["FavGroup"][groupname] = "1";
+        }
+
+        public void DelFavGroup(string groupname)
+        {
+            DeleteFavs(GetFav(groupname),groupname);
+            Data["FavGroup"].RemoveKey(groupname);
+        }
+
+        public List<string> GetFavGroups()
+        {
+            if (Data.Sections["FavGroup"] == null)
+                Data.Sections.AddSection("FavGroup");
+
+            List<string> ret = new List<string>();
+            foreach (KeyData key in Data.Sections["FavGroup"])
+            {
+                ret.Add(key.KeyName);
+            }
+
             return ret;
         }
 

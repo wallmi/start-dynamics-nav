@@ -9,31 +9,37 @@
         WindowStyle="ToolWindow" 
         SizeToContent="WidthAndHeight"
         FocusManager.FocusedElement="{Binding ElementName=tb_profile}"
-        ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
-    <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterOwner">
+    <Grid HorizontalAlignment="Left" 
+          VerticalAlignment="Top">
         <TextBlock
             x:Name="tb_Name"
             Grid.Row="0"
             Grid.Column="0"
-            Text="(Text)" Margin="5"/>
+            Text="(Text)" 
+            Margin="5" />
         <TextBox
             Grid.Row="0"
             Grid.Column="1"
-            Name="tb_profile" Width="150" Margin="5" TabIndex="1"
-            />
+            Name="tb_profile" 
+            Margin="5" 
+            TabIndex="1" />
         <Button
             Grid.Column="1"
             Grid.Row="1"
             Name="addprofile"
-            Content="Add" Margin="5"
-            Click="Addprofile_Click" TabIndex="2"/>
+            Content="Add" 
+            Margin="5"
+            Click="Add_Click" 
+            TabIndex="2"/>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="160"/>
         </Grid.ColumnDefinitions>
     </Grid>
 </Window>

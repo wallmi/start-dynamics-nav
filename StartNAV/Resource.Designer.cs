@@ -61,6 +61,15 @@ namespace StartNAV {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sollen Favoriten Gruppen verwendet werden? ähnelt.
+        /// </summary>
+        public static string Fav_Group_Ques {
+            get {
+                return ResourceManager.GetString("Fav_Group_Ques", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
         /// </summary>
         public static System.Drawing.Icon favicon {
@@ -81,7 +90,7 @@ namespace StartNAV {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Favoriten geladen ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Favoriten geladen, Gruppe: ähnelt.
         /// </summary>
         public static string Load_Fav {
             get {

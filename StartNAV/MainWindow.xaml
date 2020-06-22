@@ -107,7 +107,7 @@
         </Menu>
         <StackPanel
             Grid.Row="1"
-            Grid.RowSpan="2" 
+            Grid.RowSpan="3" 
             Margin="5,0,5,5">
             <TextBlock 
                 Text="Server" 
@@ -143,7 +143,8 @@
                 <TextBox
                         Name="tx_objId"
                         Grid.Column="0"
-                        TextChanged="Tx_objId_TextChanged" Margin="0" />
+                        TextChanged="Tx_objId_TextChanged" 
+                    Margin="0" />
                 <Button
                         Name="b_getId"
                         Click="B_getId_Click"
@@ -186,13 +187,36 @@
             Grid.Column="1"
             Width="5"
             Grid.Row="1"
-            Grid.RowSpan="2"
-            HorizontalAlignment="Center"
-            />
+            Grid.RowSpan="3"
+            HorizontalAlignment="Center" />
+        <StackPanel
+            x:Name="sp_FavGroup"
+            Grid.Row="1"
+            Grid.Column="2"
+            Orientation="Horizontal">
+            <ComboBox
+            x:Name="cb_favGroup"
+            SelectionChanged="cb_favGroup_SelectionChanged">
+            </ComboBox>
+            <Button
+                x:Name="b_addFavGroup"
+                Content="Add" 
+                Margin="0"
+                Click="b_addFavGroup_Click"/>
+            <Button
+                x:Name="b_delFavGroup"
+                Content="Löschen" 
+                Margin="0"
+                Click="b_delFavGroup_Click"/>
+        </StackPanel>
+        <c:NavObjektList
+            x:Name="lv_fav"
+            Grid.Column="2"
+            Grid.Row="2" />
         <Grid
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="2">
-            <StackPanel Margin="0,0,0,10">
+            <StackPanel Margin="0,0,5,10">
                 <Grid Width="{Binding ActualWidth, ElementName=b_start_nav, Mode=OneWay}">
                     <Button
                         Grid.Column="0"
@@ -229,12 +253,8 @@
                     IsDefault="True"/>
             </StackPanel>
         </Grid>
-        <c:NavObjektList
-            x:Name="lv_fav"
-            Grid.Column="2"
-            Grid.Row="1" />
         <StatusBar
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.ColumnSpan="3">
             <StatusBarItem>
                 <TextBlock
@@ -242,6 +262,7 @@
             </StatusBarItem>
         </StatusBar>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
