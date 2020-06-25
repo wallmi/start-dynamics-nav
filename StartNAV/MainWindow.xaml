@@ -46,37 +46,37 @@
                     />
             </MenuItem>
             <MenuItem Header="_Settings">
-            <MenuItem Header="Server">
-                <MenuItem 
+                <MenuItem Header="Server">
+                    <MenuItem 
                     Header="_Add"
-                    Click="MenuItem_Click"/>
-                <MenuItem
+                    Click="AddServer"/>
+                    <MenuItem
                     Header="_Lösche akt. Server"
-                    Click="MenuItem_Click_1"/>
-            </MenuItem>
-            <MenuItem Header="Mandant">
-                <MenuItem
-                    Header="_Add"
-                    Click="MenuItem_Click_3">
+                    Click="DelServer"/>
                 </MenuItem>
-                <MenuItem
+                <MenuItem Header="Mandant">
+                    <MenuItem
+                    Header="_Add"
+                    Click="AddMandant">
+                    </MenuItem>
+                    <MenuItem
                     Header="_Lösche akt. Mandant"
-                    Click="MenuItem_Click_2"/>
-            </MenuItem>
-            <MenuItem Header="Profile">
-                <MenuItem
-                    Header="_Add"
-                    Click="MenuItem_Click_4">
+                    Click="DelMandant"/>
                 </MenuItem>
-                <MenuItem
+                <MenuItem Header="Profile">
+                    <MenuItem
+                    Header="_Add"
+                    Click="AddProfil">
+                    </MenuItem>
+                    <MenuItem
                     Header="_Lösche akt. Profil"
-                    Click="MenuItem_Click_5"/>
-            </MenuItem>
+                    Click="DelProfil"/>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem 
                     Header="ConvertLineBreaks"
-                    Click="MenuItem_Click_6"/>
+                    Click="StartNAVFilter"/>
             </MenuItem>
             <MenuItem Header="Hilfe">
                 <MenuItem
@@ -112,24 +112,95 @@
             <TextBlock 
                 Text="Server" 
                 Style="{DynamicResource H2}" />
-            <ComboBox
+            <Grid>
+                <ComboBox
                 Name="cb_server"
                 SelectionChanged="Cb_server_SelectionChanged" />
+                <Button
+                    Click="AddServer"
+                    Content="+" 
+                    Margin="0"
+                    Grid.Column="1" 
+                    Padding="10,0" 
+                    Background="#FF6CF94C"
+                    />
+                <Button
+                    Click="DelServer"
+                    Content="-" 
+                    Margin="0"
+                    Grid.Column="2" 
+                    Padding="10,0" 
+                    Background="#FFFF6050"
+                    />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
             <TextBlock
                 x:Name="tbl_serveradresse"
                 Text="Serveradresse" 
-                TextWrapping="Wrap" Style="{DynamicResource sub1}" />
+                TextWrapping="Wrap" 
+                Style="{DynamicResource sub1}" />
             <TextBlock 
                 Text="Mandant" 
                 Style="{DynamicResource H2}" />
-            <ComboBox
-                Name="cb_mandant" />
+            <Grid>
+                <ComboBox
+                    Name="cb_mandant"
+                    Grid.Column="0"/>
+                <Button
+                    Click="AddMandant"
+                    Content="+" 
+                    Margin="0"
+                    Grid.Column="1" 
+                    Padding="10,0"
+                    Background="#FF6CF94C"
+                    />
+                <Button
+                    Click="DelMandant"
+                    Content="-" 
+                    Margin="0"
+                    Grid.Column="2" 
+                    Padding="10,0"
+                    Background="#FFFF6050"
+                    />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
             <TextBlock
                 Text="Profil" 
                 Style="{DynamicResource H2}"/>
-            <ComboBox
+            <Grid>
+                <ComboBox
                 ToolTipService.ShowOnDisabled="True"
                 Name="cb_profil" />
+                <Button
+                    Click="AddProfil"
+                    Content="+" 
+                    Margin="0"
+                    Background="#FF6CF94C"
+                    Grid.Column="1" 
+                    Padding="10,0"
+                    />
+                <Button
+                    Click="DelProfil"
+                    Content="-" 
+                    Margin="0"
+                    Grid.Column="2" 
+                    Padding="10,0"
+                    Background="#FFFF6050"
+                    />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
             <TextBlock
                 Text="ObjektTyp" 
                 Style="{DynamicResource H2}"/>

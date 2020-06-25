@@ -265,20 +265,20 @@ namespace StartNAV
             return startstring;
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void AddServer(object sender, RoutedEventArgs e)
         {
             AddServer w = new AddServer(ini);
             w.ShowDialog();
             Load_Server();
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void DelServer(object sender, RoutedEventArgs e)
         {
             ini.DelServer(cb_server.Text);
             Load_Server();
 
         }
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        private void DelMandant(object sender, RoutedEventArgs e)
         {
             ini.DelMandant(cb_server.Text, cb_mandant.Text);
             Load_mandanten();
@@ -413,7 +413,7 @@ namespace StartNAV
             Loghandler.Add("Einstellungen geladen:" + ini.GetFilename());
         }
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        private void AddMandant(object sender, RoutedEventArgs e)
         {
             AddMandant w = new AddMandant(ini);
             w.SetServer(ini.GetServer(), cb_server.Text);
@@ -454,7 +454,7 @@ namespace StartNAV
             }
         }
 
-        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        private void AddProfil(object sender, RoutedEventArgs e)
         {
             AddDialog w = new AddDialog("Profil");
 
@@ -463,7 +463,7 @@ namespace StartNAV
             Load_Profil();
         }
 
-        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
+        private void DelProfil(object sender, RoutedEventArgs e)
         {
             ini.DelProfile(cb_profil.Text);
             Load_Profil();
@@ -600,7 +600,7 @@ namespace StartNAV
                 ini.SetSettings("upd_beta", "false");
         }
 
-        private void MenuItem_Click_6(object sender, RoutedEventArgs e)
+        private void StartNAVFilter(object sender, RoutedEventArgs e)
         {
             Process.Start("NAVFilterConvert.exe");
 
