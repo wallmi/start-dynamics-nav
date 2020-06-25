@@ -547,6 +547,10 @@ namespace StartNAV
                 if (updateuri == ini.GetSetting("updateuri")) {
                      //Wenn die installierte Version mit der gefunden zusammen passt Ende
                     updateuri = null;
+                    if (ini.GetSetting("upd_beta") == "true")
+                        MessageBox.Show("Du besitzt bereits die neuerste Beta Version: " + temp.TagName, "Kein neues Update vorhanden", MessageBoxButton.OK, MessageBoxImage.Information);
+                    else
+                        MessageBox.Show("Du besitzt bereits die neuerste Version: " + temp.TagName, "Kein neues Update vorhanden", MessageBoxButton.OK, MessageBoxImage.Information);
                     break;   //Wenn Updateversion gleich ist   
                 }
 
