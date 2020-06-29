@@ -645,5 +645,51 @@ namespace StartNAV
         {
             LoadFav();
         }
+
+        private void Changelog_Click(object sender, RoutedEventArgs e)
+        {
+            GetUpdateList();
+        }
+
+        private async Task GetUpdateList() 
+        { 
+            defaultoptions();
+            var client = new GitHubClient(new ProductHeaderValue(ini.GetSetting("upd_user")));
+
+            var releases = await client.Repository.Release.GetAll(
+                ini.GetSetting("upd_user"),
+                ini.GetSetting("upd_repository"));
+
+            string updatelog = "";
+            bool startLog = false;
+
+            foreach (var temp in releases)
+            {
+
+                if (temp.Assets.Count == 0)
+                    continue;
+
+                if (temp.Assets[0].BrowserDownloadUrl == ini.GetSetting("updateuri") && temp.Prerelease)
+                    startLog = true;    //Wenn Pre-Relase installiert ist, erste Pre-Release Changelog nehmen
+                else if (temp.Prerelease)
+                    continue;   //Alle anderen Pre Release überstringen
+
+                if (temp.Assets[0].BrowserDownloadUrl == ini.GetSetting("updateuri") || startLog)
+                    startLog = true;
+                else
+                    continue;
+                    
+                if (String.IsNullOrEmpty(temp.Body))
+                    continue;   //Wenn kein Releaseinformationen vorhanden sind
+
+                updatelog += "-------------------------- \r\n";
+                updatelog += "Version: " + temp.TagName + " \r\n";
+                updatelog += "--------------------------  \r\n";
+                updatelog += temp.Body;
+                updatelog += " \r\n";
+
+            }
+            MessageBox.Show(updatelog, "Changelog", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 }

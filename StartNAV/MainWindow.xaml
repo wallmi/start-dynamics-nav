@@ -101,6 +101,11 @@
                     Name="Options"
                     Header="_Optionen"
                     Click="Options_Click"/>
+                <Separator/>
+                <MenuItem
+                    Name="UpdateLog"
+                    Header="Changelog"
+                    Click="Changelog_Click" />
                 <MenuItem
                     Name="Update"
                     Header="Update"
