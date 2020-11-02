@@ -188,7 +188,7 @@ namespace StartNAV
                 b_add_fav.IsEnabled = true;
                 b_getId.IsEnabled = true;
             }
-            GetObjectName();
+            
         }
         private void B_StartNav_Click(object sender, RoutedEventArgs e)
         {
@@ -644,6 +644,11 @@ namespace StartNAV
         private void cb_favGroup_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadFav();
+        }
+
+        private void cb_objektTyp_DropDownClosed(object sender, EventArgs e)
+        {
+            GetObjectName();
         }
     }
 }

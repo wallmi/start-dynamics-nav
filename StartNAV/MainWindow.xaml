@@ -208,7 +208,8 @@
                 Style="{DynamicResource H2}"/>
             <ComboBox
                 Name="cb_objektTyp"
-                SelectionChanged="Cb_objektTyp_SelectionChanged"/>
+                SelectionChanged="Cb_objektTyp_SelectionChanged"
+                DropDownClosed="cb_objektTyp_DropDownClosed"/>
             <TextBlock
                 Text="ObjectId" 
                 Style="{DynamicResource H2}"/>
