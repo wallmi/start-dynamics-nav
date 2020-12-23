@@ -22,6 +22,7 @@ namespace StartNAV
         readonly Dictionary<string, string> data = new Dictionary<string, string>();
         bool loaded = false;
         private string FILENAME = "";
+        static private string DEFAULT_INSTANCE = ":7046/DynamicsNAV100_IMP";
         private readonly char SEPERATOR = '|';  //Trennung Zwischen Namen und Version, evtl. mal als Einstellung
         public bool withversion { set; get; } = false;
 
@@ -184,7 +185,7 @@ namespace StartNAV
             if (String.IsNullOrEmpty(servername)) return "";
 
             if (!servername.Contains(":"))
-                return servername + ":7046/DynamicsNAV100_IMP";
+                return servername + DEFAULT_INSTANCE;
 
             return servername;
         }

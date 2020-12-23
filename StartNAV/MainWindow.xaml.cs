@@ -246,6 +246,7 @@ namespace StartNAV
                     case ObjectType.Page: ObjectStart += "runpage?page=" + tx_objId.Text; break;
                     case ObjectType.Table: ObjectStart += "runtable?table=" + tx_objId.Text; break;
                     case ObjectType.Report: ObjectStart += "runreport?report=" + tx_objId.Text; break;
+                    case ObjectType.Codeunit: ObjectStart += "runcodeunit?codeunit=" + tx_objId.Text; break;
                 }
 
                 startstring += Mandant + ObjectStart + "\"";
