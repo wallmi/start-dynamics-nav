@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StartNAV.Model
 {
-    public enum ObjectType {None = -1, Table = 0, Report = 3, Page = 8 };
+    public enum ObjectType {None = -1, Table = 0, Report = 3, Codeunit = 5 ,Page = 8 };
 
     static public class NavObjects
     {
