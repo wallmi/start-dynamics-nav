@@ -131,9 +131,9 @@ namespace StartNAV
 
         void LoadFav()
         {
-            lv_fav.SetItems(ini.GetFav(getFavgroup()));
+            lv_fav.SetItems(ini.GetFav(GetFavgroup()));
 
-            Loghandler.Add(Resource.Load_Fav+getFavgroup());
+            Loghandler.Add(Resource.Load_Fav+GetFavgroup());
             if (!handler.withversion)
                 lv_fav.setShowVersion(false);
         }
@@ -339,7 +339,7 @@ namespace StartNAV
         {
             int id = Int32.Parse(tx_objId.Text);
             //lv_fav.Add(new NavObject(cb_objektTyp.Text, id, tb_ObjektName.Text));
-            ini.AddFav(cb_objektTyp.Text,id, getFavgroup());
+            ini.AddFav(cb_objektTyp.Text,id, GetFavgroup());
             LoadFav();
         }
 
@@ -349,7 +349,7 @@ namespace StartNAV
             //foreach (NavObject temp in lv_fav.GetSelectItems())
             //    ini.DeleteFav(temp.Typ, temp.ID);
 
-            ini.DeleteFavs(lv_fav.GetSelectItems(),getFavgroup());
+            ini.DeleteFavs(lv_fav.GetSelectItems(),GetFavgroup());
             LoadFav();
         }
 
@@ -443,7 +443,7 @@ namespace StartNAV
                 //{
                 //    ini.AddFav(temp.Typ, temp.ID);
                 //}
-                ini.AddFavs(w.getSelectionList(), getFavgroup());
+                ini.AddFavs(w.getSelectionList(), GetFavgroup());
                 LoadFav();
             }
             else
@@ -529,7 +529,7 @@ namespace StartNAV
 
         private async Task UpdateApplicationAsync()
         {
-            defaultoptions();
+            SetDefaultOptions();
             //MessageBoxResult res;
             ProcessStartInfo upd = new ProcessStartInfo("Updater.exe");
 
@@ -593,13 +593,13 @@ namespace StartNAV
 
         private void Options_Click(object sender, RoutedEventArgs e)
         {
-            defaultoptions();
+            SetDefaultOptions();
             Options opt = new Options(ini);
             opt.ShowDialog();
         }
 
 
-        private void defaultoptions()
+        private void SetDefaultOptions()
         {
             if (ini.GetSetting("upd_user") == null)
                 ini.SetSettings("upd_user", "wallmi");
@@ -617,7 +617,7 @@ namespace StartNAV
 
         }
 
-        private void b_addFavGroup_Click(object sender, RoutedEventArgs e)
+        private void B_AddFavGroup_Click(object sender, RoutedEventArgs e)
         {
             AddDialog w = new AddDialog("Favoriten Gruppe");
             w.ShowDialog();
@@ -625,13 +625,13 @@ namespace StartNAV
             LoadFavGroup();
         }
 
-        private void b_delFavGroup_Click(object sender, RoutedEventArgs e)
+        private void B_DelFavGroup_Click(object sender, RoutedEventArgs e)
         {
             ini.DelFavGroup(cb_favGroup.SelectedValue.ToString());
             LoadFavGroup();
         }
 
-        private bool isfavgroup()
+        private bool IsFavGroup()
         {
             if (ini.GetSetting("favgroup") == "true")
                 return true;
@@ -639,21 +639,24 @@ namespace StartNAV
             return false;
         }
 
-        private string getFavgroup()
+        private string GetFavgroup()
         {
-            if (cb_favGroup.SelectedValue == "NOFAVGROUP" || cb_favGroup.SelectedValue == null)
+            if (cb_favGroup.SelectedValue == null)
+                return null;
+
+            if (cb_favGroup.SelectedValue.ToString() == "NOFAVGROUP")
                 return null;
 
             return cb_favGroup.SelectedValue.ToString();
         }
 
 
-        private void cb_favGroup_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Cb_favGroup_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadFav();
         }
 
-        private void cb_objektTyp_DropDownClosed(object sender, EventArgs e)
+        private void Cb_objektTyp_DropDownClosed(object sender, EventArgs e)
         {
             GetObjectName();
         }

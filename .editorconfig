@@ -1,10 +1,10 @@
 ﻿[*.cs]
 
 # CA1303: Literale nicht als lokalisierte Parameter übergeben
-dotnet_diagnostic.CA1303.severity = suggestion
+dotnet_diagnostic.CA1303.severity = none
 
 # CA1305: IFormatProvider angeben
-dotnet_diagnostic.CA1305.severity = suggestion
+dotnet_diagnostic.CA1305.severity = silent
 
 # CA1031: Keine allgemeinen Ausnahmetypen abfangen
 dotnet_diagnostic.CA1031.severity = suggestion

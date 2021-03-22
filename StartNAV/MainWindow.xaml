@@ -209,7 +209,7 @@
             <ComboBox
                 Name="cb_objektTyp"
                 SelectionChanged="Cb_objektTyp_SelectionChanged"
-                DropDownClosed="cb_objektTyp_DropDownClosed"/>
+                DropDownClosed="Cb_objektTyp_DropDownClosed"/>
             <TextBlock
                 Text="ObjectId" 
                 Style="{DynamicResource H2}"/>
@@ -270,18 +270,18 @@
             Orientation="Horizontal">
             <ComboBox
             x:Name="cb_favGroup"
-            SelectionChanged="cb_favGroup_SelectionChanged">
+            SelectionChanged="Cb_favGroup_SelectionChanged">
             </ComboBox>
             <Button
                 x:Name="b_addFavGroup"
                 Content="Add" 
                 Margin="0"
-                Click="b_addFavGroup_Click"/>
+                Click="B_AddFavGroup_Click"/>
             <Button
                 x:Name="b_delFavGroup"
                 Content="Löschen" 
                 Margin="0"
-                Click="b_delFavGroup_Click"/>
+                Click="B_DelFavGroup_Click"/>
         </StackPanel>
         <c:NavObjektList
             x:Name="lv_fav"
