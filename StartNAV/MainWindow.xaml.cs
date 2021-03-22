@@ -472,10 +472,16 @@ namespace StartNAV
 
         private void Mi_set_exe_path_Click(object sender, RoutedEventArgs e)
         {
+            string inidir = "";
+            if (Directory.Exists(@"C:\Program Files (x86)\Microsoft Dynamics NAV\110\RoleTailored Client\"))
+                inidir = @"C:\Program Files (x86)\Microsoft Dynamics NAV\110\RoleTailored Client\";
+            else if (Directory.Exists(@"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\"))
+                inidir = @"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\";
+
             OpenFileDialog dialog = new OpenFileDialog
             {
                 Filter = "Client (Microsoft.Dynamics.Nav.Client.exe)|Microsoft.Dynamics.Nav.Client.exe",
-                InitialDirectory = @"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\"
+                InitialDirectory = inidir
             };
 
             if (dialog.ShowDialog() == true)
