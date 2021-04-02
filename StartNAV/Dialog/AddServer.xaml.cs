@@ -24,6 +24,8 @@ namespace StartNAV.Dialog
         {
             InitializeComponent();
             INI = ini;
+            if (ini.GetSetting("DefaultService") != null)
+                _instanz.Text = ini.GetSetting("DefaultService");
         }
 
         private void AddServer_Click(object sender, RoutedEventArgs e)

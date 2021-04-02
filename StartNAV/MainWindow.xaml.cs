@@ -474,9 +474,15 @@ namespace StartNAV
         {
             string inidir = "";
             if (Directory.Exists(@"C:\Program Files (x86)\Microsoft Dynamics NAV\110\RoleTailored Client\"))
+            {
                 inidir = @"C:\Program Files (x86)\Microsoft Dynamics NAV\110\RoleTailored Client\";
+                ini.SetSettings("DefaultService", "DynamicsNAV110");
+            }
             else if (Directory.Exists(@"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\"))
+            {
                 inidir = @"C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\";
+                ini.SetSettings("DefaultService", "DynamicsNAV100");
+            }
 
             OpenFileDialog dialog = new OpenFileDialog
             {
