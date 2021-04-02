@@ -24,9 +24,29 @@ namespace StartNAV.Dialog
         {
             InitializeComponent();
             INI = ini;
-            if (ini.GetSetting("DefaultService") != null)
+            if (INI.GetSetting("DefaultService") != null)
                 _instanz.Text = ini.GetSetting("DefaultService");
         }
+
+        public AddServer(IniHandler ini,string ServerName)
+        {
+            InitializeComponent();
+            INI = ini;
+
+            _servername.Text = ServerName;
+            _servername.IsEnabled = false;
+
+            string serverstring = INI.GetServerAdress(ServerName);
+
+            _serveradress.Text = serverstring.Split(':')[0];
+            _port.Text = serverstring.Split(':')[1].Split('/')[0];
+            _instanz.Text = serverstring.Split('/')[1];
+
+            Title = "Bearbeite Server";
+            addServer.Content = "Server Aktualisieren";
+
+        }
+
 
         private void AddServer_Click(object sender, RoutedEventArgs e)
         {

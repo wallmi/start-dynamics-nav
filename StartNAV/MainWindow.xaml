@@ -126,15 +126,16 @@
                     <Image Source="Resources/AddButton.png" Width="20" />
                 </Button>
                 <Button
+                    Click="EditServer"
                     Margin="0"
                     Grid.Column="2" 
-                    Padding="0" Visibility="Hidden" >
+                    Padding="0" >
                     <Image Source="Resources/EditButton.png" Width="20" />
                 </Button>
                 <Button
                     Click="DelServer"
                     Margin="0"
-                    Grid.Column="2" 
+                    Grid.Column="3" 
                     Padding="0" >
                     <Image Source="Resources/DelButton.png" Width="20" />
                 </Button>
@@ -165,15 +166,16 @@
                 <Image Source="Resources/AddButton.png" Width="20" />
                 </Button>
                 <Button
+                    Click="EditMandant"
                     Margin="0"
                     Grid.Column="2" 
-                    Padding="0" Visibility="Hidden" >
+                    Padding="0" >
                     <Image Source="Resources/EditButton.png" Width="20" />
                 </Button>
                 <Button
                     Click="DelMandant"
                     Margin="0"
-                    Grid.Column="2" 
+                    Grid.Column="3" 
                     Padding="0" >
                     <Image Source="Resources/DelButton.png" Width="20" />
                 </Button>
@@ -200,14 +202,15 @@
                 </Button>
                 <Button
                     Margin="0"
+                    Click="EditProfil"
                     Grid.Column="2" 
-                    Padding="0" Visibility="Hidden" >
+                    Padding="0" >
                     <Image Source="Resources/EditButton.png" Width="20" />
                 </Button>
                 <Button
                      Click="DelProfil"
                     Margin="0"
-                    Grid.Column="2" 
+                    Grid.Column="3" 
                     Padding="0" >
                     <Image Source="Resources/DelButton.png" Width="20" />
                 </Button>

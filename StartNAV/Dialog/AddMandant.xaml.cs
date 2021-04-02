@@ -20,19 +20,36 @@ namespace StartNAV.Dialog
     public partial class AddMandant : Window
     {
         readonly IniHandler INI;
+        string oldmandant = "";
         public AddMandant(IniHandler ini)
         {
             InitializeComponent();
             INI = ini;
         }
 
+        public AddMandant(IniHandler ini, string Mandant)
+        {
+            InitializeComponent();
+            INI = ini;
+            
+            oldmandant = Mandant;               //Speichern des alten Mandanten
+            tb_mandant.Text = Mandant;          
+        }
+
         public void SetServer(List<String> server, string defaultServer){
             cb_servername.ItemsSource = server;
             cb_servername.Text = defaultServer;
+            Title = "Ändere Mandant";
+            addmandant.Content = "Ändern";
+            if (oldmandant != "")
+                cb_servername.IsEnabled = false;
         }
 
         private void Addmandant_Click(object sender, RoutedEventArgs e)
         {
+            if (oldmandant != "")
+                INI.DelMandant(cb_servername.Text, oldmandant);     //Löschen des alten Mandanten
+
             INI.AddMandant(cb_servername.Text, tb_mandant.Text);
             Close();
         }

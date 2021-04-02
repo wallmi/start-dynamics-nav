@@ -168,9 +168,15 @@ namespace StartNAV
         private void Cb_server_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Load_mandanten();
+            RefreshServerAdress();
+        }
+
+        public void RefreshServerAdress()
+        {
             if (cb_server.SelectedItem is null)
                 return;
             tbl_serveradresse.Text = ini.GetServerAdress(cb_server.SelectedItem.ToString());
+
         }
 
         private void Cb_objektTyp_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -665,6 +671,30 @@ namespace StartNAV
         private void Cb_objektTyp_DropDownClosed(object sender, EventArgs e)
         {
             GetObjectName();
+        }
+
+        private void EditServer(object sender, RoutedEventArgs e)
+        {
+
+            AddServer w = new AddServer(ini,cb_server.Text);
+            w.ShowDialog();
+            RefreshServerAdress();
+        }
+        private void EditMandant (object sender, RoutedEventArgs e)
+        {
+            AddMandant w = new AddMandant(ini, cb_mandant.Text);
+            w.SetServer(ini.GetServer(), cb_server.Text);
+            w.ShowDialog();
+            Load_mandanten();
+        }
+
+        private void EditProfil(object sender, RoutedEventArgs e)
+        {
+            AddDialog w = new AddDialog("Profil", cb_profil.Text);
+            w.ShowDialog();
+            ini.DelProfile(cb_profil.Text);
+            ini.AddProfile(w.INPUT);
+            Load_Profil();
         }
     }
 }

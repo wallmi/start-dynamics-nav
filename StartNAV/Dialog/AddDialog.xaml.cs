@@ -29,6 +29,17 @@ namespace StartNAV.Dialog
             
         }
 
+        public AddDialog(string name, string editname)
+        {
+            InitializeComponent();
+
+            tb_Name.Text = name;
+            Title = "Ändere " + name;
+            tb_profile.Text = editname;
+            addprofile.Content = "Edit";
+
+        }
+
         public string INPUT { 
             get { return _input; } 
             set { _input = value; }
