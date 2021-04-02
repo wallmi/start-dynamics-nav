@@ -120,22 +120,27 @@
                 SelectionChanged="Cb_server_SelectionChanged" />
                 <Button
                     Click="AddServer"
-                    Content="+" 
                     Margin="0"
                     Grid.Column="1" 
-                    Padding="10,0" 
-                    Background="#FF6CF94C"
-                    />
+                    Padding="0">
+                    <Image Source="Resources/AddButton.png" Width="20" />
+                </Button>
                 <Button
-                    Click="DelServer"
-                    Content="-" 
                     Margin="0"
                     Grid.Column="2" 
-                    Padding="10,0" 
-                    Background="#FFFF6050"
-                    />
+                    Padding="0" Visibility="Hidden" >
+                    <Image Source="Resources/EditButton.png" Width="20" />
+                </Button>
+                <Button
+                    Click="DelServer"
+                    Margin="0"
+                    Grid.Column="2" 
+                    Padding="0" >
+                    <Image Source="Resources/DelButton.png" Width="20" />
+                </Button>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
@@ -154,22 +159,27 @@
                     Grid.Column="0"/>
                 <Button
                     Click="AddMandant"
-                    Content="+" 
                     Margin="0"
                     Grid.Column="1" 
-                    Padding="10,0"
-                    Background="#FF6CF94C"
-                    />
+                    Padding="0">
+                <Image Source="Resources/AddButton.png" Width="20" />
+                </Button>
                 <Button
-                    Click="DelMandant"
-                    Content="-" 
                     Margin="0"
                     Grid.Column="2" 
-                    Padding="10,0"
-                    Background="#FFFF6050"
-                    />
+                    Padding="0" Visibility="Hidden" >
+                    <Image Source="Resources/EditButton.png" Width="20" />
+                </Button>
+                <Button
+                    Click="DelMandant"
+                    Margin="0"
+                    Grid.Column="2" 
+                    Padding="0" >
+                    <Image Source="Resources/DelButton.png" Width="20" />
+                </Button>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
@@ -183,22 +193,27 @@
                 Name="cb_profil" />
                 <Button
                     Click="AddProfil"
-                    Content="+" 
                     Margin="0"
-                    Background="#FF6CF94C"
                     Grid.Column="1" 
-                    Padding="10,0"
-                    />
+                    Padding="0">
+                    <Image Source="Resources/AddButton.png" Width="20" />
+                </Button>
                 <Button
-                    Click="DelProfil"
-                    Content="-" 
                     Margin="0"
                     Grid.Column="2" 
-                    Padding="10,0"
-                    Background="#FFFF6050"
-                    />
+                    Padding="0" Visibility="Hidden" >
+                    <Image Source="Resources/EditButton.png" Width="20" />
+                </Button>
+                <Button
+                     Click="DelProfil"
+                    Margin="0"
+                    Grid.Column="2" 
+                    Padding="0" >
+                    <Image Source="Resources/DelButton.png" Width="20" />
+                </Button>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>

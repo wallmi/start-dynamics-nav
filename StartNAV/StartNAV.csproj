@@ -224,6 +224,9 @@
     <None Include="Resources\NewFile_16x.svg" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\AddButton.png" />
+    <Resource Include="Resources\DelButton.png" />
+    <Resource Include="Resources\EditButton.png" />
     <Content Include="Resources\favoicon_DynamicsNAV2016.png" />
   </ItemGroup>
   <ItemGroup>
