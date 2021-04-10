@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StartNAV"
+        xmlns:Fluent="urn:fluent-ribbon"
         xmlns:c="clr-namespace:StartNAV.Control"
         mc:Ignorable="d"
         Title="Start DynamicsNAV" 
@@ -16,6 +17,64 @@
         Closed="Window_Closed"
         Height="517">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Fluent:Ribbon
+            Grid.Column="0"
+            Grid.Row="0"
+            Grid.ColumnSpan="3" 
+            >
+            <Fluent:RibbonTabItem
+                Header="Start">
+                <Fluent:RibbonGroupBox
+                    Header="Server">
+                    <Fluent:Button
+                        Header="Add"
+                        LargeIcon="Resources/AddButton.png"/>
+                    <Fluent:Button
+                        Header="Edit"
+                        LargeIcon="Resources/EditButton.png"/>
+                    <Fluent:Button
+                        Header="Delete"
+                        LargeIcon="Resources/DelButton.png"/>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox
+                    Header="Mandant">
+                    <Fluent:Button
+                        Header="Add"
+                        LargeIcon="Resources/AddButton.png"/>
+                    <Fluent:Button
+                        Header="Edit"
+                        LargeIcon="Resources/EditButton.png"/>
+                    <Fluent:Button
+                        Header="Delete"
+                        LargeIcon="Resources/DelButton.png"/>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox
+                    Header="Profile">
+                    <Fluent:Button
+                        Header="Add"
+                        LargeIcon="Resources/AddButton.png"/>
+                    <Fluent:Button
+                        Header="Edit"
+                        LargeIcon="Resources/EditButton.png"/>
+                    <Fluent:Button
+                        Header="Delete"
+                        LargeIcon="Resources/DelButton.png"/>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+        </Fluent:Ribbon>
+        <!--
         <Menu
             Grid.Row="0"
             Grid.ColumnSpan="3">
@@ -107,6 +166,7 @@
                     Click="UpdateApplication" />
             </MenuItem>
         </Menu>
+        -->
         <StackPanel
             Grid.Row="1"
             Grid.RowSpan="3" 
@@ -353,17 +413,6 @@
                     x:Name="tb_status"/>
             </StatusBarItem>
         </StatusBar>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+
     </Grid>
 </Window>
