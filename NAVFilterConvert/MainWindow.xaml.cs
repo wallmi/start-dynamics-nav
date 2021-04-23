@@ -26,7 +26,14 @@ namespace NAVFilterConvert
         }
         private void tx_input_TextChanged(object sender, TextChangedEventArgs e)
         {
-            tx_output.Text = tx_input.Text.Replace(Environment.NewLine, "|");
+            string newtext = tx_input.Text.Replace(Environment.NewLine, "|");
+
+            if (newtext.Length > 0) { 
+                while (newtext.Substring(newtext.Length-1, 1) == "|")
+                    newtext = newtext.Substring(0, newtext.Length - 1);
+            }
+
+            tx_output.Text = newtext;
         }
     }
 }
