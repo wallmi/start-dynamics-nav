@@ -20,7 +20,7 @@ namespace StartNAV.Dialog
     public partial class AddMandant : Window
     {
         readonly IniHandler INI;
-        string oldmandant = "";
+        String oldmandant = "";
         public AddMandant(IniHandler ini)
         {
             InitializeComponent();
@@ -41,7 +41,7 @@ namespace StartNAV.Dialog
             cb_servername.Text = defaultServer;
             Title = "Ändere Mandant";
             addmandant.Content = "Ändern";
-            if (oldmandant != "")
+            if (String.IsNullOrEmpty(oldmandant))
                 cb_servername.IsEnabled = false;
         }
 
