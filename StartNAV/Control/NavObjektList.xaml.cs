@@ -90,7 +90,7 @@ namespace StartNAV.Control
             SetFilter();
         }
 
-        public void setShowVersion (bool show)
+        public void SetShowVersion (bool show)
         {
             if (!show)
             {

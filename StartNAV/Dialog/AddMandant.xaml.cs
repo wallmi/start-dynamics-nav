@@ -20,7 +20,7 @@ namespace StartNAV.Dialog
     public partial class AddMandant : Window
     {
         readonly IniHandler INI;
-        String oldmandant = "";
+        private String oldmandant = "";
         public AddMandant(IniHandler ini)
         {
             InitializeComponent();

@@ -135,7 +135,7 @@ namespace StartNAV
 
             Loghandler.Add(Resource.Load_Fav+GetFavgroup());
             if (!handler.withversion)
-                lv_fav.setShowVersion(false);
+                lv_fav.SetShowVersion(false);
         }
         void LoadFavGroup()
         {
@@ -643,13 +643,13 @@ namespace StartNAV
             LoadFavGroup();
         }
 
-        private bool IsFavGroup()
-        {
-            if (ini.GetSetting("favgroup") == "true")
-                return true;
+        //private bool IsFavGroup()
+        //{
+        //    if (ini.GetSetting("favgroup") == "true")
+        //        return true;
 
-            return false;
-        }
+        //    return false;
+        //}
 
         private string GetFavgroup()
         {
