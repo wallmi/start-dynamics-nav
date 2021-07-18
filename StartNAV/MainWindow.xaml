@@ -36,6 +36,9 @@
             >
             <Fluent:RibbonTabItem
                 Header="Start">
+            </Fluent:RibbonTabItem>
+            <Fluent:RibbonTabItem
+                Header="Konfiguration">
                 <Fluent:RibbonGroupBox
                     Header="Server">
                     <Fluent:Button
