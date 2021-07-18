@@ -156,7 +156,8 @@ namespace StartNAV
             {
                 ObjectType.Page,
                 ObjectType.Report,
-                ObjectType.Table
+                ObjectType.Table,
+                ObjectType.Codeunit,
             };
 
             foreach (KeyValuePair<string, string> temp in data) {
