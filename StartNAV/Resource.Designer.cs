@@ -61,36 +61,6 @@ namespace StartNAV {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap AddButton {
-            get {
-                object obj = ResourceManager.GetObject("AddButton", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap DelButton {
-            get {
-                object obj = ResourceManager.GetObject("DelButton", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap EditButton {
-            get {
-                object obj = ResourceManager.GetObject("EditButton", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Sollen Favoriten Gruppen verwendet werden? ähnelt.
         /// </summary>
         public static string Fav_Group_Ques {
@@ -110,41 +80,11 @@ namespace StartNAV {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap favoicon_DynamicsNAV2016 {
-            get {
-                object obj = ResourceManager.GetObject("favoicon_DynamicsNAV2016", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Favoriten geladen, Gruppe: ähnelt.
         /// </summary>
         public static string Load_Fav {
             get {
                 return ResourceManager.GetString("Load_Fav", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
-        /// </summary>
-        public static byte[] NewFile_16x {
-            get {
-                object obj = ResourceManager.GetObject("NewFile_16x", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
-        /// </summary>
-        public static byte[] NewItem_16x {
-            get {
-                object obj = ResourceManager.GetObject("NewItem_16x", resourceCulture);
-                return ((byte[])(obj));
             }
         }
     }
