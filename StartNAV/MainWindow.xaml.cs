@@ -455,7 +455,11 @@ namespace StartNAV
             else
             {
                 w.ShowDialog2();
+
                 NavObject ret = w.getSelectedItem();
+                if (ret.ID == -1)
+                    return;
+
                 tx_objId.Text = ret.ID.ToString();
                 cb_objektTyp.Text = ret.Typ.ToString();
             }
