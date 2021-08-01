@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace NAVFilterConvert
 {
@@ -23,17 +24,54 @@ namespace NAVFilterConvert
         public MainWindow()
         {
             InitializeComponent();
+            tx_seperator.Text = "|";
+            TextChanged(null,null);
         }
-        private void tx_input_TextChanged(object sender, TextChangedEventArgs e)
+
+        private void TextChanged(object sender, TextChangedEventArgs e)
         {
-            string newtext = tx_input.Text.Replace(Environment.NewLine, "|");
+            if (tx_input == null)
+                return;
+
+            string newtext = tx_input.Text.Replace(Environment.NewLine, tx_seperator.Text);
 
             if (newtext.Length > 0) { 
-                while (newtext.Substring(newtext.Length-1, 1) == "|")
+                while (newtext.Substring(newtext.Length-1, 1) == tx_seperator.Text)
                     newtext = newtext.Substring(0, newtext.Length - 1);
             }
 
             tx_output.Text = newtext;
+
+            if (tx_input.LineCount > 2000)
+                txWarning.Visibility = Visibility.Visible;
+            else
+                txWarning.Visibility = Visibility.Hidden;
+        }
+
+        private void RemoveDuplicates(object sender, RoutedEventArgs e)
+        {
+
+            if (tx_input.LineCount <= 1)
+                return;
+
+            var lines = new List<string>();
+            for (int i = 0; i < tx_input.LineCount; i++)
+            {
+                lines.Add(tx_input.GetLineText(i).Replace("\r\n", ""));
+            }
+
+            lines.Sort();
+            string prev = "";
+
+            string temptxt = "";
+            foreach (string temp in lines)
+            {
+                if (prev != temp)
+                    temptxt += temp + Environment.NewLine;
+
+                prev = temp;
+            }
+            tx_input.Text = temptxt;
         }
     }
 }
