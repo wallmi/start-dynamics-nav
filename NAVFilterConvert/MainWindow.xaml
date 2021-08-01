@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NAVFilterConvert"
         mc:Ignorable="d"
-        Title="Linebreaks to NAV Filter OR's (|)" 
+        Title="Linebreak Converter" 
         Height="484.5" 
         Width="597.5" 
         WindowStyle="ToolWindow">
