@@ -25,6 +25,7 @@ namespace NAVFilterConvert
         {
             InitializeComponent();
             tx_seperator.Text = "|";
+            tx_qualifer.Text = "";
             TextChanged(null,null);
         }
 
@@ -33,16 +34,24 @@ namespace NAVFilterConvert
             if (tx_input == null)
                 return;
 
-            string newtext = tx_input.Text.Replace(Environment.NewLine, tx_seperator.Text);
+            string newtext = "";
+            if (String.IsNullOrEmpty(tx_qualifer.Text))
+                newtext = tx_input.Text.Replace(Environment.NewLine, tx_seperator.Text);
+            else
+            {
+                newtext = tx_qualifer.Text;
+                newtext += tx_input.Text.Replace(Environment.NewLine, tx_qualifer.Text + tx_seperator.Text + tx_qualifer.Text);
+                newtext += tx_qualifer.Text;
+            }
 
-            if (newtext.Length > 0) { 
+                if (newtext.Length > 0) { 
                 while (newtext.Substring(newtext.Length-1, 1) == tx_seperator.Text)
                     newtext = newtext.Substring(0, newtext.Length - 1);
             }
 
             tx_output.Text = newtext;
 
-            if (tx_input.LineCount > 2000)
+            if (tx_input.LineCount > 1950)
                 txWarning.Visibility = Visibility.Visible;
             else
                 txWarning.Visibility = Visibility.Hidden;
@@ -72,6 +81,22 @@ namespace NAVFilterConvert
                 prev = temp;
             }
             tx_input.Text = temptxt;
+        }
+        private void cb_preset_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxItem cbi = (ComboBoxItem)cb_preset.SelectedItem;
+            if (cbi.Content.ToString() == "NAV Filter")
+            {
+                tx_seperator.Text = "|";
+                tx_qualifer.Text = "";
+            }
+            else if (cbi.Content.ToString() == "SQL in")
+            {
+                tx_seperator.Text = ",";
+                tx_qualifer.Text = "'";
+            }
+
+
         }
     }
 }

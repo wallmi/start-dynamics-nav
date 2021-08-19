@@ -42,12 +42,21 @@
                 Margin="2" HorizontalContentAlignment="Center" />
             <TextBlock 
                 Margin="5"
-                VerticalAlignment="Center" FontWeight="Bold" Visibility="Hidden">Surrender:</TextBlock>
+                VerticalAlignment="Center" FontWeight="Bold">Text-Qualifier</TextBlock>
             <TextBox
-                Name="tx_surrendor"
+                Name="tx_qualifer"
                 Width="30"
                 TextChanged="TextChanged"
-                Margin="2" HorizontalContentAlignment="Center" Visibility="Hidden" />
+                Margin="2" HorizontalContentAlignment="Center" />
+            <TextBlock 
+                Margin="5"
+                VerticalAlignment="Center" FontWeight="Bold" >Preset:</TextBlock>
+            <ComboBox
+                Name="cb_preset"
+                SelectionChanged="cb_preset_SelectionChanged">
+                <ComboBoxItem Content="NAV Filter"/>
+                <ComboBoxItem Content="SQL in"/>
+            </ComboBox>
         </StackPanel>
         <TextBlock Text="Input"
                    Grid.Row="1"
