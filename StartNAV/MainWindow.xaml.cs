@@ -31,7 +31,7 @@ namespace StartNAV
         const string INIFILE = "Settings.ini";
         const string OBJECTFILE = "NAV_Objects.csv";
         readonly IniHandler ini;
-        readonly ObjectHandler handler;
+        //readonly ObjectHandler handler;
         readonly List<object> toSave = new List<object>();
         readonly Log Loghandler;
         enum StartTyp { Nav, Session }
@@ -40,7 +40,7 @@ namespace StartNAV
         {
             InitializeComponent();
             Loghandler = new Log(tb_status);
-            handler = new ObjectHandler(OBJECTFILE);
+            //handler = new ObjectHandler(OBJECTFILE);
             ini = new IniHandler(INIFILE, OBJECTFILE, Loghandler);
 
             ListView lv = lv_fav.lv_items;
@@ -134,7 +134,7 @@ namespace StartNAV
             lv_fav.SetItems(ini.GetFav(GetFavgroup()));
 
             Loghandler.Add(Resource.Load_Fav+GetFavgroup());
-            if (!handler.withversion)
+            if (!ini.withversion)
                 lv_fav.SetShowVersion(false);
         }
         void LoadFavGroup()
@@ -232,7 +232,7 @@ namespace StartNAV
             string DisablePer = " -disablepersonalization";
             string Profile = " -profile:";
             string sessionlist = " -protocolhandler";
-            string checkedServer = ObjectHandler.CheckServerString(ServerAdress);
+            string checkedServer = IniHandler.CheckServerString(ServerAdress);
             string startstring = "";
 
             //Serveradresse aktualisieren
@@ -314,7 +314,7 @@ namespace StartNAV
         {
             //Auslesen des Object Namens
             //TODO: Eingabe Text verhindern  
-            if (!handler.IsLoaded())
+            if (!ini.IsLoaded())
             {
                 tb_ObjektName.Text = "Objekt kann nicht angezeigt werden";
                 return;
@@ -323,7 +323,7 @@ namespace StartNAV
             try
             {
                 int id = Int32.Parse(tx_objId.Text);
-                string text = handler.GetObjName(id, cb_objektTyp.Text);
+                string text = ini.GetObjName(id, cb_objektTyp.Text);
                 if (cb_objektTyp.SelectedItem.ToString() == ObjectType.None.ToString())
                 {
                     tb_ObjektName.Text = "";
@@ -440,7 +440,7 @@ namespace StartNAV
 
         private void B_getId_Click(object sender, RoutedEventArgs e)
         {
-            GetObject w = new GetObject(handler);
+            GetObject w = new GetObject(ini);
 
             if (((Button)sender).Name == b_get_favs.Name)
             {
@@ -521,7 +521,7 @@ namespace StartNAV
 
         private void Reload_objlist_Click(object sender, RoutedEventArgs e)
         {
-            handler.LoadFromFile(OBJECTFILE);
+            ini.LoadFromFile(OBJECTFILE);
             Loghandler.Add("Object File neu eingelesen");
         }
 
