@@ -44,9 +44,12 @@ namespace NAVFilterConvert
                 newtext += tx_qualifer.Text;
             }
 
-                if (newtext.Length > 0) { 
-                while (newtext.Substring(newtext.Length-1, 1) == tx_seperator.Text)
+            if (newtext.Length > 0) {
+                while (newtext.Substring(newtext.Length - 1, 1) == tx_seperator.Text)
                     newtext = newtext.Substring(0, newtext.Length - 1);
+
+                if (tx_seperator.Text != "" && tx_qualifer.Text != "")
+                newtext = newtext.Replace(tx_seperator.Text + tx_qualifer.Text + tx_qualifer.Text, "");
             }
 
             tx_output.Text = newtext;
@@ -95,7 +98,6 @@ namespace NAVFilterConvert
                 tx_seperator.Text = ",";
                 tx_qualifer.Text = "'";
             }
-
 
         }
     }
