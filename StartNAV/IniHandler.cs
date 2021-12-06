@@ -26,9 +26,9 @@ namespace StartNAV
         readonly Dictionary<string, string> data = new Dictionary<string, string>();
         bool loaded = false;
         
-        static private string DEFAULT_INSTANCE = ":7046/DynamicsNAV100_IMP";
+        static readonly string DEFAULT_INSTANCE = ":7046/DynamicsNAV100_IMP";
         private readonly char SEPERATOR = '|';  //Trennung Zwischen Namen und Version, evtl. mal als Einstellung
-        public bool withversion { set; get; } = false;
+        public bool Withversion { set; get; } = false;
 
         public IniHandler(string file, string objfile, Log log)
         {
@@ -437,7 +437,7 @@ namespace StartNAV
                 if (Line.Length >= 4)
                 {
                     data.Add(Line[0] + "_" + Line[1], Line[2] + SEPERATOR + Version(Line));
-                    withversion = true;
+                    Withversion = true;
                 }
                 else if (Line.Length == 3)
                     data.Add(Line[0] + "_" + Line[1], Line[2]);
@@ -493,7 +493,7 @@ namespace StartNAV
             return GetObjName(objID, NavObjects.GetObj(objName));
         }
 
-        string GetKeyVal(int objID, ObjectType t)
+        static string GetKeyVal(int objID, ObjectType t)
         {
             int id = (int)t;
             return id.ToString() + "_" + objID.ToString();

@@ -134,7 +134,7 @@ namespace StartNAV
             lv_fav.SetItems(ini.GetFav(GetFavgroup()));
 
             Loghandler.Add(Resource.Load_Fav+GetFavgroup());
-            if (!ini.withversion)
+            if (!ini.Withversion)
                 lv_fav.SetShowVersion(false);
         }
         void LoadFavGroup()
@@ -666,7 +666,6 @@ namespace StartNAV
             return cb_favGroup.SelectedValue.ToString();
         }
 
-
         private void Cb_favGroup_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadFav();
@@ -684,10 +683,11 @@ namespace StartNAV
             w.ShowDialog();
             RefreshServerAdress();
         }
+
         private void EditMandant (object sender, RoutedEventArgs e)
         {
             AddMandant w = new AddMandant(ini, cb_mandant.Text);
-            w.SetServer(ini.GetServer(), cb_server.Text);
+            w.SetServer(ini.GetServer(), cb_server.Text,true);
             w.ShowDialog();
             Load_mandanten();
         }
