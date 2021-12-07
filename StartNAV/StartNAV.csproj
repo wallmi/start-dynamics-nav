@@ -166,7 +166,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\NavObjects.cs" />
-    <Compile Include="ObjectHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

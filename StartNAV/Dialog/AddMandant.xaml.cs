@@ -36,11 +36,20 @@ namespace StartNAV.Dialog
             tb_mandant.Text = Mandant;          
         }
 
-        public void SetServer(List<String> server, string defaultServer){
+        public void SetServer(List<String> server, string defaultServer)
+        {
+            this.SetServer(server,defaultServer,false);
+        }
+        public void SetServer(List<String> server, string defaultServer, bool edit){
             cb_servername.ItemsSource = server;
             cb_servername.Text = defaultServer;
-            Title = "Ändere Mandant";
-            addmandant.Content = "Ändern";
+
+            if (edit == true)
+            {
+                Title = "Ändere Mandant";
+                addmandant.Content = "Ändern";
+            }
+            
             if (String.IsNullOrEmpty(oldmandant))
                 cb_servername.IsEnabled = false;
         }

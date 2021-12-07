@@ -25,7 +25,7 @@ namespace StartNAV.Dialog
         private NavObject retGet= new NavObject();
         private List<NavObject> retList = new List<NavObject>();
   
-        public GetObject(ObjectHandler handler)
+        public GetObject(IniHandler handler)
         {
             if (handler is null) return;
 

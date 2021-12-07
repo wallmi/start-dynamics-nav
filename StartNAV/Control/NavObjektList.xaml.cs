@@ -109,7 +109,7 @@ namespace StartNAV.Control
             else if (String.IsNullOrEmpty(tb_search.Text))
                 return true;
             else
-                return ((item as NavObject).Name.IndexOf(tb_search.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                return (item as NavObject).Name.IndexOf(tb_search.Text, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private void Tb_search_TextChanged(object sender, TextChangedEventArgs e)

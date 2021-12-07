@@ -17,12 +17,18 @@ namespace StartNAV
     public class IniHandler
     {
         readonly FileIniDataParser ini = new FileIniDataParser();
-        readonly ObjectHandler handler;
+        //readonly ObjectHandler handler;
         public IniData Data { set; get; }
         String FILENAME;
+        String OBJFILE;
         enum KeyType { key,value };
-
         readonly Log LOG;
+        readonly Dictionary<string, string> data = new Dictionary<string, string>();
+        bool loaded = false;
+        
+        static readonly string DEFAULT_INSTANCE = ":7046/DynamicsNAV100_IMP";
+        private readonly char SEPERATOR = '|';  //Trennung Zwischen Namen und Version, evtl. mal als Einstellung
+        public bool Withversion { set; get; } = false;
 
         public IniHandler(string file, string objfile, Log log)
         {
@@ -36,7 +42,8 @@ namespace StartNAV
                 LoadFile();
                 SetToDefault();
             }
-            handler = new ObjectHandler(objfile);
+            //handler = new ObjectHandler(objfile);
+            LoadFromFile(objfile);
         }
         /// <summary>
         /// Ladet den Inhalt .ini Datei
@@ -305,8 +312,8 @@ namespace StartNAV
                 {
                     int id = int.Parse(keyVal[1]);
                     ret.Add(new NavObject(keyVal[0], id,
-                        handler.GetObjName(id, NavObjects.GetObj(keyVal[0])),
-                        handler.GetVersion(id, NavObjects.GetObj(keyVal[0]))
+                        GetObjName(id, NavObjects.GetObj(keyVal[0])),
+                        GetVersion(id, NavObjects.GetObj(keyVal[0]))
                     )
                     );
                 }
@@ -387,6 +394,178 @@ namespace StartNAV
         public string GetFilename()
         {
             return FILENAME;
+        }
+
+
+        //Added ObjectHandler
+        public void LoadFromFile(string file)
+        {
+            if (!File.Exists(file))
+            {
+                MessageBox.Show("Die Datei " + file + " konnte nicht geladen werden.\n Es werden keine Objektnamen angezeigt!",
+                    "Datei nicht gefunden",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
+            OBJFILE = file;
+            LoadFromFile();
+        }
+
+        public void LoadFromFile()
+        {
+            string[] FileLines = File.ReadAllLines(OBJFILE);
+
+            if (data.Count > 0)
+                data.Clear();
+
+            foreach (string temp in FileLines)
+            {
+                string temp1 = temp.Replace("\"", "");
+                string[] Line = temp1.Split(',');
+                int id = -1;
+                try
+                {
+                    id = Int32.Parse(Line[0]);
+                }
+                catch
+                {
+
+                }
+                if (id == -1) continue;
+                if (Line.Length >= 4)
+                {
+                    data.Add(Line[0] + "_" + Line[1], Line[2] + SEPERATOR + Version(Line));
+                    Withversion = true;
+                }
+                else if (Line.Length == 3)
+                    data.Add(Line[0] + "_" + Line[1], Line[2]);
+
+            }
+            loaded = true;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>true wenn Datei geladen wurde, ansonst false</returns>
+        public bool IsLoaded()
+        {
+            return loaded;
+        }
+        /// <summary>
+        /// Nav Objektnamen ermitteln
+        /// </summary>
+        /// <param name="objID">ID des Objectes</param>
+        /// <param name="t">Der Typ des Objectes</param>
+        /// <returns>Objektname</returns>
+        public string GetObjName(int objID, ObjectType t)
+        {
+            string key = GetKeyVal(objID, t);
+            if (data.ContainsKey(key))
+                return data[key].Split(SEPERATOR)[0];
+
+            return "";
+        }
+        /// <summary>
+        /// Nav Version ermitteln
+        /// </summary>
+        /// <param name="objID">ID des Objectes</param>
+        /// <param name="t">Der Typ des Objectes</param>
+        /// <returns>Version</returns>
+        public string GetVersion(int objID, ObjectType t)
+        {
+            string key = GetKeyVal(objID, t);
+            if (data.ContainsKey(key))
+                if (data[key].Contains(SEPERATOR))
+                    return data[key].Split(SEPERATOR)[1];
+
+            return "";
+        }
+        /// <summary>
+        /// Nav Objektnamen ermitteln
+        /// </summary>
+        /// <param name="objID">ID des Objectes</param>
+        /// <param name="objName">Der Typ des Objectes</param>
+        /// <returns>Objektname</returns>
+        public string GetObjName(int objID, string objName)
+        {
+            return GetObjName(objID, NavObjects.GetObj(objName));
+        }
+
+        static string GetKeyVal(int objID, ObjectType t)
+        {
+            int id = (int)t;
+            return id.ToString() + "_" + objID.ToString();
+        }
+
+        static public List<String> GetObjs()
+        {
+            List<string> ret = new List<string>();
+            foreach (string temp in Enum.GetNames(typeof(ObjectType)))
+                ret.Add(temp);
+
+            return ret;
+        }
+
+        public List<NavObject> GetObjectNames()
+        {
+            List<NavObject> ret = new List<NavObject>();
+            List<ObjectType> types = new List<ObjectType>
+            {
+                ObjectType.Page,
+                ObjectType.Report,
+                ObjectType.Table,
+                ObjectType.Codeunit,
+            };
+
+            foreach (KeyValuePair<string, string> temp in data)
+            {
+                string[] t = temp.Key.Split('_');
+
+                try
+                {
+                    int id = Int32.Parse(t[1]);
+                    ObjectType Typ = NavObjects.GetObj(t[0]);
+                    if (types.Contains(Typ))
+                        ret.Add(new NavObject(t[0], id, temp.Value.Split(SEPERATOR)[0], temp.Value.Split(SEPERATOR)[1]));
+                }
+                catch
+                {
+
+                }
+            }
+            return ret;
+        }
+        /// <summary>
+        /// Wenn der Server keine Port Angabe enthält dann wird der Default port + Instanz übergeben
+        /// </summary>
+        /// <param name="servername"></param>
+        /// <returns></returns>
+        static public String CheckServerString(String servername)
+        {
+            if (String.IsNullOrEmpty(servername)) return "";
+
+            if (!servername.Contains(":"))
+                return servername + DEFAULT_INSTANCE;
+
+            return servername;
+        }
+
+        static private String Version(String[] data)
+        {
+            string ret = "";
+            int i = 1;
+            foreach (string temp in data)
+            {
+                if (i > 4)
+                    ret += ",";
+                if (i > 3)
+                    ret += temp;
+
+                i++;
+            }
+            return ret;
         }
 
 
