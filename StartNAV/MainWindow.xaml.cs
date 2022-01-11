@@ -364,8 +364,9 @@ namespace StartNAV
             if (lv_fav.GetSelectItems().Count == 1)
             {
                 NavObject temp = (NavObject)lv_fav.GetSelectItems()[0];
-                tx_objId.Text = temp.ID.ToString();
                 cb_objektTyp.Text = NavObjects.GetName(temp.Typ);
+                tx_objId.Text = temp.ID.ToString();
+                
             }
         }
 
