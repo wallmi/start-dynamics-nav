@@ -420,10 +420,19 @@ namespace StartNAV
             if (data.Count > 0)
                 data.Clear();
 
+            char Seperator = ',';
+
+            if (FileLines[0].Contains(';'))
+                Seperator = ';';
+
+
             foreach (string temp in FileLines)
             {
-                string temp1 = temp.Replace("\"", "");
-                string[] Line = temp1.Split(',');
+                string temp1 = temp;
+                if (Seperator == ',')
+                    temp1 = temp.Replace("\"", "");
+
+                string[] Line = temp1.Split(Seperator);
                 int id = -1;
                 try
                 {
