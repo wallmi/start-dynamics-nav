@@ -26,7 +26,7 @@ namespace StartNAV
         readonly Dictionary<string, string> data = new Dictionary<string, string>();
         bool loaded = false;
         
-        static readonly string DEFAULT_INSTANCE = ":7046/DynamicsNAV100_IMP";
+        static readonly string DEFAULT_INSTANCE = ":7046/DynamicsNAV110";
         private readonly char SEPERATOR = '|';  //Trennung Zwischen Namen und Version, evtl. mal als Einstellung
         public bool Withversion { set; get; } = false;
 
