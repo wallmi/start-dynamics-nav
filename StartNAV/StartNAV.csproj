@@ -99,6 +99,9 @@
     <Compile Include="Dialog\AddDialog.xaml.cs">
       <DependentUpon>AddDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialog\Changelog.xaml.cs">
+      <DependentUpon>Changelog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialog\GetObject.xaml.cs">
       <DependentUpon>GetObject.xaml</DependentUpon>
     </Compile>
@@ -111,6 +114,7 @@
     <Compile Include="Dialog\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GitHub.cs" />
     <Compile Include="Model\Log.cs" />
     <Compile Include="Model\NavObject.cs" />
     <Compile Include="Resource.Designer.cs">
@@ -132,6 +136,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialog\AddServer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog\Changelog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

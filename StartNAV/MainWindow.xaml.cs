@@ -116,7 +116,7 @@ namespace StartNAV
 
             //Update
             if (ini.GetSetting("upd") == "true")
-                UpdateApplicationAsync();
+                UpdateApplication(null, null);
         }
 
         void Load()
@@ -533,80 +533,42 @@ namespace StartNAV
             ini.WriteFile();
         }
 
-        private void ShowLog_Click(object sender, RoutedEventArgs e)
-        {
-            LogWindow dw = new LogWindow(Loghandler.GetEntries());
-            dw.Show();
-        }
-
-        private void UpdateApplication(object sender, RoutedEventArgs e)
-        {
-            UpdateApplicationAsync();
-        }
-
-        private async Task UpdateApplicationAsync()
+        private async void UpdateApplication(object sender, RoutedEventArgs e)
         {
             SetDefaultOptions();
-            //MessageBoxResult res;
+            GitHub githelper = GetGitSettings();
+            await githelper.UpdateApplicationAsync();
+           
             ProcessStartInfo upd = new ProcessStartInfo("Updater.exe");
-
-            //res = MessageBox.Show("Wollen sie die letzte stabile Version installieren? \n (Nein = Beta Version installieren)", "Update", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-
-            var client = new GitHubClient(new ProductHeaderValue(ini.GetSetting("upd_user")));
-
-            var releases = await client.Repository.Release.GetAll(
-                ini.GetSetting("upd_user"),
-                ini.GetSetting("upd_repository"));
-
-            string updateuri = null;
-            string version = "";
-            string whatsnew = "";
-
-            foreach (var temp in releases) {
-                if (temp.Prerelease & ini.GetSetting("upd_beta") == "false")
-                    continue;   //Pre Release überstringen
-
-                updateuri = temp.Assets[0].BrowserDownloadUrl;
-
-                if (updateuri == ini.GetSetting("updateuri")) {
-                     //Wenn die installierte Version mit der gefunden zusammen passt Ende
-                    updateuri = null;
-                    if (ini.GetSetting("upd_beta") == "true")
-                        MessageBox.Show("Du besitzt bereits die neuerste Beta Version: " + temp.TagName, "Kein neues Update vorhanden", MessageBoxButton.OK, MessageBoxImage.Information);
-                    else
-                        MessageBox.Show("Du besitzt bereits die neuerste Version: " + temp.TagName, "Kein neues Update vorhanden", MessageBoxButton.OK, MessageBoxImage.Information);
-                    break;   //Wenn Updateversion gleich ist   
-                }
-
-                if (String.IsNullOrEmpty(updateuri))
-                    continue;   //Wenn kein Release vorhanden ist
-
-                version = temp.TagName;
-                whatsnew = temp.Body;
-                break;          //
-            }
-
-            if (updateuri == null)
+            upd.Arguments = githelper.getUpdateUri();
+            if (String.IsNullOrEmpty(upd.Arguments))
                 return;
 
-            MessageBoxResult res = MessageBox.Show("Neue Version " + version + " vorhanden, soll von " + updateuri + " heruntergeladen und installiert werden?\n\r"
-                + "\n\r Das ist neu in der Version: \n\r"
-                + whatsnew,
-                "Update",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (res == MessageBoxResult.No) {
-                Loghandler.Add("Update wurde übersprungen");
-                return;
-            }
-
-            Loghandler.Add("Update von: " + updateuri);
-
-            upd.Arguments = updateuri;
             Process.Start(upd);
             Close();
         }
+
+        private void ShowLog_Click(object sender, RoutedEventArgs e)
+        {
+
+
+
+        }
+
+
+        private GitHub GetGitSettings()
+        {
+            GitHub githelper = new GitHub
+            {
+                GitUser = ini.GetSetting("upd_user"),
+                GitRepository = ini.GetSetting("upd_repository"),
+                beta = (ini.GetSetting("upd_beta") == "true"),
+                LastUpdateUri = ini.GetSetting("updateuri")
+            };
+
+            return githelper;
+        }
+
 
         private void Options_Click(object sender, RoutedEventArgs e)
         {
@@ -618,6 +580,7 @@ namespace StartNAV
 
         private void SetDefaultOptions()
         {
+            //TODO: In Ressourcen auslagern
             if (ini.GetSetting("upd_user") == null)
                 ini.SetSettings("upd_user", "wallmi");
 
@@ -646,6 +609,16 @@ namespace StartNAV
         {
             ini.DelFavGroup(cb_favGroup.SelectedValue.ToString());
             LoadFavGroup();
+        }
+
+        private void ShowChangelog(object sender, RoutedEventArgs e)
+        {
+            GitHub githelper = GetGitSettings();
+
+            Changelog w = new Changelog(githelper.getChangelog());
+            w.Show();        
+
+            return;
         }
 
         //private bool IsFavGroup()

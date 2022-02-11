@@ -105,6 +105,10 @@
                     Name="Update"
                     Header="Update"
                     Click="UpdateApplication" />
+                <MenuItem
+                    Name="Changelog"
+                    Header="Changelog"
+                    Click="ShowChangelog" />
             </MenuItem>
         </Menu>
         <StackPanel
