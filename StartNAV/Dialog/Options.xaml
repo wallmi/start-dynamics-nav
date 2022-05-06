@@ -8,28 +8,34 @@
         Title="Options" 
         SizeToContent="WidthAndHeight" >
     <Grid Margin="5">
-        <TextBlock Grid.Row="0">
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="18" >
+            Update / GitHub
+        </TextBlock>
+        <TextBlock Grid.Row="1">
             Beim Start nach Update suchen?
         </TextBlock>
         <TextBlock
-            Grid.Row="1">
+            Grid.Row="2">
             Update User (Github)
         </TextBlock>
         <TextBlock
-            Grid.Row="2">
+            Grid.Row="3">
             Update Repository  (Github)
         </TextBlock>
         <TextBlock
-            Grid.Row="3">
+            Grid.Row="4">
             Releasechannel
         </TextBlock>
+        <TextBlock Grid.Row="5" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="18">
+            Anwendung
+        </TextBlock>
         <TextBlock
-            Grid.Row="4">
+            Grid.Row="6">
             Favoriten Gruppen
         </TextBlock>
         <StackPanel
             Orientation="Horizontal"
-            Grid.Row="0"
+            Grid.Row="1"
             Grid.Column="1">
             <RadioButton
                 GroupName="opt_upd"
@@ -45,24 +51,24 @@
         <TextBox
             x:Name="opt_upd_user"
             Grid.Column="1"
-            Grid.Row="1"
+            Grid.Row="2"
             TextChanged="tx_change"
             Text="wallmi"/>
         <TextBox
             x:Name="opt_upd_repository"
             Grid.Column="1"
-            Grid.Row="2"
+            Grid.Row="3"
             TextChanged="tx_change"
             Text="start-dynamics-nav"/>
         <CheckBox
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="1"
             Content="Beta"
             Click="change"
             Name="opt_upd_beta"/>
         <StackPanel
             Orientation="Horizontal"
-            Grid.Row="4"
+            Grid.Row="6"
             Grid.Column="1">
             <RadioButton
                 GroupName="opt_favgroup"
@@ -78,7 +84,7 @@
         <StackPanel
             Orientation="Horizontal"
             Grid.Column="1"
-            Grid.Row="5">
+            Grid.Row="7">
             <Button 
                 Content="OK" 
                 Grid.Column="0" 
@@ -91,6 +97,8 @@
                 />
         </StackPanel>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>

@@ -580,12 +580,11 @@ namespace StartNAV
 
         private void SetDefaultOptions()
         {
-            //TODO: In Ressourcen auslagern
             if (ini.GetSetting("upd_user") == null)
-                ini.SetSettings("upd_user", "wallmi");
+                ini.SetSettings("upd_user", Resource.default_git_user);
 
             if (ini.GetSetting("upd_repository") == null)
-                ini.SetSettings("upd_repository", "start-dynamics-nav");
+                ini.SetSettings("upd_repository", Resource.default_git_repository);
 
             if (ini.GetSetting("upd_beta") == null)
                 ini.SetSettings("upd_beta", "false");
@@ -621,13 +620,6 @@ namespace StartNAV
             return;
         }
 
-        //private bool IsFavGroup()
-        //{
-        //    if (ini.GetSetting("favgroup") == "true")
-        //        return true;
-
-        //    return false;
-        //}
 
         private string GetFavgroup()
         {

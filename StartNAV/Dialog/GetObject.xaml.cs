@@ -59,11 +59,14 @@ namespace StartNAV.Dialog
         #region Actions
         private void B_get_Click(object sender, RoutedEventArgs e)
         {
-            List<NavObject> items = lv_items.GetSelectItems(); 
+            List<NavObject> items = lv_items.GetSelectItems();
 
-            retGet.ID = items[0].ID;
-            retGet.Name = items[0].Name;
-            retGet.Typ = items[0].Typ;
+            if (items.Count() == 1)
+            {
+                retGet.ID = items[0].ID;
+                retGet.Name = items[0].Name;
+                retGet.Typ = items[0].Typ;
+            }
             Close();
         }
 
