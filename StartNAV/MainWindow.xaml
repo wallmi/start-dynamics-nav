@@ -177,14 +177,22 @@
                     <Image Source="Resources/EditButton.png" Width="20" />
                 </Button>
                 <Button
-                    Click="DelMandant"
+                    Click="CopyMandant"
                     Margin="0"
                     Grid.Column="3" 
+                    Padding="0" >
+                    <Image Source="Resources/CopyButton.png" Width="20" />
+                </Button>
+                <Button
+                    Click="DelMandant"
+                    Margin="0"
+                    Grid.Column="4" 
                     Padding="0" >
                     <Image Source="Resources/DelButton.png" Width="20" />
                 </Button>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>

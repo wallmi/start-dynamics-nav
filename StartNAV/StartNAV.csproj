@@ -114,6 +114,9 @@
     <Compile Include="Dialog\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialog\SelectServer.xaml.cs">
+      <DependentUpon>SelectServer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GitHub.cs" />
     <Compile Include="Model\Log.cs" />
     <Compile Include="Model\NavObject.cs" />
@@ -156,6 +159,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialog\Options.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog\SelectServer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -230,6 +237,7 @@
     <Resource Include="Resources\AddButton.png" />
     <Resource Include="Resources\DelButton.png" />
     <Resource Include="Resources\EditButton.png" />
+    <Resource Include="Resources\CopyButton.png" />
     <Content Include="Resources\favoicon_DynamicsNAV2016.png" />
   </ItemGroup>
   <ItemGroup>

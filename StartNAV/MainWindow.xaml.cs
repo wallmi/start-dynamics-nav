@@ -666,5 +666,20 @@ namespace StartNAV
             ini.AddProfile(w.INPUT);
             Load_Profil();
         }
+
+        private void CopyMandant(object sender, RoutedEventArgs e)
+        {
+            SelectServer w = new SelectServer(ini);
+            w.SetServer(ini.GetServer());
+            w.ShowDialog();
+
+            foreach (string temp in ini.GetMandanten(w.cb_servername.SelectedItem.ToString()))
+            {
+                ini.AddMandant(cb_server.SelectedItem.ToString(), temp);
+            }
+            
+            Load_mandanten();
+
+        }
     }
 }
