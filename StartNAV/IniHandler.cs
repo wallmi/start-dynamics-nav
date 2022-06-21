@@ -10,6 +10,7 @@ using System.IO;
 using IniParser;
 using IniParser.Model;
 using StartNAV.Model;
+using System.Configuration;
 
 namespace StartNAV
 {
@@ -25,13 +26,12 @@ namespace StartNAV
         readonly Log LOG;
         readonly Dictionary<string, string> data = new Dictionary<string, string>();
         bool loaded = false;
-        
-        static readonly string DEFAULT_INSTANCE = ":7046/DynamicsNAV110";
+
         private readonly char SEPERATOR = '|';  //Trennung Zwischen Namen und Version, evtl. mal als Einstellung
         public bool Withversion { set; get; } = false;
 
         public IniHandler(string file, string objfile, Log log)
-        {
+        { 
             SetFile(file);
             LOG = log;
             if (File.Exists(FILENAME))
@@ -556,7 +556,7 @@ namespace StartNAV
             if (String.IsNullOrEmpty(servername)) return "";
 
             if (!servername.Contains(":"))
-                return servername + DEFAULT_INSTANCE;
+                return servername + ConfigurationManager.AppSettings["DEFAULT_INSTANCE"];
 
             return servername;
         }

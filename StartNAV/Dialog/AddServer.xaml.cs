@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using System.Configuration;
 namespace StartNAV.Dialog
 {
     /// <summary>
@@ -24,8 +25,8 @@ namespace StartNAV.Dialog
         {
             InitializeComponent();
             INI = ini;
-            if (INI.GetSetting("DefaultService") != null)
-                _instanz.Text = ini.GetSetting("DefaultService");
+            _instanz.Text = ConfigurationManager.AppSettings["DEFAULT_INSTANCE"];
+
         }
 
         public AddServer(IniHandler ini,string ServerName)

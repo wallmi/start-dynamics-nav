@@ -5,18 +5,20 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Configuration;
 
 namespace StartNAV.Model
 {
     public class Log
     {
         private readonly List<LogEntry> entries = new List<LogEntry>();
-        private readonly String FILENAME = "Log.log";
+        private String FILENAME;
         private int CurrentID = 0;
         private readonly TextBlock TB;
 
         public Log (TextBlock tb)
         {
+            FILENAME = ConfigurationManager.AppSettings["LOGFILE"];
             if(!File.Exists(FILENAME)) 
                 File.Create(FILENAME);
                 

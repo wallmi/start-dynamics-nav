@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Configuration;
 
 using IniParser.Model;
 
@@ -37,9 +38,13 @@ namespace StartNAV.Dialog
 
             if (!String.IsNullOrEmpty(ini.GetSetting("upd_user")))
                 opt_upd_user.Text = ini.GetSetting("upd_user");
+            else
+                opt_upd_user.Text = ConfigurationManager.AppSettings["DEFAULT_GITHUB_USER"];
 
             if (!String.IsNullOrEmpty(ini.GetSetting("upd_user")))
                 opt_upd_repository.Text = ini.GetSetting("upd_repository");
+            else
+                opt_upd_user.Text = ConfigurationManager.AppSettings["DEFAULT_GITHUB_REP"];
 
 
             if (ini.GetSetting("upd_beta") == "true")
@@ -53,7 +58,7 @@ namespace StartNAV.Dialog
                 opt_favgroup_no.IsChecked = true;
 
         }
-        public void saveSettings (object sender, RoutedEventArgs e)
+        public void SaveSettings (object sender, RoutedEventArgs e)
         {
             if (opt_upd_yes.IsChecked == true)
                 ini.SetSettings("upd", "true");            
@@ -81,17 +86,17 @@ namespace StartNAV.Dialog
 
             Close();
         }
-        public void abbort(object sender, RoutedEventArgs e)
+        public void Abbort(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        public void change(object sender, RoutedEventArgs e)
+        public void Change(object sender, RoutedEventArgs e)
         {
             changed = true;
         }
 
-        private void tx_change(object sender, TextChangedEventArgs e)
+        private void TxChange(object sender, TextChangedEventArgs e)
         {
             changed = true;
 

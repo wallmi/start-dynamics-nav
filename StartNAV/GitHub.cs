@@ -16,15 +16,15 @@ namespace StartNAV.Model
         public string GitUser { get; set; }         
         public string GitRepository { get; set; }   
         public string LastUpdateUri { get; set; }   //Letzte Updateurl
-        public bool beta { get; set; }
+        public bool Beta { get; set; }
 
         private string Log;
         private string updateuri;
         private string [,] Changelog;
 
-        public string getLog() { return Log;}
-        public string getUpdateUri() { return updateuri; }
-        public string[,] getChangelog() 
+        public string GetLog() { return Log;}
+        public string GetUpdateUri() { return updateuri; }
+        public string[,] GetChangelog() 
         {
             ReadChangelog();
             return Changelog; 
@@ -43,7 +43,7 @@ namespace StartNAV.Model
 
             foreach (var temp in releases)
             {
-                if (temp.Prerelease & !beta)
+                if (temp.Prerelease & !Beta)
                     continue;   //Pre Release überstringen
 
                 updateuri = temp.Assets[0].BrowserDownloadUrl;
@@ -52,7 +52,7 @@ namespace StartNAV.Model
                 {
                     //Wenn die installierte Version mit der gefunden zusammen passt Ende
                     updateuri = null;
-                    if (beta)
+                    if (Beta)
                         MessageBox.Show("Du besitzt bereits die neuerste Beta Version: " + temp.TagName, "Kein neues Update vorhanden", MessageBoxButton.OK, MessageBoxImage.Information);
                     else
                         MessageBox.Show("Du besitzt bereits die neuerste Version: " + temp.TagName, "Kein neues Update vorhanden", MessageBoxButton.OK, MessageBoxImage.Information);

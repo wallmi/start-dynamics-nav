@@ -20,6 +20,7 @@ using StartNAV.Dialog;
 using System.Diagnostics;
 using Microsoft.Win32;
 using System.Threading;
+using System.Configuration;
 
 namespace StartNAV
 {
@@ -28,8 +29,8 @@ namespace StartNAV
     /// </summary>
     public partial class MainWindow : Window
     {
-        const string INIFILE = "Settings.ini";
-        const string OBJECTFILE = "NAV_Objects.csv";
+        string INIFILE;
+        string OBJECTFILE;
         readonly IniHandler ini;
         //readonly ObjectHandler handler;
         readonly List<object> toSave = new List<object>();
@@ -38,6 +39,9 @@ namespace StartNAV
 
         public MainWindow()
         {
+            INIFILE = ConfigurationManager.AppSettings["INIFILE"];
+            OBJECTFILE = ConfigurationManager.AppSettings["OBJECTFILE"];
+
             InitializeComponent();
             Loghandler = new Log(tb_status);
             //handler = new ObjectHandler(OBJECTFILE);
@@ -540,18 +544,18 @@ namespace StartNAV
             await githelper.UpdateApplicationAsync();
            
             ProcessStartInfo upd = new ProcessStartInfo("Updater.exe");
-            upd.Arguments = githelper.getUpdateUri();
+            upd.Arguments = githelper.GetUpdateUri();
             if (String.IsNullOrEmpty(upd.Arguments))
                 return;
 
             Process.Start(upd);
             Close();
         }
-
         private void ShowLog_Click(object sender, RoutedEventArgs e)
         {
 
-
+            LogWindow dw = new LogWindow(Loghandler.GetEntries());
+            dw.Show();
 
         }
 
@@ -562,7 +566,7 @@ namespace StartNAV
             {
                 GitUser = ini.GetSetting("upd_user"),
                 GitRepository = ini.GetSetting("upd_repository"),
-                beta = (ini.GetSetting("upd_beta") == "true"),
+                Beta = (ini.GetSetting("upd_beta") == "true"),
                 LastUpdateUri = ini.GetSetting("updateuri")
             };
 
@@ -614,7 +618,7 @@ namespace StartNAV
         {
             GitHub githelper = GetGitSettings();
 
-            Changelog w = new Changelog(githelper.getChangelog());
+            Changelog w = new Changelog(githelper.GetChangelog());
             w.Show();        
 
             return;

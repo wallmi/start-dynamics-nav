@@ -40,31 +40,29 @@
             <RadioButton
                 GroupName="opt_upd"
                 x:Name="opt_upd_yes"
-                Click="change"
+                Click="Change"
                 Content="Ja"/>
             <RadioButton
                 GroupName="opt_upd"
                 x:Name="opt_upd_no"
-                Click="change"
+                Click="Change"
                 Content="Nein"/>
         </StackPanel>
         <TextBox
             x:Name="opt_upd_user"
             Grid.Column="1"
             Grid.Row="2"
-            TextChanged="tx_change"
-            Text="wallmi"/>
+            TextChanged="TxChange"/>
         <TextBox
             x:Name="opt_upd_repository"
             Grid.Column="1"
             Grid.Row="3"
-            TextChanged="tx_change"
-            Text="start-dynamics-nav"/>
+            TextChanged="TxChange"/>
         <CheckBox
             Grid.Row="4"
             Grid.Column="1"
             Content="Beta"
-            Click="change"
+            Click="Change"
             Name="opt_upd_beta"/>
         <StackPanel
             Orientation="Horizontal"
@@ -73,12 +71,12 @@
             <RadioButton
                 GroupName="opt_favgroup"
                 x:Name="opt_favgroup_yes"
-                Click="change"
+                Click="Change"
                 Content="Ja"/>
             <RadioButton
                 GroupName="opt_favgroup"
                 x:Name="opt_favgroup_no"
-                Click="change"
+                Click="Change"
                 Content="Nein"/>
         </StackPanel>
         <StackPanel
@@ -88,12 +86,12 @@
             <Button 
                 Content="OK" 
                 Grid.Column="0" 
-                Click="saveSettings" 
+                Click="SaveSettings" 
                 Margin="0,5,5,0"/>
             <Button 
                 Content="Abbruch"  
                 Grid.Column="1"
-                Click="abbort"
+                Click="Abbort"
                 />
         </StackPanel>
         <Grid.RowDefinitions>
