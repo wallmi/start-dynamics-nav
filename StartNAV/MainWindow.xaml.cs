@@ -35,7 +35,7 @@ namespace StartNAV
         //readonly ObjectHandler handler;
         readonly List<object> toSave = new List<object>();
         readonly Log Loghandler;
-        enum StartTyp { Nav, Session }
+        enum StartTyp { Nav, Session , Parameter}
 
         public MainWindow()
         {
@@ -57,7 +57,7 @@ namespace StartNAV
             toSave.Add(cb_server);              toSave.Add(cb_mandant);
             toSave.Add(cb_objektTyp);           toSave.Add(tx_objId);
             toSave.Add(cbo_config);             toSave.Add(cbo_debug);
-            toSave.Add(cbo_schow_startstring);  toSave.Add(cb_profil);
+            toSave.Add(cb_profil);
             toSave.Add(cbo_disable_pers);
             toSave.Add(cb_favGroup);
 
@@ -213,11 +213,12 @@ namespace StartNAV
             if (ini.CheckExe())
                 exe = ini.Data["Settings"]["ExePath"] + " ";
 
-
+            /*
             if (cbo_schow_startstring.IsChecked == true)
             {
                 MessageBox.Show(exe + " " + param, "Start String", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+
+            }*/
             Loghandler.Add("Nav gestartet mit Parameter:" + param);
             if (String.IsNullOrEmpty(exe))
                 return;
@@ -227,6 +228,7 @@ namespace StartNAV
 
         string GetStartParameter(StartTyp st)
         {
+            
             string Navbase = "\"dynamicsnav://";
             string ServerAdress = ini.GetServerAdress(cb_server.Text);
             string Mandant = "/" + cb_mandant.Text;
@@ -236,6 +238,7 @@ namespace StartNAV
             string DisablePer = " -disablepersonalization";
             string Profile = " -profile:";
             string sessionlist = " -protocolhandler";
+            string fullscreen = " -fullscreen";
             string checkedServer = IniHandler.CheckServerString(ServerAdress);
             string startstring = "";
 
@@ -247,7 +250,8 @@ namespace StartNAV
             }
 
             string ObjectStart = "/";
-            startstring += Navbase + ServerAdress;
+            if (st != StartTyp.Parameter)  
+                startstring += Navbase + ServerAdress;
 
             if (st == StartTyp.Nav)
             {
@@ -268,11 +272,27 @@ namespace StartNAV
                     startstring += Debug;
                 if (cbo_disable_pers.IsChecked.Value)
                     startstring += DisablePer;
+                if (cbo_fullscreen.IsChecked.Value)
+                    startstring += fullscreen;
             }
             else if (st == StartTyp.Session)
             {
                 startstring += "//debug\"" + sessionlist;
             }
+            else if (st == StartTyp.Parameter)
+            {
+                if (cb_profil.Text != "<kein Profil>")
+                    startstring += Profile + "\"" + cb_profil.Text + "\"";
+                if (cbo_config.IsChecked.Value)
+                    startstring += Config;
+                if (cbo_debug.IsChecked.Value)
+                    startstring += Debug;
+                if (cbo_disable_pers.IsChecked.Value)
+                    startstring += DisablePer;
+                if (cbo_fullscreen.IsChecked.Value)
+                    startstring += fullscreen;
+            }
+
             return startstring;
         }
 
@@ -683,6 +703,12 @@ namespace StartNAV
             }
             
             Load_mandanten();
+        }
+
+        private void RefreshStartParam(object sender, RoutedEventArgs e)
+        {
+
+            tx_StartParam.Text = GetStartParameter(StartTyp.Parameter);
 
         }
     }
