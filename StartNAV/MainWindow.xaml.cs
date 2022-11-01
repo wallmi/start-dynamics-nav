@@ -711,5 +711,45 @@ namespace StartNAV
             tx_StartParam.Text = GetStartParameter(StartTyp.Parameter);
 
         }
+
+        private void tx_StartParam_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Hit");
+            tx_StartParam.SelectAll();
+        }
+
+
+        private void tx_StartParam_LostMouseCapture(object sender, MouseEventArgs e)
+        {
+            // If user highlights some text, don't override it
+            if (tx_StartParam.SelectionLength == 0)
+                tx_StartParam.SelectAll();
+
+            // further clicks will not select all
+            tx_StartParam.LostMouseCapture -= tx_StartParam_LostMouseCapture;
+
+        }
+
+        private void CopyParamString(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(tx_StartParam.Text);
+        }
+
+        private void ShowNAVParameter_Click(object sender, RoutedEventArgs e)
+        {
+
+            string exe = "";
+            string param = " -?";
+
+            if (ini.CheckExe())
+                exe = ini.Data["Settings"]["ExePath"];
+
+            Loghandler.Add("Nav gestartet mit Parameter:" + param);
+            if (String.IsNullOrEmpty(exe))
+                return;
+
+            Process.Start(exe, param);
+
+        }
     }
 }

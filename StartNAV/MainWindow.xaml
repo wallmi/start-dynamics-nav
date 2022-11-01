@@ -82,6 +82,12 @@
             </MenuItem>
             <MenuItem Header="Hilfe">
                 <MenuItem
+                    Name="ShowNAVParameter"
+                    Header="Zeige NAV Parameter"
+                    Click="ShowNAVParameter_Click"
+                    />
+                <Separator/>
+                <MenuItem
                     Name="link2Github"
                     Header="_Link to Github"
                     Click="Link2Github_Click"
@@ -294,11 +300,17 @@
             <StackPanel
                 Orientation="Horizontal">
                 <TextBlock
-                   Margin="0,0,15,0" FontWeight="Bold">Start Parameter</TextBlock>
+                   Style="{DynamicResource H2}">
+                    Start Parameter</TextBlock>
                 <Button 
-                    Click="RefreshStartParam" Margin="-2,0,0,0" Padding="0,0,-1,0" Background="{x:Null}" BorderBrush="{x:Null}"
-                     >
+                    Click="RefreshStartParam" 
+                    Style="{DynamicResource FreeButton}">
                     <Image Source="Resources/Refresh.png" Width="20"/>
+                </Button>
+                <Button 
+                    Click="CopyParamString"
+                    Style="{DynamicResource FreeButton}"  >
+                    <Image Source="Resources/CopyButton.png" Width="20"/>
                 </Button>
             </StackPanel>
             <TextBox
@@ -306,7 +318,7 @@
                 TextWrapping="Wrap"
                 Grid.Row="3"
                 Grid.Column="0" Margin="0,0,0,0"
-            />
+                LostMouseCapture="tx_StartParam_LostMouseCapture" />
         </StackPanel>
         <GridSplitter
             Grid.Column="1"
