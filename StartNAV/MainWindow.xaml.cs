@@ -53,7 +53,7 @@ namespace StartNAV
             foreach (String temp in NavObjects.GetObjectNames())
                 cb_objektTyp.Items.Add(temp);
 
-            //Pbjekte die gespeichert werden sollen
+            //Objekte die gespeichert werden sollen
             toSave.Add(cb_server);              toSave.Add(cb_mandant);
             toSave.Add(cb_objektTyp);           toSave.Add(tx_objId);
             toSave.Add(cbo_config);             toSave.Add(cbo_debug);
@@ -88,11 +88,12 @@ namespace StartNAV
                     b_start_session_list.IsEnabled = false;
                     cb_profil.IsEnabled = false;
                     b_start_nav.IsEnabled = false;
+                    ShowNAVParameter.IsEnabled = false;
 
                     cb_profil.SelectedItem = "<kein Profil>";
                     cbo_config.IsChecked = false;
                     cbo_debug.IsChecked = false;
-
+                    
                     cbo_config.ToolTip = tooltip;
                     cbo_debug.ToolTip = tooltip;
                     cb_profil.ToolTip = tooltip;
@@ -711,13 +712,6 @@ namespace StartNAV
             tx_StartParam.Text = GetStartParameter(StartTyp.Parameter);
 
         }
-
-        private void tx_StartParam_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            MessageBox.Show("Hit");
-            tx_StartParam.SelectAll();
-        }
-
 
         private void tx_StartParam_LostMouseCapture(object sender, MouseEventArgs e)
         {
